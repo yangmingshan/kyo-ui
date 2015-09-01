@@ -9,7 +9,9 @@ module.exports = {
   output:{
     path: path.join(__dirname, 'dist'),
     publicPath: 'dist',
-    filename: "kyo-ui.js"
+    filename: "kyo-ui.js",
+    libraryTarget: 'umd',
+    library: 'kui'
   },
   module: {
     loaders: [
