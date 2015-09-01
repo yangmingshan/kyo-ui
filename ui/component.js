@@ -16,6 +16,10 @@ var Component = Base.extend({
       this.show();
       return this;
     }
+    //如果没有templete则认为不需要渲染
+    if(!this.template) {
+      this.renderAfter();
+    }
     if(!parentEl) {
       if(this.target) {
         parentEl = this.target.parentNode;
@@ -23,7 +27,7 @@ var Component = Base.extend({
         parentEl = document.body || document.documentElement;
       }
     }
-    parentEl = $(parentEl);
+    parentEl = this.$parentEl = $(parentEl);
     if(this.position) {
       this.$el.css({'left': this.position.x, 'top': this.position.y});
     }
@@ -53,7 +57,11 @@ var Component = Base.extend({
     if(this.modelAfter && _.isFunction(this.modelAfter)) {
       data = this.modelAfter(data);
     }
-    this.setContent(data);
+    if(data) {
+      this.setContent(data);
+    }
+    this.isRender = true;
+    this.renderAfter();
   },
   delegateEvents: function() {
     var events = this.events;
@@ -87,14 +95,20 @@ var Component = Base.extend({
   setContent: function(model) {
     var html = this.tmp({model: this.model});
     this.$el.html(html);
-    this.$el.find('.tab_menu_head_item:first').trigger('click');
-    this.isRender = true;
   },
   hide: function() {
     this.$el.hide();
   },
   show: function() {
     this.$el.show();
+  },
+  destory: function() {
+    this.undelegateEvents();
+    if(this.$parentEl) {
+      this.$parentEl.html('');
+    } else {
+      this.$target.remove();
+    }
   }
 });
 
