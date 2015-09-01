@@ -1,0 +1,39 @@
+{
+  "name": "kyo-ui",
+  "version": "0.1.0",
+  "description": "基于kyo的ui库, 定义常见的ui",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "kkdashu",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kkdashu/kyo-ui.git"
+  },
+  "keywords": [
+    "kyo",
+    "kyo-ui"
+  ],
+  "bugs": {
+    "url": "https://github.com/kkdashu/kyo-ui/issues"
+  },
+  "homepage": "https://github.com/kkdashu/kyo-ui#readme",
+  "devDependencies": {
+    "kyo": "^1.2.0",
+    "coffee-loader": "^0.7.2",
+    "coffee-script": "^1.9.3",
+    "css-loader": "^0.16.0",
+    "handlebars-loader": "^1.1.1",
+    "handlebars": "^3.0.3",
+    "style-loader": "^0.12.3",
+    "gulp": "^3.9.0",
+    "gulp-connect": "^2.2.0",
+    "gulp-jshint": "^1.11.2",
+   "gulp-livereload": "^3.8.0",
+    "gulp-util": "^3.0.6",
+    "gulp-webpack": "^1.5.0",
+    "webpack": "^1.12.0"
+  }
+}

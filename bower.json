@@ -1,0 +1,26 @@
+{
+  "name": "kyo-ui",
+  "version": "0.1.0",
+  "homepage": "https://github.com/kkdashu/kyo-ui",
+  "authors": [
+    "kkdashu <wmeng17@gmail.com>"
+  ],
+  "description": "基于kyo的ui组件库",
+  "keywords": [
+    "kyo",
+    "ui"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "jquery": "~2.1.4",
+    "jquery-ui": "~1.11.4",
+    "kyo": "~1.2.0"
+  }
+}
