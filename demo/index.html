@@ -7,13 +7,21 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 
     <title>kyo-ui demo</title>
+    <link href="../bower_components/jquery-ui/themes/base/all.css" rel="stylesheet"></link>
 
   </head>
 
   <body>
     <h1>Hello kyo-ui!</h1>
-
+    <div class="header" id="header">
+      <input type="text" data-type="date" />
+    </div>
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../bower_components/jquery-ui/jquery-ui.js"></script>
     <script src='../bower_components/kyo/dist/kyo.js'></script>
-    <script src='dist/kyo-ui.js'></script>
+    <script src='../dist/kyo-ui.js'></script>
+    <script>
+      new kui.AutoParse('header').autoParse();
+    </script>
   </body>
 </html>

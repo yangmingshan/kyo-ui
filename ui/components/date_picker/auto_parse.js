@@ -2,8 +2,8 @@ var DatePicker = require('./date_picker');
 
 function AutoParse(target) {
   return DatePicker.create({
-    target: target
+    $el: target
   });
 }
 
-return AutoParse;
+module.exports =  AutoParse;

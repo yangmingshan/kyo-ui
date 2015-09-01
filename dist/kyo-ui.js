@@ -1,4 +1,14 @@
-/******/ (function(modules) { // webpackBootstrap
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["kui"] = factory();
+	else
+		root["kui"] = factory();
+})(this, function() {
+return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 
@@ -46,6 +56,12 @@
 
 	var Component = __webpack_require__(1);
 	var DatePicker = __webpack_require__(2);
+	var AutoParse = __webpack_require__(3);
+
+	module.exports = {
+	  Component: Component,
+	  AutoParse: AutoParse
+	};
 
 
 /***/ },
@@ -184,5 +200,51 @@
 	module.exports = DatePicker;
 
 
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var DatePickerAutoParse = __webpack_require__(4);
+
+	function AutoParse(id) {
+	    this.id = id;
+	}
+
+	AutoParse.prototype.$ = function(selector) {
+	    return $("#" + this.id).find(selector);
+	}
+
+	AutoParse.prototype.autoParse = function() {
+	    var inputs = this.$("[data-type]");
+	    inputs.each(function(index, ele) {
+	      var type = $(this).data('type');
+	      switch (type) {
+	        case 'date':
+	          DatePickerAutoParse($(this)).render();
+	          break;
+	      }
+	    });
+	}
+
+	module.exports = AutoParse;
+
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var DatePicker = __webpack_require__(2);
+
+	function AutoParse(target) {
+	  return DatePicker.create({
+	    $el: target
+	  });
+	}
+
+	module.exports =  AutoParse;
+
+
 /***/ }
-/******/ ]);
+/******/ ])
+});
+;
