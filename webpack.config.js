@@ -18,6 +18,9 @@ module.exports = {
       { test: /\.coffee$/, loader: 'coffee-loader'}
     ]
   },
+  resolve: {
+    extensions: ['', '.js', '.coffee']
+  },
   externals: {
   'jquery': 'jQuery',
   'K': 'K'
