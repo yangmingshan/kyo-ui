@@ -102,9 +102,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        parentEl = document.body || document.documentElement;
 	    }
 	    parentEl = this.$parentEl = $(parentEl);
-	    if(this.position) {
-	      this.$el.css({'left': this.position.x, 'top': this.position.y});
-	    }
 	    this.$el.html('loading...')
 	    parentEl.append(this.$el);
 	    this.show();
@@ -710,8 +707,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	  select: function(e) {
 	    var $target;
 	    $target = $(e.currentTarget);
-	    $(this.target).val($target.attr('title'));
+	    this.$target.val($target.attr('title'));
 	    return this.hide();
+	  },
+	  renderAfter: function(e) {
+	    var left, tleft, top, ttop;
+	    if (this.position && this.$target) {
+	      left = this.position.left || 0;
+	      top = this.position.top || 0;
+	      tleft = this.$target.offset().left || 0;
+	      ttop = this.$target.offset().top || 0;
+	      this.$el.offset({
+	        left: left + tleft,
+	        top: top + ttop
+	      });
+	    }
+	    return this.$el.find('.switch_tab_head_item:first').trigger('click');
 	  }
 	});
 

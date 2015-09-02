@@ -18,8 +18,19 @@ SwitchTab = Component.extend({
     @$el.find('.switch_tab_content_item').filter('[data-index='+index+']').show()
   select: (e) ->
     $target = $(e.currentTarget)
-    $(this.target).val($target.attr('title'))
+    @$target.val($target.attr('title'))
     @hide()
+  renderAfter: (e) ->
+    if @position and @$target
+      left = @position.left or 0
+      top = @position.top or 0
+      tleft = @$target.offset().left or 0
+      ttop = @$target.offset().top or 0
+      @.$el.offset({
+        left: left + tleft,
+        top: top + ttop
+      });
+    @$el.find('.switch_tab_head_item:first').trigger('click')
 })
 
 module.exports = SwitchTab

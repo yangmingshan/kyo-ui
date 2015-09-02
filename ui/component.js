@@ -28,9 +28,6 @@ var Component = Base.extend({
         parentEl = document.body || document.documentElement;
     }
     parentEl = this.$parentEl = $(parentEl);
-    if(this.position) {
-      this.$el.css({'left': this.position.x, 'top': this.position.y});
-    }
     this.$el.html('loading...')
     parentEl.append(this.$el);
     this.show();

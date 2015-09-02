@@ -51,7 +51,7 @@ var switchTabData = [
 
 var switchTab = kui.SwitchTab.create({
   model: switchTabData,
-  position: {x: '13px', y: '25px'},
+  position: {top: 30, left: 0},
   $target: 'belongCitySwitch'
 });
 
