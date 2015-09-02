@@ -7,21 +7,39 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 
     <title>kyo-ui demo</title>
+    <link href="../bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet"></link>
     <link href="../bower_components/jquery-ui/themes/base/all.css" rel="stylesheet"></link>
 
   </head>
 
   <body>
     <h1>Hello kyo-ui!</h1>
-    <div class="header" id="header">
-      <input type="text" data-type="date" />
+    <div class="container" id="page">
+      <div class="row">
+        <h1 class="page-header">dete_picker</h1>
+        <form>
+          <div class="header row form-group" id="header">
+            <div class="col-xs-4">
+              <label>出发日期：</label><input class="form-control" type="text" data-type="date" value="2015-09-02" />
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-4">
+              <label>出发日期：</label><input class="form-control" data-type="date" id="from" />
+            </div>
+            <div class="col-xs-4">
+              <label>返回日期：</label><input class="form-control" data-type="date" id="to" minDate="#from" />
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
     <script src="../bower_components/jquery/dist/jquery.js"></script>
     <script src="../bower_components/jquery-ui/jquery-ui.js"></script>
     <script src='../bower_components/kyo/dist/kyo.js'></script>
     <script src='../dist/kyo-ui.js'></script>
     <script>
-      new kui.AutoParse('header').autoParse();
+      new kui.AutoParse('page').autoParse();
     </script>
   </body>
 </html>

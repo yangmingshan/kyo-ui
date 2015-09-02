@@ -6,13 +6,12 @@ var gulp = require('gulp'),
     gutil = require('gulp-util'),
     connect = require('gulp-connect'),
     livereload = require('gulp-livereload'),
-    webpack = require('webpack'),
-    mocha = require('gulp-mocha');
+    webpack = require('webpack');
 
 var webpackConfig = Object.create(require('./webpack.config.js'));
 
 
-var Compiler = Object.create(webpackConfig);
+var Compiler = webpack(webpackConfig);
 
 gulp.task('webpack', function(callback){
   Compiler.run(function(err, stats) {
@@ -38,4 +37,3 @@ gulp.task('watch', function() {
 
 
 gulp.task('default', ['connect', 'watch']);
-

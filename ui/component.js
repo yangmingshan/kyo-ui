@@ -19,6 +19,7 @@ var Component = Base.extend({
     //如果没有templete则认为不需要渲染
     if(!this.template) {
       this.renderAfter();
+      return;
     }
     if(!parentEl) {
       if(this.target) {

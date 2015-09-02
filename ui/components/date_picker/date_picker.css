@@ -1,0 +1,45 @@
+.ui-datepicker .ui-widget-header{
+    background-image:none;
+    background-color:#8088a1;
+    border:none;
+}
+.ui-widget-content{
+    background:#fff;
+    border:1px solid #ccc;
+    -webkit-box-shadow:0 2px 2px rgba(0,0,0,.3);
+    /*height: 260px;*/
+    overflow-x:hidden;
+    overflow-y:scroll;
+}
+.ui-datepicker .ui-datepicker-unselectable span.ui-state-default {
+    background-color: #ccc;
+    color: #555;
+    border-color: #ccc;
+    background-image:none;
+}
+.ui-state-active, .ui-widget-content .ui-state-default.ui-state-active,
+.ui-widget-header .ui-state-default.ui-state-active {
+    border: 1px solid #4a70b1;
+    background: #4a70b1;
+    font-weight: normal;
+    color: #FFF;
+}
+.ui-state-default, .ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default {
+background: #d8edfd;
+color: #FFFFFF;
+text-align: center;
+color: #4a70b1;
+border-color: #d8edfd;
+}
+.ui-datepicker select.ui-datepicker-month,
+.ui-datepicker select.ui-datepicker-year{
+    width:auto;
+}
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover{
+    background:#d8edfd;
+    border:none;
+    margin:1px;
+}
