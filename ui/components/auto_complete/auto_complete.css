@@ -1,0 +1,16 @@
+.ui-autocomplete {
+    max-height: 258px;
+    _height: 258px;
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #666;
+    overflow: auto;
+}
+.ui-state-focus,
+.ui-autocomplete .ui-state-focus {
+    margin: -1px 0;
+    border-left: 0;
+    border-right: 0;
+    background: #d0e5f5;
+    font-weight: normal;
+}

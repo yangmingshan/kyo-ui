@@ -56,11 +56,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var Component = __webpack_require__(1);
 	var DatePicker = __webpack_require__(2);
-	var AutoParse = __webpack_require__(8);
+	var AutoComplete = __webpack_require__(8);
+	var AutoParse = __webpack_require__(11);
 
 	module.exports = {
 	  Component: Component,
-	  AutoParse: AutoParse
+	  AutoParse: AutoParse,
+	  AutoComplete: AutoComplete
 	};
 
 
@@ -588,7 +590,96 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var DatePickerAutoParse = __webpack_require__(9);
+	var AutoComplete, Component;
+
+	__webpack_require__(9);
+
+	Component = __webpack_require__(1);
+
+	AutoComplete = Component.extend({
+	  renderAfter: function() {
+	    var delay, model;
+	    delay = this.delay;
+	    model = this.model;
+	    return this.$el.autocomplete({
+	      html: true,
+	      autoFocus: true,
+	      delay: delay || 200,
+	      source: this.$el.source || function(request, response) {
+	        var filter, filterData, i, inputData, len, matcher, responseData;
+	        inputData = request.term;
+	        matcher = new RegExp($.ui.autocomplete.escapeRegex(inputData), 'i');
+	        filterData = jQuery.grep(model, function(data) {
+	          return matcher.test(data.name);
+	        });
+	        responseData = [];
+	        for (i = 0, len = filterData.length; i < len; i++) {
+	          filter = filterData[i];
+	          responseData.push({
+	            value: filter.name,
+	            label: filter.name
+	          });
+	        }
+	        if (responseData.length === 0) {
+	          responseData = ['无数据， 请更换关键字搜索！'];
+	        }
+	        return response(responseData);
+	      },
+	      search: this.search,
+	      open: this.open,
+	      select: this.select
+	    });
+	  }
+	});
+
+	module.exports = AutoComplete;
+
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(10);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(6)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./auto_complete.css", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./auto_complete.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(5)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".ui-autocomplete {\r\n    max-height: 258px;\r\n    _height: 258px;\r\n    border: 1px solid #ccc;\r\n    background: #fff;\r\n    color: #666;\r\n    overflow: auto;\r\n}\r\n.ui-state-focus,\r\n.ui-autocomplete .ui-state-focus {\r\n    margin: -1px 0;\r\n    border-left: 0;\r\n    border-right: 0;\r\n    background: #d0e5f5;\r\n    font-weight: normal;\r\n}\r\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var DatePickerAutoParse = __webpack_require__(12);
 
 	function AutoParse(id) {
 	    this.id = id;
@@ -614,7 +705,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 9 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var DatePicker = __webpack_require__(2);

@@ -13,10 +13,16 @@
   </head>
 
   <body>
-    <h1>Hello kyo-ui!</h1>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <h3>kyo-ui demo</h3>
+        </div>
+      </div>
+    </div>
     <div class="container" id="page">
       <div class="row">
-        <h1 class="page-header">dete_picker</h1>
+        <h2 class="page-header">dete_picker</h1>
         <form>
           <div class="header row form-group" id="header">
             <div class="col-xs-4">
@@ -33,13 +39,20 @@
           </div>
         </form>
       </div>
+      <div class="row">
+        <h2 class="page-header"> auto_complete</h1>
+        <form>
+          <div class="form-group">
+            <label>所属城市：</label>
+            <input type="text" name="belongCity" id="belongCity">
+          </div>
+        </form>
+      </div>
     </div>
     <script src="../bower_components/jquery/dist/jquery.js"></script>
     <script src="../bower_components/jquery-ui/jquery-ui.js"></script>
     <script src='../bower_components/kyo/dist/kyo.js'></script>
     <script src='../dist/kyo-ui.js'></script>
-    <script>
-      new kui.AutoParse('page').autoParse();
-    </script>
+    <script src="demo.js"></script>
   </body>
 </html>
