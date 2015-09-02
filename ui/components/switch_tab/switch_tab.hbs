@@ -1,0 +1,16 @@
+<ul class="switch_tab_head clearfix">
+  {{#each model}}
+    <li class="switch_tab_head_item" data-index="{{@index}}"><a>{{name}}</a></li>
+  {{/each}}
+</ul>
+<div class="switch_tab_content">
+  {{#each model}}
+    <ul class="switch_tab_content_item clearfix" data-index="{{@index}}">
+      {{#each values}}
+        <li>
+          <a class="switch_tab_content_select" title="{{name}}" data-code="{{code}}">{{name}}</a>
+        </li>
+      {{/each}}
+    </ul>
+  {{/each}}
+</div>

@@ -1,0 +1,25 @@
+require('./switch_tab.css')
+Component = require('../../component')
+template = require('./switch_tab.hbs')
+
+SwitchTab = Component.extend({
+  $el: $("<div class='switch_tab'></div>"),
+  template: template,
+  events: {
+    'click .switch_tab_head_item': 'switchTab',
+    'click .switch_tab_content_select': 'select'
+  },
+  switchTab: (e) ->
+    $target = $(e.currentTarget)
+    @$el.find('.active').removeClass('active')
+    $target.addClass('active')
+    index = $target.data('index')
+    @$el.find('.switch_tab_content_item').hide()
+    @$el.find('.switch_tab_content_item').filter('[data-index='+index+']').show()
+  select: (e) ->
+    $target = $(e.currentTarget)
+    $(this.target).val($target.attr('title'))
+    @hide()
+})
+
+module.exports = SwitchTab
