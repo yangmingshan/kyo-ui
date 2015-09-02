@@ -4,40 +4,40 @@ var Component = require('../../component');
 
 var DatePicker = Component.extend({
   renderAfter: function() {
-    var $el = this.$el,
-        $minDateEl,
-        $maxDateEl;
+    var $target = this.$target,
+        $minDateTarget,
+        $maxDateTarget;
     var opt = {
-        changeYear: $el.attr('changeYear') || false,
-        changeMonth: $el.attr('changeMonth') || false,
+        changeYear: $target.attr('changeYear') || false,
+        changeMonth: $target.attr('changeMonth') || false,
         hideIfNoPrevNext: true
     }
-    $el.datepicker(opt);
-    var minDate = $el.attr("minDate");
+    $target.datepicker(opt);
+    var minDate = $target.attr("minDate");
     if(!minDate) {
       minDate = '+0';
     } else {
       if(/^#/.test(minDate)) {
-        $minDateEl = $(minDate);
+        $minDateTarget = $(minDate);
       }
     }
-    var maxDate = $el.attr("maxDate");
-    if($maxDateEl) {
+    var maxDate = $target.attr("maxDate");
+    if($maxDateTarget) {
       maxDate = '+99999';
     } else {
       if(/^#/.test(maxDate)) {
-        $maxDateEl = $(maxDate);
+        $maxDateTarget = $(maxDate);
       }
     }
-    if($minDateEl) {
-      $minDateEl.datepicker("option", {
+    if($minDateTarget) {
+      $minDateTarget.datepicker("option", {
         onSelect: function() {
-          $el.datepicker('option', 'minDate', $(this).val());
+          $target.datepicker('option', 'minDate', $(this).val());
         }
       })
     }
-    $el.datepicker('option', 'minDate', minDate);
-    $el.datepicker('option', 'maxDate', maxDate);
+    $target.datepicker('option', 'minDate', minDate);
+    $target.datepicker('option', 'maxDate', maxDate);
   }
 });
 

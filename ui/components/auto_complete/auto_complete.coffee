@@ -5,11 +5,11 @@ AutoComplete = Component.extend({
   renderAfter: ->
     delay = @delay
     model = @model
-    @$el.autocomplete({
+    @$target.autocomplete({
       html: true,
       autoFocus: true,
       delay: delay || 200,
-      source: @$el.source || (request, response) ->
+      source: @$target.source || (request, response) ->
         inputData = request.term
         matcher = new RegExp($.ui.autocomplete.escapeRegex(inputData), 'i')
         filterData = jQuery.grep(model, (data) ->

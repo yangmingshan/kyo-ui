@@ -21,7 +21,7 @@
   "devDependencies": {
     "jquery": "~2.1.4",
     "jquery-ui": "~1.11.4",
-    "kyo": "~1.2.0",
+    "kyo": "~0.1.0",
     "bootstrap": "~3.3.5"
   }
 }

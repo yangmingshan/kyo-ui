@@ -10,6 +10,9 @@ var Component = Base.extend({
     this.cid = _.uniqueId('component');
     this.delegateEvents();
     this.isRender = false;
+    if(this.$target && _.isString(this.$target)) {
+      this.$target = $("#"+this.$target);
+    }
   },
   render: function(parentEl) {
     if(this.isRender) {
@@ -22,11 +25,7 @@ var Component = Base.extend({
       return;
     }
     if(!parentEl) {
-      if(this.target) {
-        parentEl = this.target.parentNode;
-      } else {
         parentEl = document.body || document.documentElement;
-      }
     }
     parentEl = this.$parentEl = $(parentEl);
     if(this.position) {
@@ -94,8 +93,11 @@ var Component = Base.extend({
     return this;
   },
   setContent: function(model) {
-    var html = this.tmp({model: this.model});
+    var html = this.template({model: this.model});
     this.$el.html(html);
+  },
+  renderAfter: function() {
+
   },
   hide: function() {
     this.$el.hide();
