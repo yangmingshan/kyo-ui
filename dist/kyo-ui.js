@@ -606,7 +606,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      html: true,
 	      autoFocus: true,
 	      delay: delay || 200,
-	      source: this.$target.source || function(request, response) {
+	      source: this.source || function(request, response) {
 	        var filter, filterData, i, inputData, len, matcher, responseData;
 	        inputData = request.term;
 	        matcher = new RegExp($.ui.autocomplete.escapeRegex(inputData), 'i');

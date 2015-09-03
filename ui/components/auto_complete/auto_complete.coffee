@@ -9,7 +9,7 @@ AutoComplete = Component.extend({
       html: true,
       autoFocus: true,
       delay: delay || 200,
-      source: @$target.source || (request, response) ->
+      source: @source || (request, response) ->
         inputData = request.term
         matcher = new RegExp($.ui.autocomplete.escapeRegex(inputData), 'i')
         filterData = jQuery.grep(model, (data) ->
