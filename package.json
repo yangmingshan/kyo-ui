@@ -2,7 +2,7 @@
   "name": "kyo-ui",
   "version": "0.1.0",
   "description": "基于kyo的ui库, 定义常见的ui",
-  "main": "index.js",
+  "main": "dist/kyo-ui.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
