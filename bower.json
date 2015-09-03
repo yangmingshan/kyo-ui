@@ -1,6 +1,6 @@
 {
   "name": "kyo-ui",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/kkdashu/kyo-ui",
   "authors": [
     "kkdashu <wmeng17@gmail.com>"
@@ -21,7 +21,7 @@
   "devDependencies": {
     "jquery": "~2.1.4",
     "jquery-ui": "~1.11.4",
-    "kyo": "~0.1.0",
+    "kyo": "~0.1.1",
     "bootstrap": "~3.3.5"
   }
 }

@@ -72,8 +72,8 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 1 */
 /***/ function(module, exports) {
 
-	var Base = K.Base,
-	    _ = K._;
+	var Base = kyo.Base,
+	    _ = kyo._;
 
 	var delegateEventSplitter = /^(\S+)\s*(.*)$/;
 
