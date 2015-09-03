@@ -24,7 +24,8 @@
 	background-color: #fff;
 }
 .switch_tab_head_item.active a {
-  height: 43px;
+  position: relative;
+  top: 1px;
 	margin-bottom: -1px;
 	_position: relative;
 	color: #666;

@@ -8,11 +8,14 @@ var Component = Base.extend({
   tmp: null,
   initialize: function() {
     this.cid = _.uniqueId('component');
-    this.delegateEvents();
     this.isRender = false;
     if(this.$target && _.isString(this.$target)) {
       this.$target = $("#"+this.$target);
     }
+    if(this.$el) {
+      this.$el = $(this.$el);
+    }
+    this.delegateEvents();
   },
   render: function(parentEl) {
     if(this.isRender) {
@@ -26,6 +29,9 @@ var Component = Base.extend({
     }
     if(!parentEl) {
         parentEl = document.body || document.documentElement;
+    }
+    if(this.css) {
+      this.$el.css(this.css);
     }
     parentEl = this.$parentEl = $(parentEl);
     this.$el.html('loading...')
@@ -97,10 +103,10 @@ var Component = Base.extend({
 
   },
   hide: function() {
-    this.$el.hide();
+    this.$el && this.$el.hide();
   },
   show: function() {
-    this.$el.show();
+    this.$el && this.$el.show();
   },
   destory: function() {
     this.undelegateEvents();

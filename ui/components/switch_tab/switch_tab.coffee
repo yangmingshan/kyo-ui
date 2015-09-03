@@ -3,7 +3,7 @@ Component = require('../../component')
 template = require('./switch_tab.hbs')
 
 SwitchTab = Component.extend({
-  $el: $("<div class='switch_tab'></div>"),
+  $el: "<div class='switch_tab'></div>",
   template: template,
   events: {
     'click .switch_tab_head_item': 'switchTab',

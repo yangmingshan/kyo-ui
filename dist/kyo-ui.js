@@ -82,11 +82,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  tmp: null,
 	  initialize: function() {
 	    this.cid = _.uniqueId('component');
-	    this.delegateEvents();
 	    this.isRender = false;
 	    if(this.$target && _.isString(this.$target)) {
 	      this.$target = $("#"+this.$target);
 	    }
+	    if(this.$el) {
+	      this.$el = $(this.$el);
+	    }
+	    this.delegateEvents();
 	  },
 	  render: function(parentEl) {
 	    if(this.isRender) {
@@ -100,6 +103,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    if(!parentEl) {
 	        parentEl = document.body || document.documentElement;
+	    }
+	    if(this.css) {
+	      this.$el.css(this.css);
 	    }
 	    parentEl = this.$parentEl = $(parentEl);
 	    this.$el.html('loading...')
@@ -171,10 +177,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  },
 	  hide: function() {
-	    this.$el.hide();
+	    this.$el && this.$el.hide();
 	  },
 	  show: function() {
-	    this.$el.show();
+	    this.$el && this.$el.show();
 	  },
 	  destory: function() {
 	    this.undelegateEvents();
@@ -689,7 +695,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	template = __webpack_require__(14);
 
 	SwitchTab = Component.extend({
-	  $el: $("<div class='switch_tab'></div>"),
+	  $el: "<div class='switch_tab'></div>",
 	  template: template,
 	  events: {
 	    'click .switch_tab_head_item': 'switchTab',
@@ -764,7 +770,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, ".switch_tab {\n  position: absolute;\n  min-height: 200px;\n  min-width: 300px;\n  background-color: #fff;\n  z-index: 9;\n  border: 1px solid #ccc;\n  padding: 4px;\n  overflow: hidden;\n}\n.switch_tab_head {\n  border-bottom: 1px solid #c7cdde;\n}\n.switch_tab_head_item {\n  float: left;\n}\n.switch_tab_head_item a {\n  padding: 10px;\n\tcursor: pointer;\n\tcolor:#08c;\n\tmargin-right: 5px;\n\tborder: 1px solid #fff;\n\tdisplay: inline-block;\n\tbackground-color: #fff;\n}\n.switch_tab_head_item.active a {\n  height: 43px;\n\tmargin-bottom: -1px;\n\t_position: relative;\n\tcolor: #666;\n\tborder-color: #fff;\n\tborder-radius: 4px 4px 0 0;\n\tborder: 1px solid #ccc;\n\tborder-bottom-color: #fff;\n}\n.switch_tab .switch_tab_content {\n  padding: 20px 10px 10px 10px;\n\tfloat: left;\n}\n.switch_tab_content ul {\n  display: none;\n  float: left;\n}\n.switch_tab_content ul li {\n  float: left;\n}\n.switch_tab_content ul li a {\n  cursor: pointer;\n\twidth: 100px;\n\tdisplay: block;\n\ttext-align: center;\n\tfont-size: 12px;\n\tline-height: 35px;\n\toverflow: hidden;\n\twhite-space: nowrap;\n\ttext-overflow: ellipsis;\n}\n", ""]);
+	exports.push([module.id, ".switch_tab {\n  position: absolute;\n  min-height: 200px;\n  min-width: 300px;\n  background-color: #fff;\n  z-index: 9;\n  border: 1px solid #ccc;\n  padding: 4px;\n  overflow: hidden;\n}\n.switch_tab_head {\n  border-bottom: 1px solid #c7cdde;\n}\n.switch_tab_head_item {\n  float: left;\n}\n.switch_tab_head_item a {\n  padding: 10px;\n\tcursor: pointer;\n\tcolor:#08c;\n\tmargin-right: 5px;\n\tborder: 1px solid #fff;\n\tdisplay: inline-block;\n\tbackground-color: #fff;\n}\n.switch_tab_head_item.active a {\n  position: relative;\n  top: 1px;\n\tmargin-bottom: -1px;\n\t_position: relative;\n\tcolor: #666;\n\tborder-color: #fff;\n\tborder-radius: 4px 4px 0 0;\n\tborder: 1px solid #ccc;\n\tborder-bottom-color: #fff;\n}\n.switch_tab .switch_tab_content {\n  padding: 20px 10px 10px 10px;\n\tfloat: left;\n}\n.switch_tab_content ul {\n  display: none;\n  float: left;\n}\n.switch_tab_content ul li {\n  float: left;\n}\n.switch_tab_content ul li a {\n  cursor: pointer;\n\twidth: 100px;\n\tdisplay: block;\n\ttext-align: center;\n\tfont-size: 12px;\n\tline-height: 35px;\n\toverflow: hidden;\n\twhite-space: nowrap;\n\ttext-overflow: ellipsis;\n}\n", ""]);
 
 	// exports
 
