@@ -58,12 +58,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	var DatePicker = __webpack_require__(2);
 	var AutoComplete = __webpack_require__(8);
 	var SwitchTab = __webpack_require__(11);
-	var AutoParse = __webpack_require__(23);
+	var Mask = __webpack_require__(23);
+	var AutoParse = __webpack_require__(26);
 
 	module.exports = {
 	  Component: Component,
 	  SwitchTab: SwitchTab,
 	  AutoParse: AutoParse,
+	  mask: Mask.create(),
 	  AutoComplete: AutoComplete
 	};
 
@@ -91,13 +93,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    this.delegateEvents();
 	  },
-	  render: function(parentEl) {
+	  render: function(parentEl, hide) {
 	    if(this.isRender) {
 	      this.show();
 	      return this;
 	    }
 	    //如果没有templete则认为不需要渲染
-	    if(!this.template) {
+	    if(!this.template &&!this.$el) {
 	      this.renderAfter();
 	      return;
 	    }
@@ -108,9 +110,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.$el.css(this.css);
 	    }
 	    parentEl = this.$parentEl = $(parentEl);
-	    this.$el.html('loading...')
 	    parentEl.append(this.$el);
-	    this.show();
+	    if(!hide){
+	      this.show();
+	    }
 	    this._model();
 	  },
 	  _model: function() {
@@ -1614,7 +1617,64 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var DatePickerAutoParse = __webpack_require__(24);
+	var Component, Mask;
+
+	__webpack_require__(24);
+
+	Component = __webpack_require__(1);
+
+	Mask = Component.extend({
+	  $el: "<div class='kui-mask' style='display:none'></div>"
+	});
+
+	module.exports = Mask;
+
+
+/***/ },
+/* 24 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(25);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(6)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./mask.css", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./mask.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(5)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".kui-mask {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  opacity: 0.7;\n  background-color: #000;\n}\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var DatePickerAutoParse = __webpack_require__(27);
 
 	function AutoParse(id) {
 	    this.id = id;
@@ -1640,7 +1700,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 24 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var DatePicker = __webpack_require__(2);

@@ -75,3 +75,7 @@ $('body').on('click', function() {
   switchTab.hide();
   switchTab2.hide();
 })
+
+$("#ui-mask").on('click', function() {
+  kui.mask.render(null, true);
+})

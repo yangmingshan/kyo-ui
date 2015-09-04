@@ -17,13 +17,13 @@ var Component = Base.extend({
     }
     this.delegateEvents();
   },
-  render: function(parentEl) {
+  render: function(parentEl, hide) {
     if(this.isRender) {
       this.show();
       return this;
     }
     //如果没有templete则认为不需要渲染
-    if(!this.template) {
+    if(!this.template &&!this.$el) {
       this.renderAfter();
       return;
     }
@@ -34,9 +34,10 @@ var Component = Base.extend({
       this.$el.css(this.css);
     }
     parentEl = this.$parentEl = $(parentEl);
-    this.$el.html('loading...')
     parentEl.append(this.$el);
-    this.show();
+    if(!hide){
+      this.show();
+    }
     this._model();
   },
   _model: function() {

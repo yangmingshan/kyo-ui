@@ -1,0 +1,11 @@
+.kui-loading {
+  width: 361px;
+  height: 48px;
+  color: #fff;
+  font-size: 16px;
+  text-align: center;
+  line-height: 48px;
+  letter-spacing: 1.5px;
+  text-shadow: 1px 1px 1px #000;
+  background: url('../images/loading.gif');
+}
