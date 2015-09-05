@@ -62,7 +62,7 @@ var Component = Base.extend({
       data = this.modelAfter(data);
     }
     this.model = data;
-    this.setContent();
+    this._setContent();
     this.isRender = true;
     this.renderAfter();
   },
@@ -95,7 +95,7 @@ var Component = Base.extend({
     this.$el.off('.delegateEvents' + this.cid);
     return this;
   },
-  setContent: function() {
+  _setContent: function() {
     var html = this.template;
     if(_.isFunction(this.template)) {
       html = this.template(this);

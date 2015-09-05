@@ -15,7 +15,9 @@ Dialog = Component.extend({
   css: {
     width: '500px',
     height: '600px'
-  }
+  },
+  setContent: (content)->
+    @$el.find('.kui-dialog-content').html(content)
   setPosition: ->
     #设置居中显示
     width = parseFloat(@$el.width()) or 0
