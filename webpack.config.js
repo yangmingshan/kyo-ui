@@ -29,6 +29,6 @@ module.exports = {
   'kyo': 'kyo'
   },
   plugins: [
-    new ExtractTextPlugin("kui.css")
+    new ExtractTextPlugin("kyo-ui.css")
   ]
 };

@@ -165,7 +165,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      data = this.modelAfter(data);
 	    }
 	    this.model = data;
-	    this.setContent();
+	    this._setContent();
 	    this.isRender = true;
 	    this.renderAfter();
 	  },
@@ -198,7 +198,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.$el.off('.delegateEvents' + this.cid);
 	    return this;
 	  },
-	  setContent: function() {
+	  _setContent: function() {
 	    var html = this.template;
 	    if(_.isFunction(this.template)) {
 	      html = this.template(this);
@@ -1313,6 +1313,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  css: {
 	    width: '500px',
 	    height: '600px'
+	  },
+	  setContent: function(content) {
+	    return this.$el.find('.kui-dialog-content').html(content);
 	  },
 	  setPosition: function() {
 	    var $body, bodyHeight, bodyWidth, height, left, scrollTop, top, width;
