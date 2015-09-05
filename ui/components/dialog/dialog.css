@@ -1,0 +1,51 @@
+.kui-dialog {
+  position: absolute;
+  top: 20px;
+  z-index: 10000;
+  box-shadow: 0 3px 26px rgba(0, 0, 0, 0.9);
+  border-radius: 4px;
+  display: none;
+  background-color: #fff;
+  margin-bottom: 30px;
+}
+
+.kui-dialog-close {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.kui-dialog-title {
+  font: 12px/1.11 Arial, Helvetica, STHeiti;
+  line-height: 47px;
+  color: #dbe0ee;
+  font-size: 14px;
+  text-indent: 10px;
+  background: #8088a1;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.kui-dialog-content {
+  padding: 10px;
+}
+
+.kui-dialog-footer {
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.kui-dialog-loading {
+  width: 361px;
+  height: 48px;
+  font-family: STHeiti, "Microsoft Yahei", Helmet, Freesans, sans-serif;
+  color: #fff;
+  font-size: 15px;
+  text-align: center;
+  line-height: 48px;
+  letter-spacing: 1.5px;
+  text-shadow: 1px 1px 1px #000;
+  background: url(./loading.gif);
+}

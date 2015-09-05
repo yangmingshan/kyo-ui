@@ -36,4 +36,4 @@ gulp.task('watch', function() {
 });
 
 
-gulp.task('default', ['connect', 'watch']);
+gulp.task('default', ['webpack', 'connect', 'watch']);

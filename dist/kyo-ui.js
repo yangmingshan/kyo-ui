@@ -44,7 +44,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.c = installedModules;
 
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "dist";
+/******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -56,16 +56,43 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var Component = __webpack_require__(1);
 	var DatePicker = __webpack_require__(2);
-	var AutoComplete = __webpack_require__(8);
-	var SwitchTab = __webpack_require__(11);
-	var Mask = __webpack_require__(23);
+	var AutoComplete = __webpack_require__(5);
+	var SwitchTab = __webpack_require__(7);
+	var Mask = __webpack_require__(18);
+	var Dialog = __webpack_require__(20);
+	var Confirm = __webpack_require__(23);
+	var Alert = __webpack_require__(24);
+	var Loading = __webpack_require__(25);
+
 	var AutoParse = __webpack_require__(26);
+
+	//以下控件整个程序应该只有一个
+
+	// mask 实例
+	var mask = Mask.create();
+	mask.render('', true);
+
+	//confirm 实例
+	var _confirm = Confirm.create();
+	_confirm.render('', true);
+
+	//alert 实例
+	var _alert = Alert.create();
+	_alert.render('', true);
+
+	var loading = Loading.create();
+	loading.render('', true);
 
 	module.exports = {
 	  Component: Component,
 	  SwitchTab: SwitchTab,
 	  AutoParse: AutoParse,
-	  mask: Mask.create(),
+	  mask: mask,
+	  Dialog: Dialog,
+	  confirm: kyo._.bind(_confirm.message, _confirm),
+	  alert: kyo._.bind(_alert.alert, _alert),
+	  loading: kyo._.bind(loading.loading, loading),
+	  cancelLoading: kyo._.bind(loading.cancelLoading, loading),
 	  AutoComplete: AutoComplete
 	};
 
@@ -137,9 +164,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if(this.modelAfter && _.isFunction(this.modelAfter)) {
 	      data = this.modelAfter(data);
 	    }
-	    if(data) {
-	      this.setContent(data);
-	    }
+	    this.model = data;
+	    this.setContent();
 	    this.isRender = true;
 	    this.renderAfter();
 	  },
@@ -172,8 +198,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.$el.off('.delegateEvents' + this.cid);
 	    return this;
 	  },
-	  setContent: function(model) {
-	    var html = this.template({model: this.model});
+	  setContent: function() {
+	    var html = this.template;
+	    if(_.isFunction(this.template)) {
+	      html = this.template(this);
+	    }
 	    this.$el.html(html);
 	  },
 	  renderAfter: function() {
@@ -203,7 +232,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(3);
-	__webpack_require__(7);
+	__webpack_require__(4);
 	var Component = __webpack_require__(1);
 
 	var DatePicker = Component.extend({
@@ -250,327 +279,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 3 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(4);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(6)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./date_picker.css", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js!./date_picker.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
+	// removed by extract-text-webpack-plugin
 
 /***/ },
 /* 4 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(5)();
-	// imports
-
-
-	// module
-	exports.push([module.id, ".ui-datepicker .ui-widget-header{\r\n    background-image:none;\r\n    background-color:#8088a1;\r\n    border:none;\r\n}\r\n.ui-widget-content{\r\n    background:#fff;\r\n    border:1px solid #ccc;\r\n    -webkit-box-shadow:0 2px 2px rgba(0,0,0,.3);\r\n    /*height: 260px;*/\r\n    overflow-x:hidden;\r\n    overflow-y:scroll;\r\n}\r\n.ui-datepicker .ui-datepicker-unselectable span.ui-state-default {\r\n    background-color: #ccc;\r\n    color: #555;\r\n    border-color: #ccc;\r\n    background-image:none;\r\n}\r\n.ui-state-active, .ui-widget-content .ui-state-default.ui-state-active,\r\n.ui-widget-header .ui-state-default.ui-state-active {\r\n    border: 1px solid #4a70b1;\r\n    background: #4a70b1;\r\n    font-weight: normal;\r\n    color: #FFF;\r\n}\r\n.ui-state-default, .ui-widget-content .ui-state-default,\r\n.ui-widget-header .ui-state-default {\r\nbackground: #d8edfd;\r\ncolor: #FFFFFF;\r\ntext-align: center;\r\ncolor: #4a70b1;\r\nborder-color: #d8edfd;\r\n}\r\n.ui-datepicker select.ui-datepicker-month,\r\n.ui-datepicker select.ui-datepicker-year{\r\n    width:auto;\r\n}\r\n.ui-state-hover,\r\n.ui-widget-content .ui-state-hover,\r\n.ui-widget-header .ui-state-hover{\r\n    background:#d8edfd;\r\n    border:none;\r\n    margin:1px;\r\n}\r\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 5 */
-/***/ function(module, exports) {
-
-	/*
-		MIT License http://www.opensource.org/licenses/mit-license.php
-		Author Tobias Koppers @sokra
-	*/
-	// css base code, injected by the css-loader
-	module.exports = function() {
-		var list = [];
-
-		// return the list of modules as css string
-		list.toString = function toString() {
-			var result = [];
-			for(var i = 0; i < this.length; i++) {
-				var item = this[i];
-				if(item[2]) {
-					result.push("@media " + item[2] + "{" + item[1] + "}");
-				} else {
-					result.push(item[1]);
-				}
-			}
-			return result.join("");
-		};
-
-		// import a list of modules into the list
-		list.i = function(modules, mediaQuery) {
-			if(typeof modules === "string")
-				modules = [[null, modules, ""]];
-			var alreadyImportedModules = {};
-			for(var i = 0; i < this.length; i++) {
-				var id = this[i][0];
-				if(typeof id === "number")
-					alreadyImportedModules[id] = true;
-			}
-			for(i = 0; i < modules.length; i++) {
-				var item = modules[i];
-				// skip already imported module
-				// this implementation is not 100% perfect for weird media query combinations
-				//  when a module is imported multiple times with different media queries.
-				//  I hope this will never occur (Hey this way we have smaller bundles)
-				if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-					if(mediaQuery && !item[2]) {
-						item[2] = mediaQuery;
-					} else if(mediaQuery) {
-						item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-					}
-					list.push(item);
-				}
-			}
-		};
-		return list;
-	};
-
-
-/***/ },
-/* 6 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/*
-		MIT License http://www.opensource.org/licenses/mit-license.php
-		Author Tobias Koppers @sokra
-	*/
-	var stylesInDom = {},
-		memoize = function(fn) {
-			var memo;
-			return function () {
-				if (typeof memo === "undefined") memo = fn.apply(this, arguments);
-				return memo;
-			};
-		},
-		isOldIE = memoize(function() {
-			return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
-		}),
-		getHeadElement = memoize(function () {
-			return document.head || document.getElementsByTagName("head")[0];
-		}),
-		singletonElement = null,
-		singletonCounter = 0;
-
-	module.exports = function(list, options) {
-		if(false) {
-			if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
-		}
-
-		options = options || {};
-		// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-		// tags it will allow on a page
-		if (typeof options.singleton === "undefined") options.singleton = isOldIE();
-
-		var styles = listToStyles(list);
-		addStylesToDom(styles, options);
-
-		return function update(newList) {
-			var mayRemove = [];
-			for(var i = 0; i < styles.length; i++) {
-				var item = styles[i];
-				var domStyle = stylesInDom[item.id];
-				domStyle.refs--;
-				mayRemove.push(domStyle);
-			}
-			if(newList) {
-				var newStyles = listToStyles(newList);
-				addStylesToDom(newStyles, options);
-			}
-			for(var i = 0; i < mayRemove.length; i++) {
-				var domStyle = mayRemove[i];
-				if(domStyle.refs === 0) {
-					for(var j = 0; j < domStyle.parts.length; j++)
-						domStyle.parts[j]();
-					delete stylesInDom[domStyle.id];
-				}
-			}
-		};
-	}
-
-	function addStylesToDom(styles, options) {
-		for(var i = 0; i < styles.length; i++) {
-			var item = styles[i];
-			var domStyle = stylesInDom[item.id];
-			if(domStyle) {
-				domStyle.refs++;
-				for(var j = 0; j < domStyle.parts.length; j++) {
-					domStyle.parts[j](item.parts[j]);
-				}
-				for(; j < item.parts.length; j++) {
-					domStyle.parts.push(addStyle(item.parts[j], options));
-				}
-			} else {
-				var parts = [];
-				for(var j = 0; j < item.parts.length; j++) {
-					parts.push(addStyle(item.parts[j], options));
-				}
-				stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
-			}
-		}
-	}
-
-	function listToStyles(list) {
-		var styles = [];
-		var newStyles = {};
-		for(var i = 0; i < list.length; i++) {
-			var item = list[i];
-			var id = item[0];
-			var css = item[1];
-			var media = item[2];
-			var sourceMap = item[3];
-			var part = {css: css, media: media, sourceMap: sourceMap};
-			if(!newStyles[id])
-				styles.push(newStyles[id] = {id: id, parts: [part]});
-			else
-				newStyles[id].parts.push(part);
-		}
-		return styles;
-	}
-
-	function createStyleElement() {
-		var styleElement = document.createElement("style");
-		var head = getHeadElement();
-		styleElement.type = "text/css";
-		head.appendChild(styleElement);
-		return styleElement;
-	}
-
-	function createLinkElement() {
-		var linkElement = document.createElement("link");
-		var head = getHeadElement();
-		linkElement.rel = "stylesheet";
-		head.appendChild(linkElement);
-		return linkElement;
-	}
-
-	function addStyle(obj, options) {
-		var styleElement, update, remove;
-
-		if (options.singleton) {
-			var styleIndex = singletonCounter++;
-			styleElement = singletonElement || (singletonElement = createStyleElement());
-			update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
-			remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
-		} else if(obj.sourceMap &&
-			typeof URL === "function" &&
-			typeof URL.createObjectURL === "function" &&
-			typeof URL.revokeObjectURL === "function" &&
-			typeof Blob === "function" &&
-			typeof btoa === "function") {
-			styleElement = createLinkElement();
-			update = updateLink.bind(null, styleElement);
-			remove = function() {
-				styleElement.parentNode.removeChild(styleElement);
-				if(styleElement.href)
-					URL.revokeObjectURL(styleElement.href);
-			};
-		} else {
-			styleElement = createStyleElement();
-			update = applyToTag.bind(null, styleElement);
-			remove = function() {
-				styleElement.parentNode.removeChild(styleElement);
-			};
-		}
-
-		update(obj);
-
-		return function updateStyle(newObj) {
-			if(newObj) {
-				if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
-					return;
-				update(obj = newObj);
-			} else {
-				remove();
-			}
-		};
-	}
-
-	var replaceText = (function () {
-		var textStore = [];
-
-		return function (index, replacement) {
-			textStore[index] = replacement;
-			return textStore.filter(Boolean).join('\n');
-		};
-	})();
-
-	function applyToSingletonTag(styleElement, index, remove, obj) {
-		var css = remove ? "" : obj.css;
-
-		if (styleElement.styleSheet) {
-			styleElement.styleSheet.cssText = replaceText(index, css);
-		} else {
-			var cssNode = document.createTextNode(css);
-			var childNodes = styleElement.childNodes;
-			if (childNodes[index]) styleElement.removeChild(childNodes[index]);
-			if (childNodes.length) {
-				styleElement.insertBefore(cssNode, childNodes[index]);
-			} else {
-				styleElement.appendChild(cssNode);
-			}
-		}
-	}
-
-	function applyToTag(styleElement, obj) {
-		var css = obj.css;
-		var media = obj.media;
-		var sourceMap = obj.sourceMap;
-
-		if(media) {
-			styleElement.setAttribute("media", media)
-		}
-
-		if(styleElement.styleSheet) {
-			styleElement.styleSheet.cssText = css;
-		} else {
-			while(styleElement.firstChild) {
-				styleElement.removeChild(styleElement.firstChild);
-			}
-			styleElement.appendChild(document.createTextNode(css));
-		}
-	}
-
-	function updateLink(linkElement, obj) {
-		var css = obj.css;
-		var media = obj.media;
-		var sourceMap = obj.sourceMap;
-
-		if(sourceMap) {
-			// http://stackoverflow.com/a/26603875
-			css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
-		}
-
-		var blob = new Blob([css], { type: "text/css" });
-
-		var oldSrc = linkElement.href;
-
-		linkElement.href = URL.createObjectURL(blob);
-
-		if(oldSrc)
-			URL.revokeObjectURL(oldSrc);
-	}
-
-
-/***/ },
-/* 7 */
 /***/ function(module, exports) {
 
 	/* Chinese initialisation for the jQuery UI date picker plugin. */
@@ -597,12 +311,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 8 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AutoComplete, Component;
 
-	__webpack_require__(9);
+	__webpack_require__(6);
 
 	Component = __webpack_require__(1);
 
@@ -646,56 +360,22 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 9 */
-/***/ function(module, exports, __webpack_require__) {
+/* 6 */
+/***/ function(module, exports) {
 
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(10);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(6)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./auto_complete.css", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js!./auto_complete.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
+	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 10 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(5)();
-	// imports
-
-
-	// module
-	exports.push([module.id, ".ui-autocomplete {\r\n    max-height: 258px;\r\n    _height: 258px;\r\n    border: 1px solid #ccc;\r\n    background: #fff;\r\n    color: #666;\r\n    overflow: auto;\r\n}\r\n.ui-state-focus,\r\n.ui-autocomplete .ui-state-focus {\r\n    margin: -1px 0;\r\n    border-left: 0;\r\n    border-right: 0;\r\n    background: #d0e5f5;\r\n    font-weight: normal;\r\n}\r\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 11 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component, SwitchTab, template;
 
-	__webpack_require__(12);
+	__webpack_require__(8);
 
 	Component = __webpack_require__(1);
 
-	template = __webpack_require__(14);
+	template = __webpack_require__(9);
 
 	SwitchTab = Component.extend({
 	  $el: "<div class='switch_tab'></div>",
@@ -739,50 +419,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 12 */
-/***/ function(module, exports, __webpack_require__) {
+/* 8 */
+/***/ function(module, exports) {
 
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(13);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(6)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./switch_tab.css", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js!./switch_tab.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
+	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 13 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(5)();
-	// imports
-
-
-	// module
-	exports.push([module.id, ".switch_tab {\n  position: absolute;\n  min-height: 200px;\n  min-width: 300px;\n  background-color: #fff;\n  z-index: 9;\n  border: 1px solid #ccc;\n  padding: 4px;\n  overflow: hidden;\n}\n.switch_tab_head {\n  border-bottom: 1px solid #c7cdde;\n}\n.switch_tab_head_item {\n  float: left;\n}\n.switch_tab_head_item a {\n  padding: 10px;\n\tcursor: pointer;\n\tcolor:#08c;\n\tmargin-right: 5px;\n\tborder: 1px solid #fff;\n\tdisplay: inline-block;\n\tbackground-color: #fff;\n}\n.switch_tab_head_item.active a {\n  position: relative;\n  top: 1px;\n\tmargin-bottom: -1px;\n\t_position: relative;\n\tcolor: #666;\n\tborder-color: #fff;\n\tborder-radius: 4px 4px 0 0;\n\tborder: 1px solid #ccc;\n\tborder-bottom-color: #fff;\n}\n.switch_tab .switch_tab_content {\n  padding: 20px 10px 10px 10px;\n\tfloat: left;\n}\n.switch_tab_content ul {\n  display: none;\n  float: left;\n}\n.switch_tab_content ul li {\n  float: left;\n}\n.switch_tab_content ul li a {\n  cursor: pointer;\n\twidth: 100px;\n\tdisplay: block;\n\ttext-align: center;\n\tfont-size: 12px;\n\tline-height: 35px;\n\toverflow: hidden;\n\twhite-space: nowrap;\n\ttext-overflow: ellipsis;\n}\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 14 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Handlebars = __webpack_require__(15);
+	var Handlebars = __webpack_require__(10);
 	module.exports = (Handlebars["default"] || Handlebars).template({"1":function(depth0,helpers,partials,data) {
 	    var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
 
@@ -820,16 +466,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	},"useData":true});
 
 /***/ },
-/* 15 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Create a simple path alias to allow browserify to resolve
 	// the runtime on a supported path.
-	module.exports = __webpack_require__(16)['default'];
+	module.exports = __webpack_require__(11)['default'];
 
 
 /***/ },
-/* 16 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -838,30 +484,30 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.__esModule = true;
 
-	var _import = __webpack_require__(17);
+	var _import = __webpack_require__(12);
 
 	var base = _interopRequireWildcard(_import);
 
 	// Each of these augment the Handlebars object. No need to setup here.
 	// (This is done to easily share code between commonjs and browse envs)
 
-	var _SafeString = __webpack_require__(20);
+	var _SafeString = __webpack_require__(15);
 
 	var _SafeString2 = _interopRequireWildcard(_SafeString);
 
-	var _Exception = __webpack_require__(19);
+	var _Exception = __webpack_require__(14);
 
 	var _Exception2 = _interopRequireWildcard(_Exception);
 
-	var _import2 = __webpack_require__(18);
+	var _import2 = __webpack_require__(13);
 
 	var Utils = _interopRequireWildcard(_import2);
 
-	var _import3 = __webpack_require__(21);
+	var _import3 = __webpack_require__(16);
 
 	var runtime = _interopRequireWildcard(_import3);
 
-	var _noConflict = __webpack_require__(22);
+	var _noConflict = __webpack_require__(17);
 
 	var _noConflict2 = _interopRequireWildcard(_noConflict);
 
@@ -894,7 +540,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 17 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -905,11 +551,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.HandlebarsEnvironment = HandlebarsEnvironment;
 	exports.createFrame = createFrame;
 
-	var _import = __webpack_require__(18);
+	var _import = __webpack_require__(13);
 
 	var Utils = _interopRequireWildcard(_import);
 
-	var _Exception = __webpack_require__(19);
+	var _Exception = __webpack_require__(14);
 
 	var _Exception2 = _interopRequireWildcard(_Exception);
 
@@ -1172,7 +818,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* [args, ]options */
 
 /***/ },
-/* 18 */
+/* 13 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1291,7 +937,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 19 */
+/* 14 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1334,7 +980,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 20 */
+/* 15 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1353,7 +999,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 21 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1371,15 +1017,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.invokePartial = invokePartial;
 	exports.noop = noop;
 
-	var _import = __webpack_require__(18);
+	var _import = __webpack_require__(13);
 
 	var Utils = _interopRequireWildcard(_import);
 
-	var _Exception = __webpack_require__(19);
+	var _Exception = __webpack_require__(14);
 
 	var _Exception2 = _interopRequireWildcard(_Exception);
 
-	var _COMPILER_REVISION$REVISION_CHANGES$createFrame = __webpack_require__(17);
+	var _COMPILER_REVISION$REVISION_CHANGES$createFrame = __webpack_require__(12);
 
 	function checkRevision(compilerInfo) {
 	  var compilerRevision = compilerInfo && compilerInfo[0] || 1,
@@ -1590,7 +1236,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 22 */
+/* 17 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
@@ -1614,12 +1260,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 23 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component, Mask;
 
-	__webpack_require__(24);
+	__webpack_require__(19);
 
 	Component = __webpack_require__(1);
 
@@ -1631,43 +1277,236 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
+/* 19 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Component, Dialog, template;
+
+	__webpack_require__(21);
+
+	Component = __webpack_require__(1);
+
+	template = __webpack_require__(22);
+
+	Dialog = Component.extend({
+	  name: 'dialog',
+	  $el: "<div class='kui-dialog'></div>",
+	  template: template,
+	  hasClose: true,
+	  footer: true,
+	  confirmText: '确认',
+	  cancelText: '取消',
+	  title: '提示',
+	  content: '',
+	  css: {
+	    width: '500px',
+	    height: '600px'
+	  },
+	  setPosition: function() {
+	    var $body, bodyHeight, bodyWidth, height, left, scrollTop, top, width;
+	    width = parseFloat(this.$el.width()) || 0;
+	    $body = $('body');
+	    bodyWidth = $body.width();
+	    left = ((bodyWidth - width) / 2) + 'px';
+	    scrollTop = $body.scrollTop();
+	    height = parseFloat(this.$el.height()) || 0;
+	    bodyHeight = $(window).height();
+	    top = (scrollTop + ((bodyHeight - height) / 2)) + 'px';
+	    return this.$el.css({
+	      left: left,
+	      top: top
+	    });
+	  },
+	  renderAfter: function() {
+	    var content;
+	    content = this.content;
+	    if (content) {
+	      return this.$el.find('.kui-dialog-content').html(content);
+	    }
+	  },
+	  events: {
+	    'click .kui-dialog-close': 'close',
+	    'click .kui-dialog-cancel': 'close',
+	    'click .kui-dialog-confirm': 'confirm'
+	  },
+	  show: function() {
+	    kui.mask.show();
+	    this.setPosition();
+	    return Component.prototype.show.call(this);
+	  },
+	  close: function() {
+	    Component.prototype.hide.call(this);
+	    kui.mask.hide();
+	    return this.trigger('close');
+	  },
+	  confirm: function() {
+	    this.trigger('confirm');
+	    kui.mask.hide();
+	    return this.hide();
+	  }
+	});
+
+	module.exports = Dialog;
+
+
+/***/ },
+/* 21 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Handlebars = __webpack_require__(10);
+	module.exports = (Handlebars["default"] || Handlebars).template({"1":function(depth0,helpers,partials,data) {
+	    return "  <a class=\"kui-dialog-close\">x</a>\n";
+	},"3":function(depth0,helpers,partials,data) {
+	    var helper;
+
+	  return "  <div class=\"kui-dialog-title\">\n    "
+	    + this.escapeExpression(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"title","hash":{},"data":data}) : helper)))
+	    + "\n  </div>\n";
+	},"5":function(depth0,helpers,partials,data) {
+	    var stack1;
+
+	  return "  <div class=\"kui-dialog-footer\">\n"
+	    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.confirmText : depth0),{"name":"if","hash":{},"fn":this.program(6, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+	    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.cancelText : depth0),{"name":"if","hash":{},"fn":this.program(8, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+	    + "  </div>\n";
+	},"6":function(depth0,helpers,partials,data) {
+	    var helper;
+
+	  return "      <button class=\"kui-dialog-confirm btn btn-primary\">"
+	    + this.escapeExpression(((helper = (helper = helpers.confirmText || (depth0 != null ? depth0.confirmText : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"confirmText","hash":{},"data":data}) : helper)))
+	    + "</button>\n";
+	},"8":function(depth0,helpers,partials,data) {
+	    var helper;
+
+	  return "      <button class=\"kui-dialog-cancel btn btn-default\">"
+	    + this.escapeExpression(((helper = (helper = helpers.cancelText || (depth0 != null ? depth0.cancelText : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"cancelText","hash":{},"data":data}) : helper)))
+	    + "</button>\n";
+	},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+	    var stack1;
+
+	  return ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.hasClose : depth0),{"name":"if","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+	    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.title : depth0),{"name":"if","hash":{},"fn":this.program(3, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+	    + "<div class=\"kui-dialog-content\">\n\n</div>\n\n"
+	    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.footer : depth0),{"name":"if","hash":{},"fn":this.program(5, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "");
+	},"useData":true});
+
+/***/ },
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Confirm, Dialog;
+
+	Dialog = __webpack_require__(20);
+
+	Confirm = Dialog.extend({
+	  name: 'confirm',
+	  title: '确认',
+	  css: {
+	    width: '500px',
+	    height: 'auto'
+	  },
+	  initialize: function() {
+	    Dialog.prototype.initialize.call(this);
+	    return this.callbacks = [];
+	  },
+	  message: function(msg, title, callback) {
+	    this.$el.find('.kui-dialog-content').html(msg);
+	    if (title) {
+	      this.$el.find('.kui-dialog-title').html(title);
+	    }
+	    if (callback && kyo._.isFunction(callback)) {
+	      this.callbacks.push(callback);
+	    }
+	    return this.show();
+	  },
+	  close: function() {
+	    Dialog.prototype.close.call(this);
+	    return this.callbacks = [];
+	  },
+	  confirm: function() {
+	    var callback;
+	    Dialog.prototype.confirm.call(this);
+	    if (callback = this.callbacks.pop()) {
+	      return callback();
+	    }
+	  }
+	});
+
+	module.exports = Confirm;
+
+
+/***/ },
 /* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// style-loader: Adds some css to the DOM by adding a <style> tag
+	var Alert, Dialog;
 
-	// load the styles
-	var content = __webpack_require__(25);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(6)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./mask.css", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js!./mask.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
+	Dialog = __webpack_require__(20);
+
+	Alert = Dialog.extend({
+	  name: 'alert',
+	  title: '提示',
+	  css: {
+	    width: '500px',
+	    height: 'auto'
+	  },
+	  cancelText: '',
+	  alert: function(msg, title) {
+	    this.$el.find('.kui-dialog-content').html(msg);
+	    if (title) {
+	      this.$el.find('.kui-dialog-title').html(title);
+	    }
+	    return this.show();
+	  }
+	});
+
+	module.exports = Alert;
+
 
 /***/ },
 /* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(5)();
-	// imports
+	var Dialog, Loading;
 
+	Dialog = __webpack_require__(20);
 
-	// module
-	exports.push([module.id, ".kui-mask {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  opacity: 0.7;\n  background-color: #000;\n}\n", ""]);
+	Loading = Dialog.extend({
+	  name: 'loading',
+	  title: null,
+	  css: {
+	    width: '381px',
+	    height: 'auto'
+	  },
+	  footer: null,
+	  cancelText: null,
+	  confirmText: null,
+	  content: "<div class='kui-dialog-loading'></div>",
+	  loading: function(msg) {
+	    if (msg == null) {
+	      msg = '数据加载中';
+	    }
+	    this.$el.find('.kui-dialog-loading').html(msg);
+	    return this.show();
+	  },
+	  cancelLoading: function() {
+	    return this.close();
+	  }
+	});
 
-	// exports
+	module.exports = Loading;
 
 
 /***/ },

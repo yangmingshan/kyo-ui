@@ -1,0 +1,22 @@
+{{#if hasClose}}
+  <a class="kui-dialog-close">x</a>
+{{/if}}
+{{#if title}}
+  <div class="kui-dialog-title">
+    {{title}}
+  </div>
+{{/if}}
+<div class="kui-dialog-content">
+
+</div>
+
+{{#if footer}}
+  <div class="kui-dialog-footer">
+    {{#if confirmText}}
+      <button class="kui-dialog-confirm btn btn-primary">{{confirmText}}</button>
+    {{/if}}
+    {{#if cancelText}}
+      <button class="kui-dialog-cancel btn btn-default">{{cancelText}}</button>
+    {{/if}}
+  </div>
+{{/if}}

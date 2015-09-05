@@ -61,9 +61,8 @@ var Component = Base.extend({
     if(this.modelAfter && _.isFunction(this.modelAfter)) {
       data = this.modelAfter(data);
     }
-    if(data) {
-      this.setContent(data);
-    }
+    this.model = data;
+    this.setContent();
     this.isRender = true;
     this.renderAfter();
   },
@@ -96,8 +95,11 @@ var Component = Base.extend({
     this.$el.off('.delegateEvents' + this.cid);
     return this;
   },
-  setContent: function(model) {
-    var html = this.template({model: this.model});
+  setContent: function() {
+    var html = this.template;
+    if(_.isFunction(this.template)) {
+      html = this.template(this);
+    }
     this.$el.html(html);
   },
   renderAfter: function() {

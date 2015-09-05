@@ -1,0 +1,179 @@
+.ui-datepicker .ui-widget-header{
+    background-image:none;
+    background-color:#8088a1;
+    border:none;
+}
+.ui-widget-content{
+    background:#fff;
+    border:1px solid #ccc;
+    -webkit-box-shadow:0 2px 2px rgba(0,0,0,.3);
+    /*height: 260px;*/
+    overflow-x:hidden;
+    overflow-y:scroll;
+}
+.ui-datepicker .ui-datepicker-unselectable span.ui-state-default {
+    background-color: #ccc;
+    color: #555;
+    border-color: #ccc;
+    background-image:none;
+}
+.ui-state-active, .ui-widget-content .ui-state-default.ui-state-active,
+.ui-widget-header .ui-state-default.ui-state-active {
+    border: 1px solid #4a70b1;
+    background: #4a70b1;
+    font-weight: normal;
+    color: #FFF;
+}
+.ui-state-default, .ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default {
+background: #d8edfd;
+color: #FFFFFF;
+text-align: center;
+color: #4a70b1;
+border-color: #d8edfd;
+}
+.ui-datepicker select.ui-datepicker-month,
+.ui-datepicker select.ui-datepicker-year{
+    width:auto;
+}
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover{
+    background:#d8edfd;
+    border:none;
+    margin:1px;
+}
+.ui-autocomplete {
+    max-height: 258px;
+    _height: 258px;
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #666;
+    overflow: auto;
+}
+.ui-state-focus,
+.ui-autocomplete .ui-state-focus {
+    margin: -1px 0;
+    border-left: 0;
+    border-right: 0;
+    background: #d0e5f5;
+    font-weight: normal;
+}
+.switch_tab {
+  position: absolute;
+  min-height: 200px;
+  min-width: 300px;
+  background-color: #fff;
+  z-index: 9;
+  border: 1px solid #ccc;
+  padding: 4px;
+  overflow: hidden;
+}
+.switch_tab_head {
+  border-bottom: 1px solid #c7cdde;
+}
+.switch_tab_head_item {
+  float: left;
+}
+.switch_tab_head_item a {
+  padding: 10px;
+	cursor: pointer;
+	color:#08c;
+	margin-right: 5px;
+	border: 1px solid #fff;
+	display: inline-block;
+	background-color: #fff;
+}
+.switch_tab_head_item.active a {
+  position: relative;
+  top: 1px;
+	margin-bottom: -1px;
+	_position: relative;
+	color: #666;
+	border-color: #fff;
+	border-radius: 4px 4px 0 0;
+	border: 1px solid #ccc;
+	border-bottom-color: #fff;
+}
+.switch_tab .switch_tab_content {
+  padding: 20px 10px 10px 10px;
+	float: left;
+}
+.switch_tab_content ul {
+  display: none;
+  float: left;
+}
+.switch_tab_content ul li {
+  float: left;
+}
+.switch_tab_content ul li a {
+  cursor: pointer;
+	width: 100px;
+	display: block;
+	text-align: center;
+	font-size: 12px;
+	line-height: 35px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.kui-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.7;
+  background-color: #000;
+}
+.kui-dialog {
+  position: absolute;
+  top: 20px;
+  z-index: 10000;
+  box-shadow: 0 3px 26px rgba(0, 0, 0, 0.9);
+  border-radius: 4px;
+  display: none;
+  background-color: #fff;
+  margin-bottom: 30px;
+}
+
+.kui-dialog-close {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.kui-dialog-title {
+  font: 12px/1.11 Arial, Helvetica, STHeiti;
+  line-height: 47px;
+  color: #dbe0ee;
+  font-size: 14px;
+  text-indent: 10px;
+  background: #8088a1;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.kui-dialog-content {
+  padding: 10px;
+}
+
+.kui-dialog-footer {
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.kui-dialog-loading {
+  width: 361px;
+  height: 48px;
+  font-family: STHeiti, "Microsoft Yahei", Helmet, Freesans, sans-serif;
+  color: #fff;
+  font-size: 15px;
+  text-align: center;
+  line-height: 48px;
+  letter-spacing: 1.5px;
+  text-shadow: 1px 1px 1px #000;
+  background: url(images/f746efa6301180e6544e49d1f04359d3.gif);
+}

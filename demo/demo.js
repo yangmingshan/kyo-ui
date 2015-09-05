@@ -77,5 +77,25 @@ $('body').on('click', function() {
 })
 
 $("#ui-mask").on('click', function() {
-  kui.mask.render(null, true);
+  kui.mask.show();
 })
+
+var dialog = kui.Dialog.create({
+  content: 'dialog content'
+});
+dialog.render(null, true);
+$("#open-dialog").on('click', function(){
+  dialog.show();
+})
+$("#open-confirm").on('click', function(){
+  kui.confirm('确定？', '提示', function() {
+    alert('确定');
+  })
+})
+$("#open-alert").on('click', function(){
+  kui.alert('alert');
+})
+$("#open-loading").on('click', function(){
+  kui.loading();
+})
+
