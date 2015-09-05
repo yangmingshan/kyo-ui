@@ -42,7 +42,7 @@ var Component = Base.extend({
   },
   _model: function() {
     var self = this;
-    if(this.model && _.isFunction(this.model)) {
+    if(this.model) {
       //是一个promise
       if(this.model.then) {
         this.model.then(function(data) {
@@ -50,8 +50,10 @@ var Component = Base.extend({
         }, function(err) {
 
         });
-      } else {
+      } else if(this._.isFunction(model)){
         this._modelAfter(this.model());
+      } else {
+        this._modelAfter(this.model);
       }
     } else {
       this._modelAfter(this.model);

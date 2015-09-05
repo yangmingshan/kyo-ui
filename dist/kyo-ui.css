@@ -158,6 +158,8 @@ border-color: #d8edfd;
 
 .kui-dialog-content {
   padding: 10px;
+  word-break: break-all;
+  overflow: auto;
 }
 
 .kui-dialog-footer {
