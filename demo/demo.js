@@ -83,6 +83,13 @@ $("#ui-mask").on('click', function() {
 var dialog = kui.Dialog.create({
   content: 'dialog content'
 });
+dialog.on('confirm', function() {
+  kui.loading();
+  window.setTimeout(function() {
+    kui.cancelLoading();
+    kui.alert('confrim success!');
+  }, 2000);
+})
 dialog.render(null, true);
 $("#open-dialog").on('click', function(){
   dialog.show();

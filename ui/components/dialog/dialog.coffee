@@ -45,9 +45,9 @@ Dialog = Component.extend({
     kui.mask.hide()
     @trigger('close')
   confirm: ->
-    @trigger('confirm')
     kui.mask.hide()
     @hide()
+    @trigger('confirm')
 })
 
 module.exports = Dialog
