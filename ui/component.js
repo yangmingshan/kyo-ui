@@ -50,7 +50,7 @@ var Component = Base.extend({
         }, function(err) {
 
         });
-      } else if(this._.isFunction(model)){
+      } else if(_.isFunction(this.model)){
         this._modelAfter(this.model());
       } else {
         this._modelAfter(this.model);
