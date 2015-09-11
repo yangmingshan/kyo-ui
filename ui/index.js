@@ -7,6 +7,7 @@ var Dialog = require('./components/dialog/dialog.coffee');
 var Confirm = require('./components/dialog/confirm.coffee');
 var Alert = require('./components/dialog/alert.coffee');
 var Loading = require('./components/dialog/loading.coffee');
+var Paging = require('./components/paging/paging.coffee');
 
 var AutoParse = require('./auto_parse');
 
@@ -14,18 +15,18 @@ var AutoParse = require('./auto_parse');
 
 // mask 实例
 var mask = Mask.create();
-mask.render('', true);
+mask.render(false);
 
 //confirm 实例
 var _confirm = Confirm.create();
-_confirm.render('', true);
+_confirm.render(false);
 
 //alert 实例
 var _alert = Alert.create();
-_alert.render('', true);
+_alert.render(false);
 
 var loading = Loading.create();
-loading.render('', true);
+loading.render(false);
 
 module.exports = {
   Component: Component,
@@ -37,5 +38,6 @@ module.exports = {
   alert: kyo._.bind(_alert.alert, _alert),
   loading: kyo._.bind(loading.loading, loading),
   cancelLoading: kyo._.bind(loading.cancelLoading, loading),
+  Paging: Paging,
   AutoComplete: AutoComplete
 };

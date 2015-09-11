@@ -17,32 +17,46 @@ var Component = Base.extend({
     }
     this.delegateEvents();
   },
-  render: function(parentEl, hide) {
-    if(this.isRender) {
-      this.show();
-      return this;
+  render: function(parentEl, show) {
+    if(arguments.length == 1 && typeof arguments[0] === 'boolean') {
+      show = parentEl;
+      parentEl = undefined;
     }
+    if(this.isRender) {
+      this.destory();
+      this.isRender = false;
+    }
+    this._renderBefore();
     //如果没有templete则认为不需要渲染
     if(!this.template &&!this.$el) {
       this.renderAfter();
       return;
     }
-    if(!parentEl) {
-        parentEl = document.body || document.documentElement;
+    if(parentEl) {
+      this.$parentEl = $(parentEl);
     }
+    if(!this.$parentEl) {
+      this.$parentEl = $('body');
+    }
+    if(show) {
+      this.show()
+    } else {
+      this.hide();
+    }
+    this.$parentEl.append(this.$el);
     if(this.css) {
       this.$el.css(this.css);
-    }
-    parentEl = this.$parentEl = $(parentEl);
-    parentEl.append(this.$el);
-    if(!hide){
-      this.show();
     }
     this._model();
   },
   _model: function() {
     var self = this;
     if(this.model) {
+      //保存model为oldModel
+      this.oldModel = this.model;
+      if(_.isFunction(this.model)) {
+        this.model = this.model();
+      }
       //是一个promise
       if(this.model.then) {
         this.model.then(function(data) {
@@ -50,13 +64,16 @@ var Component = Base.extend({
         }, function(err) {
 
         });
-      } else if(_.isFunction(this.model)){
-        this._modelAfter(this.model());
       } else {
         this._modelAfter(this.model);
       }
     } else {
-      this._modelAfter(this.model);
+      this._modelAfter();
+    }
+  },
+  _renderBefore: function(data) {
+    if(this.modelBefore && _.isFunction(this.modelBefore)) {
+      this.modelBefore(data);
     }
   },
   _modelAfter: function(data) {
@@ -65,8 +82,6 @@ var Component = Base.extend({
     }
     this.model = data;
     this._setContent();
-    this.isRender = true;
-    this.renderAfter();
   },
   delegateEvents: function() {
     var events = this.events;
@@ -98,13 +113,27 @@ var Component = Base.extend({
     return this;
   },
   _setContent: function() {
+    var self = this;
     var html = this.template;
     if(_.isFunction(this.template)) {
       html = this.template(this);
+      if(html.then && _.isFunction(html.then)) {
+        html = html.then(function(data) {
+         self.$el.html(self.templateAfter(data));
+         self.isRender = true;
+         self.renderAfter();
+        });
+        return;
+      }
     }
     this.$el.html(html);
+    this.isRender = true;
+    this.renderAfter();
   },
   renderAfter: function() {
+
+  },
+  _renderBefore: function() {
 
   },
   hide: function() {
@@ -113,11 +142,15 @@ var Component = Base.extend({
   show: function() {
     this.$el && this.$el.show();
   },
-  destory: function() {
-    this.undelegateEvents();
-    if(this.$parentEl) {
-      this.$parentEl.html('');
-    } else {
+  destory: function(delegateEvent) {
+    if(delegateEvent) {
+      this.undelegateEvents();
+    }
+    this.model = this.oldModel;
+    if(this.$el) {
+      this.$el.html('');
+    }
+    if(this.$target) {
       this.$target.remove();
     }
   }

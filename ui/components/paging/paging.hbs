@@ -1,0 +1,25 @@
+{{#if model}}
+  {{#if prevPager}}
+    <li class="kui-paging-prev">{{prevPagerText}}</li>
+  {{/if}}
+  {{#each model}}
+    {{#if isSplit}}
+      <li class="kui-paging-split">{{../../splitText}}</li>
+    {{else}}
+      {{#if isCurrent}}
+        <li class="kui-paging-active kui-paging-item">{{value}}</li>
+      {{else}}
+        <li class="kui-paging-item">{{value}}</li>
+      {{/if}}
+    {{/if}}
+  {{/each}}
+  {{#if nextPager}}
+    <li class="kui-paging-next">{{nextPagerText}}</li>
+  {{/if}}
+  {{#if goto}}
+    <li>
+      跳转到<input type="text" class="kui-paging-page-index" />
+      页 <button class="kui-pageing-goto">确认</button>
+    </li>
+  {{/if}}
+{{/if}}

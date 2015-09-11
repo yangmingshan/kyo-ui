@@ -55,9 +55,9 @@ var switchTab = kui.SwitchTab.create({
   $target: 'belongCitySwitch',
   css: {width: '520px', hieght: '250px', overflow: 'auto'}
 });
-
+switchTab.render();
 $('#belongCitySwitch').on('click', function(e) {
-  switchTab.render();
+  switchTab.show();
   e.stopPropagation();
 })
 
@@ -66,9 +66,10 @@ var switchTab2 = kui.SwitchTab.create({
   position: {top: 30, left: 0},
   $target: 'belongCitySwitch2'
 });
+switchTab2.render();
 
 $('#belongCitySwitch2').on('click', function(e) {
-  switchTab2.render();
+  switchTab2.show();
   e.stopPropagation();
 });
 $('body').on('click', function() {
@@ -106,3 +107,15 @@ $("#open-loading").on('click', function(){
   kui.loading();
 })
 
+
+//paper
+//
+var paging = kui.Paging.create({
+  totalCount: 200
+});
+paging.on('paging', function(pageIndex) {
+  kui.alert(pageIndex);
+  this.totalCount = 301;
+})
+paging.render('#paging');
+paging.show();

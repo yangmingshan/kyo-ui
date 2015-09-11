@@ -179,3 +179,26 @@ border-color: #d8edfd;
   text-shadow: 1px 1px 1px #000;
   background: url(images/f746efa6301180e6544e49d1f04359d3.gif);
 }
+.kui-paging {
+ list-style: none;
+ margin: 0;
+ padding: 0;
+}
+
+.kui-paging li {
+  float: left;
+  margin-right: 10px;
+}
+
+.kui-paging-item, .kui-paging-prev, .kui-paging-next {
+  cursor: pointer;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  color: #08c;
+}
+.kui-paging-active {
+  background-color: #e1f3ff;
+  border-color: #aec2e3;
+  color: #4c75c4;
+  font-weight: bolder;
+}

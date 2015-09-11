@@ -56,32 +56,33 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var Component = __webpack_require__(1);
 	var DatePicker = __webpack_require__(2);
-	var AutoComplete = __webpack_require__(8);
-	var SwitchTab = __webpack_require__(11);
-	var Mask = __webpack_require__(23);
-	var Dialog = __webpack_require__(26);
-	var Confirm = __webpack_require__(31);
-	var Alert = __webpack_require__(32);
-	var Loading = __webpack_require__(33);
+	var AutoComplete = __webpack_require__(5);
+	var SwitchTab = __webpack_require__(7);
+	var Mask = __webpack_require__(18);
+	var Dialog = __webpack_require__(20);
+	var Confirm = __webpack_require__(23);
+	var Alert = __webpack_require__(24);
+	var Loading = __webpack_require__(25);
+	var Paging = __webpack_require__(26);
 
-	var AutoParse = __webpack_require__(34);
+	var AutoParse = __webpack_require__(29);
 
 	//以下控件整个程序应该只有一个
 
 	// mask 实例
 	var mask = Mask.create();
-	mask.render('', true);
+	mask.render(false);
 
 	//confirm 实例
 	var _confirm = Confirm.create();
-	_confirm.render('', true);
+	_confirm.render(false);
 
 	//alert 实例
 	var _alert = Alert.create();
-	_alert.render('', true);
+	_alert.render(false);
 
 	var loading = Loading.create();
-	loading.render('', true);
+	loading.render(false);
 
 	module.exports = {
 	  Component: Component,
@@ -93,6 +94,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  alert: kyo._.bind(_alert.alert, _alert),
 	  loading: kyo._.bind(loading.loading, loading),
 	  cancelLoading: kyo._.bind(loading.cancelLoading, loading),
+	  Paging: Paging,
 	  AutoComplete: AutoComplete
 	};
 
@@ -120,32 +122,46 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    this.delegateEvents();
 	  },
-	  render: function(parentEl, hide) {
-	    if(this.isRender) {
-	      this.show();
-	      return this;
+	  render: function(parentEl, show) {
+	    if(arguments.length == 1 && typeof arguments[0] === 'boolean') {
+	      show = parentEl;
+	      parentEl = undefined;
 	    }
+	    if(this.isRender) {
+	      this.destory();
+	      this.isRender = false;
+	    }
+	    this._renderBefore();
 	    //如果没有templete则认为不需要渲染
 	    if(!this.template &&!this.$el) {
 	      this.renderAfter();
 	      return;
 	    }
-	    if(!parentEl) {
-	        parentEl = document.body || document.documentElement;
+	    if(parentEl) {
+	      this.$parentEl = $(parentEl);
 	    }
+	    if(!this.$parentEl) {
+	      this.$parentEl = $('body');
+	    }
+	    if(show) {
+	      this.show()
+	    } else {
+	      this.hide();
+	    }
+	    this.$parentEl.append(this.$el);
 	    if(this.css) {
 	      this.$el.css(this.css);
-	    }
-	    parentEl = this.$parentEl = $(parentEl);
-	    parentEl.append(this.$el);
-	    if(!hide){
-	      this.show();
 	    }
 	    this._model();
 	  },
 	  _model: function() {
 	    var self = this;
 	    if(this.model) {
+	      //保存model为oldModel
+	      this.oldModel = this.model;
+	      if(_.isFunction(this.model)) {
+	        this.model = this.model();
+	      }
 	      //是一个promise
 	      if(this.model.then) {
 	        this.model.then(function(data) {
@@ -153,13 +169,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }, function(err) {
 
 	        });
-	      } else if(_.isFunction(this.model)){
-	        this._modelAfter(this.model());
 	      } else {
 	        this._modelAfter(this.model);
 	      }
 	    } else {
-	      this._modelAfter(this.model);
+	      this._modelAfter();
+	    }
+	  },
+	  _renderBefore: function(data) {
+	    if(this.modelBefore && _.isFunction(this.modelBefore)) {
+	      this.modelBefore(data);
 	    }
 	  },
 	  _modelAfter: function(data) {
@@ -168,8 +187,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    this.model = data;
 	    this._setContent();
-	    this.isRender = true;
-	    this.renderAfter();
 	  },
 	  delegateEvents: function() {
 	    var events = this.events;
@@ -201,13 +218,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return this;
 	  },
 	  _setContent: function() {
+	    var self = this;
 	    var html = this.template;
 	    if(_.isFunction(this.template)) {
 	      html = this.template(this);
+	      if(html.then && _.isFunction(html.then)) {
+	        html = html.then(function(data) {
+	         self.$el.html(self.templateAfter(data));
+	         self.isRender = true;
+	         self.renderAfter();
+	        });
+	        return;
+	      }
 	    }
 	    this.$el.html(html);
+	    this.isRender = true;
+	    this.renderAfter();
 	  },
 	  renderAfter: function() {
+
+	  },
+	  _renderBefore: function() {
 
 	  },
 	  hide: function() {
@@ -216,11 +247,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	  show: function() {
 	    this.$el && this.$el.show();
 	  },
-	  destory: function() {
-	    this.undelegateEvents();
-	    if(this.$parentEl) {
-	      this.$parentEl.html('');
-	    } else {
+	  destory: function(delegateEvent) {
+	    if(delegateEvent) {
+	      this.undelegateEvents();
+	    }
+	    this.model = this.oldModel;
+	    if(this.$el) {
+	      this.$el.html('');
+	    }
+	    if(this.$target) {
 	      this.$target.remove();
 	    }
 	  }
@@ -234,7 +269,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(3);
-	__webpack_require__(7);
+	__webpack_require__(4);
 	var Component = __webpack_require__(1);
 
 	var DatePicker = Component.extend({
@@ -286,10 +321,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */
+/* 4 */
 /***/ function(module, exports) {
 
 	/* Chinese initialisation for the jQuery UI date picker plugin. */
@@ -316,12 +348,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 8 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AutoComplete, Component;
 
-	__webpack_require__(9);
+	__webpack_require__(6);
 
 	Component = __webpack_require__(1);
 
@@ -365,23 +397,22 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 9 */
+/* 6 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 10 */,
-/* 11 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component, SwitchTab, template;
 
-	__webpack_require__(12);
+	__webpack_require__(8);
 
 	Component = __webpack_require__(1);
 
-	template = __webpack_require__(14);
+	template = __webpack_require__(9);
 
 	SwitchTab = Component.extend({
 	  $el: "<div class='switch_tab'></div>",
@@ -425,17 +456,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 12 */
+/* 8 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 13 */,
-/* 14 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Handlebars = __webpack_require__(15);
+	var Handlebars = __webpack_require__(10);
 	module.exports = (Handlebars["default"] || Handlebars).template({"1":function(depth0,helpers,partials,data) {
 	    var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
 
@@ -473,16 +503,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	},"useData":true});
 
 /***/ },
-/* 15 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Create a simple path alias to allow browserify to resolve
 	// the runtime on a supported path.
-	module.exports = __webpack_require__(16)['default'];
+	module.exports = __webpack_require__(11)['default'];
 
 
 /***/ },
-/* 16 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -491,30 +521,30 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.__esModule = true;
 
-	var _import = __webpack_require__(17);
+	var _import = __webpack_require__(12);
 
 	var base = _interopRequireWildcard(_import);
 
 	// Each of these augment the Handlebars object. No need to setup here.
 	// (This is done to easily share code between commonjs and browse envs)
 
-	var _SafeString = __webpack_require__(20);
+	var _SafeString = __webpack_require__(15);
 
 	var _SafeString2 = _interopRequireWildcard(_SafeString);
 
-	var _Exception = __webpack_require__(19);
+	var _Exception = __webpack_require__(14);
 
 	var _Exception2 = _interopRequireWildcard(_Exception);
 
-	var _import2 = __webpack_require__(18);
+	var _import2 = __webpack_require__(13);
 
 	var Utils = _interopRequireWildcard(_import2);
 
-	var _import3 = __webpack_require__(21);
+	var _import3 = __webpack_require__(16);
 
 	var runtime = _interopRequireWildcard(_import3);
 
-	var _noConflict = __webpack_require__(22);
+	var _noConflict = __webpack_require__(17);
 
 	var _noConflict2 = _interopRequireWildcard(_noConflict);
 
@@ -547,7 +577,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 17 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -558,11 +588,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.HandlebarsEnvironment = HandlebarsEnvironment;
 	exports.createFrame = createFrame;
 
-	var _import = __webpack_require__(18);
+	var _import = __webpack_require__(13);
 
 	var Utils = _interopRequireWildcard(_import);
 
-	var _Exception = __webpack_require__(19);
+	var _Exception = __webpack_require__(14);
 
 	var _Exception2 = _interopRequireWildcard(_Exception);
 
@@ -825,7 +855,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* [args, ]options */
 
 /***/ },
-/* 18 */
+/* 13 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -944,7 +974,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 19 */
+/* 14 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -987,7 +1017,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 20 */
+/* 15 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1006,7 +1036,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 21 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1024,15 +1054,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.invokePartial = invokePartial;
 	exports.noop = noop;
 
-	var _import = __webpack_require__(18);
+	var _import = __webpack_require__(13);
 
 	var Utils = _interopRequireWildcard(_import);
 
-	var _Exception = __webpack_require__(19);
+	var _Exception = __webpack_require__(14);
 
 	var _Exception2 = _interopRequireWildcard(_Exception);
 
-	var _COMPILER_REVISION$REVISION_CHANGES$createFrame = __webpack_require__(17);
+	var _COMPILER_REVISION$REVISION_CHANGES$createFrame = __webpack_require__(12);
 
 	function checkRevision(compilerInfo) {
 	  var compilerRevision = compilerInfo && compilerInfo[0] || 1,
@@ -1243,7 +1273,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 22 */
+/* 17 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
@@ -1267,12 +1297,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 23 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component, Mask;
 
-	__webpack_require__(24);
+	__webpack_require__(19);
 
 	Component = __webpack_require__(1);
 
@@ -1284,23 +1314,22 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 24 */
+/* 19 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 25 */,
-/* 26 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component, Dialog, template;
 
-	__webpack_require__(27);
+	__webpack_require__(21);
 
 	Component = __webpack_require__(1);
 
-	template = __webpack_require__(30);
+	template = __webpack_require__(22);
 
 	Dialog = Component.extend({
 	  name: 'dialog',
@@ -1376,18 +1405,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 27 */
+/* 21 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 28 */,
-/* 29 */,
-/* 30 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Handlebars = __webpack_require__(15);
+	var Handlebars = __webpack_require__(10);
 	module.exports = (Handlebars["default"] || Handlebars).template({"1":function(depth0,helpers,partials,data) {
 	    return "  <a class=\"kui-dialog-close\">x</a>\n";
 	},"3":function(depth0,helpers,partials,data) {
@@ -1425,12 +1452,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	},"useData":true});
 
 /***/ },
-/* 31 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Confirm, Dialog;
 
-	Dialog = __webpack_require__(26);
+	Dialog = __webpack_require__(20);
 
 	Confirm = Dialog.extend({
 	  name: 'confirm',
@@ -1470,12 +1497,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 32 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Alert, Dialog;
 
-	Dialog = __webpack_require__(26);
+	Dialog = __webpack_require__(20);
 
 	Alert = Dialog.extend({
 	  name: 'alert',
@@ -1498,12 +1525,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 33 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Dialog, Loading;
 
-	Dialog = __webpack_require__(26);
+	Dialog = __webpack_require__(20);
 
 	Loading = Dialog.extend({
 	  name: 'loading',
@@ -1532,10 +1559,204 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 34 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var DatePickerAutoParse = __webpack_require__(35);
+	var Component, Paging, _, buildModel, buildSplitModel, template;
+
+	__webpack_require__(27);
+
+	Component = __webpack_require__(1);
+
+	template = __webpack_require__(28);
+
+	_ = kyo._;
+
+	Paging = Component.extend({
+	  name: 'paging',
+	  $el: "<ul class='kui-paging'></ul>",
+	  template: template,
+	  splitText: '...',
+	  pageIndex: 1,
+	  prevCount: 2,
+	  middleCount: 5,
+	  nextCount: 2,
+	  prevPagerText: '上一页',
+	  nextPagerText: '下一页',
+	  model: function() {
+	    var _model, middleCount, nearPageCount, pageCount, pageIndex, pageSize, self, totalCount;
+	    self = this;
+	    _model = [];
+	    pageSize = this.pageSize;
+	    totalCount = this.totalCount;
+	    middleCount = this.middleCount;
+	    if (!totalCount) {
+	      return;
+	    }
+	    pageCount = this.pageCount = Math.ceil(totalCount / pageSize);
+	    pageIndex = this.pageIndex;
+	    nearPageCount = Math.floor(middleCount / 2);
+	    if (pageIndex > 1) {
+	      this.prevPager = true;
+	    } else {
+	      this.prevPager = false;
+	    }
+	    if (pageIndex < pageCount) {
+	      this.nextPager = true;
+	    } else {
+	      this.nextPager = false;
+	    }
+	    if (pageIndex <= this.prevCount + nearPageCount + 1) {
+	      _.each(_.range(1, pageIndex), function(value) {
+	        return _model.push(buildModel.call(self, value));
+	      });
+	    } else {
+	      _.each(_.range(1, this.prevCount), function(value) {
+	        return _model.push(buildModel.call(self, value));
+	      });
+	      _model.push(buildSplitModel());
+	      _.each(_.range(pageIndex - nearPageCount, pageIndex), function(value) {
+	        return _model.push(buildModel.call(self, value));
+	      });
+	    }
+	    _model.push(buildModel.call(self, pageIndex));
+	    if (pageIndex >= pageCount - this.nextCount - nearPageCount) {
+	      _.each(_.range(pageIndex + 1, pageCount + 1), function(value) {
+	        return _model.push(buildModel.call(self, value));
+	      });
+	    } else {
+	      _.each(_.range(pageIndex + 1, pageIndex + nearPageCount + 1), function(val) {
+	        return _model.push(buildModel.call(self, val));
+	      });
+	      _model.push(buildSplitModel());
+	      _.each(_.range(pageCount - this.nextCount + 1, pageCount + 1), function(val) {
+	        return _model.push(buildModel.call(self, val));
+	      });
+	    }
+	    return _model;
+	  },
+	  pageSize: 20,
+	  totalCount: null,
+	  events: {
+	    'click .kui-paging-prev': 'prev',
+	    'click .kui-paging-item': 'paging',
+	    'click .kui-paging-next': 'next'
+	  },
+	  prev: function(e) {
+	    var index;
+	    index = this.pageIndex;
+	    return this._paging(index - 1);
+	  },
+	  next: function(e) {
+	    var index;
+	    index = this.pageIndex;
+	    return this._paging(index + 1);
+	  },
+	  paging: function(e) {
+	    var index;
+	    index = Number($(e.currentTarget).text());
+	    return this._paging(index);
+	  },
+	  _paging: function(pageIndex) {
+	    var currentPageIndex;
+	    currentPageIndex = this.pageIndex;
+	    if (pageIndex === currentPageIndex) {
+	      return;
+	    }
+	    this.pageIndex = pageIndex;
+	    this.trigger('paging', pageIndex);
+	    return this.render(true);
+	  }
+	});
+
+	buildModel = function(value) {
+	  if (value === this.pageIndex) {
+	    return {
+	      value: value,
+	      isCurrent: true
+	    };
+	  }
+	  return {
+	    value: value
+	  };
+	};
+
+	buildSplitModel = function() {
+	  return {
+	    isSplit: true
+	  };
+	};
+
+	module.exports = Paging;
+
+
+/***/ },
+/* 27 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Handlebars = __webpack_require__(10);
+	module.exports = (Handlebars["default"] || Handlebars).template({"1":function(depth0,helpers,partials,data,blockParams,depths) {
+	    var stack1;
+
+	  return ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.prevPager : depth0),{"name":"if","hash":{},"fn":this.program(2, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+	    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.model : depth0),{"name":"each","hash":{},"fn":this.program(4, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+	    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.nextPager : depth0),{"name":"if","hash":{},"fn":this.program(12, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+	    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0['goto'] : depth0),{"name":"if","hash":{},"fn":this.program(14, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "");
+	},"2":function(depth0,helpers,partials,data) {
+	    var helper;
+
+	  return "    <li class=\"kui-paging-prev\">"
+	    + this.escapeExpression(((helper = (helper = helpers.prevPagerText || (depth0 != null ? depth0.prevPagerText : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"prevPagerText","hash":{},"data":data}) : helper)))
+	    + "</li>\n";
+	},"4":function(depth0,helpers,partials,data,blockParams,depths) {
+	    var stack1;
+
+	  return ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.isSplit : depth0),{"name":"if","hash":{},"fn":this.program(5, data, 0, blockParams, depths),"inverse":this.program(7, data, 0, blockParams, depths),"data":data})) != null ? stack1 : "");
+	},"5":function(depth0,helpers,partials,data,blockParams,depths) {
+	    return "      <li class=\"kui-paging-split\">"
+	    + this.escapeExpression(this.lambda((depths[2] != null ? depths[2].splitText : depths[2]), depth0))
+	    + "</li>\n";
+	},"7":function(depth0,helpers,partials,data) {
+	    var stack1;
+
+	  return ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.isCurrent : depth0),{"name":"if","hash":{},"fn":this.program(8, data, 0),"inverse":this.program(10, data, 0),"data":data})) != null ? stack1 : "");
+	},"8":function(depth0,helpers,partials,data) {
+	    var helper;
+
+	  return "        <li class=\"kui-paging-active kui-paging-item\">"
+	    + this.escapeExpression(((helper = (helper = helpers.value || (depth0 != null ? depth0.value : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"value","hash":{},"data":data}) : helper)))
+	    + "</li>\n";
+	},"10":function(depth0,helpers,partials,data) {
+	    var helper;
+
+	  return "        <li class=\"kui-paging-item\">"
+	    + this.escapeExpression(((helper = (helper = helpers.value || (depth0 != null ? depth0.value : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"value","hash":{},"data":data}) : helper)))
+	    + "</li>\n";
+	},"12":function(depth0,helpers,partials,data) {
+	    var helper;
+
+	  return "    <li class=\"kui-paging-next\">"
+	    + this.escapeExpression(((helper = (helper = helpers.nextPagerText || (depth0 != null ? depth0.nextPagerText : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"nextPagerText","hash":{},"data":data}) : helper)))
+	    + "</li>\n";
+	},"14":function(depth0,helpers,partials,data) {
+	    return "    <li>\n      跳转到<input type=\"text\" class=\"kui-paging-page-index\" />\n      页 <button class=\"kui-pageing-goto\">确认</button>\n    </li>\n";
+	},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data,blockParams,depths) {
+	    var stack1;
+
+	  return ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.model : depth0),{"name":"if","hash":{},"fn":this.program(1, data, 0, blockParams, depths),"inverse":this.noop,"data":data})) != null ? stack1 : "");
+	},"useData":true,"useDepths":true});
+
+/***/ },
+/* 29 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var DatePickerAutoParse = __webpack_require__(30);
 
 	function AutoParse(id) {
 	    this.id = id;
@@ -1561,7 +1782,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 35 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var DatePicker = __webpack_require__(2);
