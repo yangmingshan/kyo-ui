@@ -1,6 +1,6 @@
 {
   "name": "kyo-ui",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "基于kyo的ui库, 定义常见的ui",
   "main": "dist/kyo-ui.js",
   "scripts": {
