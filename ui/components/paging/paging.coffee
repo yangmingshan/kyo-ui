@@ -85,6 +85,9 @@ Paging = Component.extend({
     return if pageIndex is currentPageIndex
     @pageIndex = pageIndex
     @trigger('paging', pageIndex)
+    #@render(true)
+  setTotalCount: (count) ->
+    @totalCount = count
     @render(true)
 })
 

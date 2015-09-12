@@ -45,10 +45,13 @@ Dialog = Component.extend({
     'click .kui-dialog-cancel': 'close',
     'click .kui-dialog-confirm': 'confirm'
   }
+  open: ->
+    @show()
   show: ->
     kui.mask.show()
     @setPosition()
     Component.prototype.show.call(@)
+    @trigger('open')
   close: ->
     Component.prototype.hide.call(@)
     kui.mask.hide()

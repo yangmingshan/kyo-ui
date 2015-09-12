@@ -91,7 +91,7 @@ dialog.on('confirm', function() {
     kui.alert('confrim success!');
   }, 2000);
 })
-dialog.render(null, true);
+dialog.render();
 $("#open-dialog").on('click', function(){
   dialog.show();
 })
@@ -114,8 +114,10 @@ var paging = kui.Paging.create({
   totalCount: 200
 });
 paging.on('paging', function(pageIndex) {
-  kui.alert(pageIndex);
-  this.totalCount = 301;
+  window.setTimeout(function() {
+    paging.setTotalCount(301);
+  }, 3000);
+  //this.totalCount = 301;
 })
 paging.render('#paging');
 paging.show();
