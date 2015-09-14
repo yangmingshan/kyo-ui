@@ -2,7 +2,7 @@ MaskDialog = require './mask_dialog.coffee'
 Component = require '../../component';
 
 Confirm = MaskDialog.extend({
-  classNames: ['kui-confirm']
+  classNames: ['kui-dialog', 'kui-confirm']
   name: 'confirm'
   title: '确认',
   css: {

@@ -11,7 +11,9 @@ _ = kyo._
 #   totalCount: 100
 # })
 Paging = Component.extend({
-  name: 'paging',
+  name: 'paging'
+  tagName: 'ul'
+  classNames: ['kui-paging']
   $el: "<ul class='kui-paging'></ul>"
   template: template
   splitText: '...'

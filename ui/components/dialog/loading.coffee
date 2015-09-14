@@ -2,7 +2,7 @@ MaskDialog = require './mask_dialog.coffee'
 
 Loading = MaskDialog.extend({
   name: 'loading',
-  classNames: ['kui-loading']
+  classNames: ['kui-dialog, kui-loading']
   $el: "<div class='kui-dialog kui-loading'></div>"
   title: null,
   css: {

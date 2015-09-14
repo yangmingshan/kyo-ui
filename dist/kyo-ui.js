@@ -126,15 +126,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if(this.$target && _.isString(this.$target)) {
 	      this.$target = $("#"+this.$target);
 	    }
-	    if(this.$el) {
-	      this.$el = $(this.$el);
-	    }
-	    var self = this;
-	    if(this.classNames) {
-	      this.classNames.forEach(function(n) {
-	        self.$el && self.$el.addClass(n);
-	      })
-	    }
+	    this.createEl();
+
 	    this.delegateEvents();
 	  },
 	  render: function(parentEl, show) {
@@ -314,6 +307,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	  	});
 	  	return data;
 	  },
+	  createEl: function() {
+	    var self = this;
+	    var tagName = this.tagName || 'div';
+	    var el = document.createElement(tagName);
+	    this.$el = $(el);
+	    if(this.classNames) {
+	      this.classNames.forEach(function(n) {
+	        self.$el && self.$el.addClass(n);
+	      })
+	    }
+	  }
 	});
 
 	module.exports = Component;
@@ -1362,7 +1366,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Component = __webpack_require__(1);
 
 	Mask = Component.extend({
-	  $el: "<div class='kui-mask' style='display:none'></div>"
+	  classNames: ['kui-mask']
 	});
 
 	module.exports = Mask;
@@ -1390,6 +1394,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	Dialog = Component.extend({
 	  name: 'dialog',
+	  classNames: ['kui-dialog'],
 	  $el: "<div class='kui-dialog'></div>",
 	  template: template,
 	  hasClose: true,
@@ -1540,7 +1545,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Component = __webpack_require__(1);
 
 	Confirm = MaskDialog.extend({
-	  classNames: ['kui-confirm'],
+	  classNames: ['kui-dialog', 'kui-confirm'],
 	  name: 'confirm',
 	  title: '确认',
 	  css: {
@@ -1618,7 +1623,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	MaskDialog = __webpack_require__(24);
 
 	Alert = MaskDialog.extend({
-	  classNames: ['kui-alert'],
+	  classNames: ['kui-dialog', 'kui-alert'],
 	  name: 'alert',
 	  title: '提示',
 	  css: {
@@ -1648,7 +1653,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	Loading = MaskDialog.extend({
 	  name: 'loading',
-	  classNames: ['kui-loading'],
+	  classNames: ['kui-dialog, kui-loading'],
 	  $el: "<div class='kui-dialog kui-loading'></div>",
 	  title: null,
 	  css: {
@@ -1690,6 +1695,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	Paging = Component.extend({
 	  name: 'paging',
+	  tagName: 'ul',
+	  classNames: ['kui-paging'],
 	  $el: "<ul class='kui-paging'></ul>",
 	  template: template,
 	  splitText: '...',

@@ -15,15 +15,8 @@ var Component = Base.extend({
     if(this.$target && _.isString(this.$target)) {
       this.$target = $("#"+this.$target);
     }
-    if(this.$el) {
-      this.$el = $(this.$el);
-    }
-    var self = this;
-    if(this.classNames) {
-      this.classNames.forEach(function(n) {
-        self.$el && self.$el.addClass(n);
-      })
-    }
+    this.createEl();
+
     this.delegateEvents();
   },
   render: function(parentEl, show) {
@@ -203,6 +196,17 @@ var Component = Base.extend({
   	});
   	return data;
   },
+  createEl: function() {
+    var self = this;
+    var tagName = this.tagName || 'div';
+    var el = document.createElement(tagName);
+    this.$el = $(el);
+    if(this.classNames) {
+      this.classNames.forEach(function(n) {
+        self.$el && self.$el.addClass(n);
+      })
+    }
+  }
 });
 
 module.exports = Component;
