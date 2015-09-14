@@ -8,18 +8,18 @@ var DatePicker = Component.extend({
         $minDateTarget,
         $maxDateTarget;
     var opt = {
-        changeYear: $target.attr('changeYear') || false,
-        changeMonth: $target.attr('changeMonth') || false,
+        changeYear: $target.attr('change-year') || false,
+        changeMonth: $target.attr('change-month') || false,
         hideIfNoPrevNext: true
     }
     $target.datepicker(opt);
-    var minDate = $target.attr("minDate");
+    var minDate = $target.attr("min-date");
     if(minDate) {
       if(/^#/.test(minDate)) {
         $minDateTarget = $(minDate);
       }
     }
-    var maxDate = $target.attr("maxDate");
+    var maxDate = $target.attr("max-date");
     if($maxDateTarget) {
       maxDate = '+99999';
     } else {

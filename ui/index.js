@@ -18,7 +18,7 @@ var mask = Mask.create();
 mask.render(false);
 
 var loadingMask = Mask.create({
-  $el: "<div class='kui-mask kui-loading-mask' style='display:none'></div>"
+  classNames:['kui-mask', 'kui-loading-mask']
 });
 loadingMask.render(false);
 

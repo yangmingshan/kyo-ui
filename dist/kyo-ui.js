@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	mask.render(false);
 
 	var loadingMask = Mask.create({
-	  $el: "<div class='kui-mask kui-loading-mask' style='display:none'></div>"
+	  classNames:['kui-mask', 'kui-loading-mask']
 	});
 	loadingMask.render(false);
 
@@ -337,18 +337,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        $minDateTarget,
 	        $maxDateTarget;
 	    var opt = {
-	        changeYear: $target.attr('changeYear') || false,
-	        changeMonth: $target.attr('changeMonth') || false,
+	        changeYear: $target.attr('change-year') || false,
+	        changeMonth: $target.attr('change-month') || false,
 	        hideIfNoPrevNext: true
 	    }
 	    $target.datepicker(opt);
-	    var minDate = $target.attr("minDate");
+	    var minDate = $target.attr("min-date");
 	    if(minDate) {
 	      if(/^#/.test(minDate)) {
 	        $minDateTarget = $(minDate);
 	      }
 	    }
-	    var maxDate = $target.attr("maxDate");
+	    var maxDate = $target.attr("max-date");
 	    if($maxDateTarget) {
 	      maxDate = '+99999';
 	    } else {
@@ -474,7 +474,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	template = __webpack_require__(9);
 
 	SwitchTab = Component.extend({
-	  $el: "<div class='switch_tab'></div>",
+	  classNames: ['switch_tab'],
 	  template: template,
 	  events: {
 	    'click .switch_tab_head_item': 'switchTab',
@@ -1516,7 +1516,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	},"6":function(depth0,helpers,partials,data) {
 	    var helper;
 
-	  return "      <button class=\"kui-dialog-confirm btn btn-primary\">"
+	  return "      <button class=\"kui-dialog-confirm btn btn-blue\">"
 	    + this.escapeExpression(((helper = (helper = helpers.confirmText || (depth0 != null ? depth0.confirmText : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"confirmText","hash":{},"data":data}) : helper)))
 	    + "</button>\n";
 	},"8":function(depth0,helpers,partials,data) {
@@ -1653,8 +1653,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	Loading = MaskDialog.extend({
 	  name: 'loading',
-	  classNames: ['kui-dialog, kui-loading'],
-	  $el: "<div class='kui-dialog kui-loading'></div>",
+	  classNames: ['kui-dialog', 'kui-loading'],
 	  title: null,
 	  css: {
 	    width: '381px',
