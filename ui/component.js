@@ -5,7 +5,10 @@ var delegateEventSplitter = /^(\S+)\s*(.*)$/;
 
 var Component = Base.extend({
   $el: null,
-  tmp: null,
+  templete: null,
+  /**
+   * 初始化
+   */
   initialize: function() {
     this.cid = _.uniqueId('component');
     this.isRender = false;
@@ -14,6 +17,12 @@ var Component = Base.extend({
     }
     if(this.$el) {
       this.$el = $(this.$el);
+    }
+    var self = this;
+    if(this.classNames) {
+      this.classNames.forEach(function(n) {
+        self.$el && self.$el.addClass(n);
+      })
     }
     this.delegateEvents();
   },
@@ -47,13 +56,13 @@ var Component = Base.extend({
     if(this.css) {
       this.$el.css(this.css);
     }
+    //保存model为oldModel
+    this.oldModel = this.model;
     this._model();
   },
   _model: function() {
     var self = this;
     if(this.model) {
-      //保存model为oldModel
-      this.oldModel = this.model;
       if(_.isFunction(this.model)) {
         this.model = this.model();
       }
@@ -84,6 +93,7 @@ var Component = Base.extend({
     this._setContent();
   },
   delegateEvents: function() {
+    var self = this;
     var events = this.events;
     if(!events) return this;
     this.undelegateEvents();
@@ -95,7 +105,7 @@ var Component = Base.extend({
       var match = key.match(delegateEventSplitter);
       var eventName = match[1],
           selector = match[2];
-          method = _.bind(method, this);
+          method = _.bind(method, self);
       eventName += '.delegateEvents' + this.cid;
       if (selector === '') {
         this.$el.on(eventName, method);
@@ -153,7 +163,46 @@ var Component = Base.extend({
     if(this.$target) {
       this.$target.remove();
     }
-  }
+  },
+  parent: null,
+  children: {},
+  addChild: function(name, component) {
+    component.parent = this;
+    this.children[name] = component;
+  },
+  $: function(selector) {
+    return this.$el.find(selector);
+  },
+  getData: function(container) {
+    container = container || this.$el;
+  	var inputs = container.find("input[name],select[name]"),
+  	data = {};
+  	inputs.each(function() {
+  		var $this = $(this);
+  		var name = $this.attr("name"),
+  		val = '';
+  		var type = $this.prop("type");
+  		if (type == "checkbox" || type == "radio") {
+  			val = $this.prop("checked");
+  			if (!val) return;
+  			if ($this.data('value')) {
+  				val = $this.data('value');
+  			}
+  		} else {
+  			val = $this.val().trim();
+  		}
+  		if (/\[\]/.test(name)) {
+  			if (data[name]) {
+  				data[name].push(val);
+  			} else {
+  				data[name] = [val];
+  			}
+  		} else {
+  			data[name] = val;
+  		}
+  	});
+  	return data;
+  },
 });
 
 module.exports = Component;

@@ -1,4 +1,4 @@
-new kui.AutoParse('page').autoParse();
+new kui.AutoParse('#page').autoParse();
 
 var cityAotoCompleteData = [
   {  name: '成都市', code: 'cd' },
@@ -90,11 +90,34 @@ dialog.on('confirm', function() {
     kui.cancelLoading();
     kui.alert('confrim success!');
   }, 2000);
-})
+});
 dialog.render();
 $("#open-dialog").on('click', function(){
   dialog.show();
 })
+
+var dialog2 = kui.Dialog.create({
+
+});
+
+
+
+var component1 = kui.Component.create({
+  $el: '<div></div>',
+  template: 'component1'
+});
+
+var component2 = kui.Component.create({
+  $el: '<div></div>',
+  template: 'component2'
+});
+$("#open-dialog2").on('click', function(){
+  dialog2.show();
+})
+dialog2.render();
+dialog2.addChild('c1', component1);
+dialog2.addChild('c2', component2);
+
 $("#open-confirm").on('click', function(){
   kui.confirm('确定？', '提示', function() {
     alert('确定');

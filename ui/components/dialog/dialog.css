@@ -1,7 +1,7 @@
 .kui-dialog {
   position: absolute;
   top: 20px;
-  z-index: 10000;
+  z-index: 9;
   box-shadow: 0 3px 26px rgba(0, 0, 0, 0.9);
   border-radius: 4px;
   display: none;
@@ -50,4 +50,7 @@
   letter-spacing: 1.5px;
   text-shadow: 1px 1px 1px #000;
   background: url(./loading.gif);
+}
+.kui-loading, .kui-confirm, .kui-alert {
+  z-index: 11;
 }

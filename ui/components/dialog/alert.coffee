@@ -1,6 +1,7 @@
-Dialog = require './dialog.coffee'
+MaskDialog = require './mask_dialog.coffee'
 
-Alert = Dialog.extend({
+Alert = MaskDialog.extend({
+  classNames: ['kui-alert']
   name: 'alert',
   title: '提示',
   css: {

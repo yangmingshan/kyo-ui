@@ -14,9 +14,7 @@ var DatePicker = Component.extend({
     }
     $target.datepicker(opt);
     var minDate = $target.attr("minDate");
-    if(!minDate) {
-      minDate = '+0';
-    } else {
+    if(minDate) {
       if(/^#/.test(minDate)) {
         $minDateTarget = $(minDate);
       }
@@ -36,7 +34,9 @@ var DatePicker = Component.extend({
         }
       })
     }
-    $target.datepicker('option', 'minDate', minDate);
+    if(minDate) {
+      $target.datepicker('option', 'minDate', minDate);
+    }
     $target.datepicker('option', 'maxDate', maxDate);
   }
 });

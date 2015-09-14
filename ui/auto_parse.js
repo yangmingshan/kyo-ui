@@ -1,11 +1,15 @@
 var DatePickerAutoParse = require('./components/date_picker/auto_parse');
-
-function AutoParse(id) {
-    this.id = id;
+var _ = kyo._;
+function AutoParse(el) {
+  if(_.isString(el)) {
+    this.$el = $(el);
+  } else {
+    this.$el = el;
+  }
 }
 
 AutoParse.prototype.$ = function(selector) {
-    return $("#" + this.id).find(selector);
+    return this.$el.find(selector);
 }
 
 AutoParse.prototype.autoParse = function() {

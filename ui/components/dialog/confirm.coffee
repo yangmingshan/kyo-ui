@@ -1,6 +1,8 @@
-Dialog = require './dialog.coffee'
+MaskDialog = require './mask_dialog.coffee'
+Component = require '../../component';
 
-Confirm = Dialog.extend({
+Confirm = MaskDialog.extend({
+  classNames: ['kui-confirm']
   name: 'confirm'
   title: '确认',
   css: {
@@ -8,7 +10,7 @@ Confirm = Dialog.extend({
     height: 'auto'
   },
   initialize: ->
-    Dialog.prototype.initialize.call(@)
+    Component.prototype.initialize.call(@)
     @callbacks = []
   message: (msg, title, callback)->
     @$el.find('.kui-dialog-content').html(msg)
@@ -17,10 +19,10 @@ Confirm = Dialog.extend({
     @show()
 
   close: ->
-    Dialog.prototype.close.call(@)
+    MaskDialog.prototype.close.call(@)
     @callbacks = []
   confirm: ->
-    Dialog.prototype.confirm.call(@)
+    MaskDialog.prototype.confirm.call(@)
     if callback = @callbacks.pop()
       callback()
 })

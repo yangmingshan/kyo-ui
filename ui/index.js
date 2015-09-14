@@ -17,6 +17,11 @@ var AutoParse = require('./auto_parse');
 var mask = Mask.create();
 mask.render(false);
 
+var loadingMask = Mask.create({
+  $el: "<div class='kui-mask kui-loading-mask' style='display:none'></div>"
+});
+loadingMask.render(false);
+
 //confirm 实例
 var _confirm = Confirm.create();
 _confirm.render(false);
@@ -33,6 +38,7 @@ module.exports = {
   SwitchTab: SwitchTab,
   AutoParse: AutoParse,
   mask: mask,
+  loadingMask: loadingMask,
   Dialog: Dialog,
   confirm: kyo._.bind(_confirm.message, _confirm),
   alert: kyo._.bind(_alert.alert, _alert),

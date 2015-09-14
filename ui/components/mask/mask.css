@@ -7,3 +7,6 @@
   opacity: 0.7;
   background-color: #000;
 }
+.kui-loading-mask {
+  z-index: 10;
+}

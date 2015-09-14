@@ -1,6 +1,7 @@
 require './dialog.css'
 Component = require '../../component'
 template = require './dialog.hbs'
+_ = kyo._
 
 Dialog = Component.extend({
   name: 'dialog'
@@ -38,28 +39,41 @@ Dialog = Component.extend({
     @$el.find('.kui-dialog-content').css('height', contentHeight + 'px')
   renderAfter: ->
     content = @content
-    @$el.find('.kui-dialog-content').html(content) if content
+    @$el.find('.kui-dialog-content').append(content) if content
     @setContentHeight()
   events: {
     'click .kui-dialog-close': 'close',
     'click .kui-dialog-cancel': 'close',
     'click .kui-dialog-confirm': 'confirm'
   }
+  addChild: (name, component) ->
+    Component.prototype.addChild.call(@, name, component);
+    component.$parentEl = @$el.find('.kui-dialog-content');
+    component.render();
+  switchTo: (name) ->
+    _.each(@children, (v, k) ->
+      if k == name
+        v.show();
+      else
+        v.hide();
+    )
+  setTitle: (title) ->
+    @$el.find(".kui-dialog-title").html(title)
   open: ->
     @show()
   show: ->
+    @trigger('open')
     kui.mask.show()
     @setPosition()
     Component.prototype.show.call(@)
-    @trigger('open')
   close: ->
+    @trigger('close')
     Component.prototype.hide.call(@)
     kui.mask.hide()
-    @trigger('close')
   confirm: ->
+    @trigger('confirm')
     kui.mask.hide()
     @hide()
-    @trigger('confirm')
 })
 
 module.exports = Dialog
