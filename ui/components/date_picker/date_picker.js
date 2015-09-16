@@ -10,7 +10,9 @@ var DatePicker = Component.extend({
     var opt = {
         changeYear: $target.attr('change-year') || false,
         changeMonth: $target.attr('change-month') || false,
-        hideIfNoPrevNext: true
+        defaultDate: $target.attr('default-date'),
+        hideIfNoPrevNext: true,
+        yearRange: '1900:2050'
     }
     $target.datepicker(opt);
     var minDate = $target.attr("min-date");
