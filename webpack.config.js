@@ -18,7 +18,7 @@ module.exports = {
       { test: /\.css$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader") },
       { test: /\.hbs$/, loader: 'handlebars-loader'},
       { test: /\.coffee$/, loader: 'coffee-loader'},
-      { test: /\.gif$/, loader: 'file-loader?name=images/[hash].[ext]'}
+      { test: /\.(gif|png)$/, loader: 'file-loader?name=images/[hash].[ext]'}
     ]
   },
   resolve: {

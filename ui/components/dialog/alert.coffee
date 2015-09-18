@@ -5,7 +5,7 @@ Alert = MaskDialog.extend({
   name: 'alert',
   title: '提示',
   css: {
-    width: '500px',
+    width: '360px',
     height: 'auto'
   },
   cancelText: '',

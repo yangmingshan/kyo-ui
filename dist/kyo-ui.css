@@ -141,11 +141,18 @@ border-color: #d8edfd;
 }
 
 .kui-dialog-close {
+  width: 24px;
+  height: 24px;
+  top: -12px;
+  right: -10px;
+  text-indent: -999px;
+  background: url(images/3de8974fc42c52a7d99b441bbe5fea67.png);
   position: absolute;
-  right: 5px;
-  top: 5px;
-  color: #fff;
   cursor: pointer;
+}
+
+.kui-dialog-close:hover {
+  background-position-y: 24px;
 }
 
 .kui-dialog-title {
@@ -160,7 +167,7 @@ border-color: #d8edfd;
 }
 
 .kui-dialog-content {
-  padding: 10px;
+  padding: 20px;
   word-break: break-all;
   overflow: auto;
 }
@@ -184,6 +191,16 @@ border-color: #d8edfd;
 }
 .kui-loading, .kui-confirm, .kui-alert {
   z-index: 11;
+}
+
+.kui-alert .kui-dialog-content, .kui-confirm .kui-dialog-content {
+  text-align: center;
+  font-size: 14px;
+  color: #4a70b1;
+}
+
+.kui-dialog-confirm + .kui-dialog-cancel {
+  margin-left: 20px;
 }
 .kui-paging {
  list-style: none;

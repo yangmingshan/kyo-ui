@@ -1,5 +1,5 @@
 {{#if hasClose}}
-  <a class="kui-dialog-close">x</a>
+  <a class="kui-dialog-close"></a>
 {{/if}}
 {{#if title}}
   <div class="kui-dialog-title">
@@ -13,10 +13,10 @@
 {{#if footer}}
   <div class="kui-dialog-footer">
     {{#if confirmText}}
-      <button class="kui-dialog-confirm btn btn-blue">{{confirmText}}</button>
+      <button class="kui-dialog-confirm btn btn-blue btn-large">{{confirmText}}</button>
     {{/if}}
     {{#if cancelText}}
-      <button class="kui-dialog-cancel btn btn-default">{{cancelText}}</button>
+      <button class="kui-dialog-cancel btn btn-default btn-large">{{cancelText}}</button>
     {{/if}}
   </div>
 {{/if}}

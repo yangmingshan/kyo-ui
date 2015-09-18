@@ -5,10 +5,11 @@ Loading = MaskDialog.extend({
   classNames: ['kui-dialog', 'kui-loading']
   title: null,
   css: {
-    width: '381px',
+    width: '400px',
     height: 'auto'
   },
   footer: null,
+  hasClose: false,
   cancelText: null,
   confirmText: null,
   content: "<div class='kui-dialog-loading'></div>"
