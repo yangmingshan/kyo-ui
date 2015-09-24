@@ -54,39 +54,50 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Component = __webpack_require__(1);
-	var DatePicker = __webpack_require__(2);
-	var AutoComplete = __webpack_require__(5);
-	var SwitchTab = __webpack_require__(7);
-	var Mask = __webpack_require__(18);
-	var Dialog = __webpack_require__(20);
-	var Confirm = __webpack_require__(23);
-	var Alert = __webpack_require__(25);
-	var Loading = __webpack_require__(26);
-	var Paging = __webpack_require__(27);
+	var Alert, AutoComplete, AutoParse, Component, Confirm, DatePicker, Dialog, Loading, Mask, Paging, SwitchTab, _alert, _confirm, loading, loadingMask, mask;
 
-	var AutoParse = __webpack_require__(30);
+	Component = __webpack_require__(1);
 
-	//以下控件整个程序应该只有一个
+	DatePicker = __webpack_require__(2);
 
-	// mask 实例
-	var mask = Mask.create();
+	AutoComplete = __webpack_require__(5);
+
+	SwitchTab = __webpack_require__(7);
+
+	Mask = __webpack_require__(18);
+
+	Dialog = __webpack_require__(20);
+
+	Confirm = __webpack_require__(23);
+
+	Alert = __webpack_require__(25);
+
+	Loading = __webpack_require__(26);
+
+	Paging = __webpack_require__(27);
+
+	AutoParse = __webpack_require__(30);
+
+	mask = Mask.create();
+
 	mask.render(false);
 
-	var loadingMask = Mask.create({
-	  classNames:['kui-mask', 'kui-loading-mask']
+	loadingMask = Mask.create({
+	  classNames: ['kui-mask', 'kui-loading-mask']
 	});
+
 	loadingMask.render(false);
 
-	//confirm 实例
-	var _confirm = Confirm.create();
+	_confirm = Confirm.create();
+
 	_confirm.render(false);
 
-	//alert 实例
-	var _alert = Alert.create();
+	_alert = Alert.create();
+
 	_alert.render(false);
 
-	var loading = Loading.create();
+	loading = Loading.create();
+
 	loading.render(false);
 
 	module.exports = {
@@ -109,116 +120,118 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 1 */
 /***/ function(module, exports) {
 
-	var Base = kyo.Base,
-	    _ = kyo._;
+	var Base, Component, _, delegateEventSplitter;
 
-	var delegateEventSplitter = /^(\S+)\s*(.*)$/;
+	Base = kyo.Base;
 
-	var Component = Base.extend({
+	_ = kyo._;
+
+	delegateEventSplitter = /^(\S+)\s*(.*)$/;
+
+	Component = Base.extend({
 	  $el: null,
 	  templete: null,
-	  /**
-	   * 初始化
-	   */
 	  initialize: function() {
 	    this.cid = _.uniqueId('component');
 	    this.isRender = false;
-	    if(this.$target && _.isString(this.$target)) {
-	      this.$target = $("#"+this.$target);
+	    if (this.$target && _.isString(this.$target)) {
+	      this.$target = $("#" + this.$target);
 	    }
 	    this.createEl();
-
-	    this.delegateEvents();
+	    return this.delegateEvents();
 	  },
 	  render: function(parentEl, show) {
-	    if(arguments.length == 1 && typeof arguments[0] === 'boolean') {
-	      show = parentEl;
-	      parentEl = undefined;
+	    if (this.notNeedRender) {
+	      this.renderAfter();
 	    }
-	    if(this.isRender) {
+	    if (arguments.length === 1 && typeof arguments[0] === 'boolean') {
+	      show = parentEl;
+	      parentEl = void 0;
+	    }
+	    if (this.isRender) {
 	      this.destory();
 	      this.isRender = false;
 	    }
 	    this._renderBefore();
-	    //如果没有templete则认为不需要渲染
-	    if(!this.template &&!this.$el) {
-	      this.renderAfter();
-	      return;
-	    }
-	    if(parentEl) {
+	    if (parentEl) {
 	      this.$parentEl = $(parentEl);
 	    }
-	    if(!this.$parentEl) {
+	    if (!this.$parentEl) {
 	      this.$parentEl = $('body');
 	    }
-	    if(show) {
-	      this.show()
+	    if (show) {
+	      this.show();
 	    } else {
 	      this.hide();
 	    }
 	    this.$parentEl.append(this.$el);
-	    if(this.css) {
+	    if (this.css) {
 	      this.$el.css(this.css);
 	    }
-	    //保存model为oldModel
 	    this.oldModel = this.model;
-	    this._model();
+	    return this._model();
 	  },
 	  _model: function() {
-	    var self = this;
-	    if(this.model) {
-	      if(_.isFunction(this.model)) {
+	    var self;
+	    self = this;
+	    if (this.model) {
+	      if (_.isFunction(this.model)) {
 	        this.model = this.model();
 	      }
-	      //是一个promise
-	      if(this.model.then) {
-	        this.model.then(function(data) {
-	          self._modelAfter(data);
-	        }, function(err) {
-
-	        });
+	      if (this.model.then) {
+	        return this.model.then((function(_this) {
+	          return function(data) {
+	            return _this._modelAfter(data);
+	          };
+	        })(this));
 	      } else {
-	        this._modelAfter(this.model);
+	        return this._modelAfter(this.model);
 	      }
 	    } else {
-	      this._modelAfter();
+	      return this._modelAfter();
 	    }
 	  },
 	  _renderBefore: function(data) {
-	    if(this.modelBefore && _.isFunction(this.modelBefore)) {
-	      this.modelBefore(data);
+	    if (this.modelBefore && _.isFunction(this.modelBefore)) {
+	      return this.modelBefore(data);
 	    }
 	  },
 	  _modelAfter: function(data) {
-	    if(this.modelAfter && _.isFunction(this.modelAfter)) {
+	    if (this.modelAfter && _.isFunction(this.modelAfter)) {
 	      data = this.modelAfter(data);
 	    }
 	    this.model = data;
-	    this._setContent();
+	    return this._setContent();
 	  },
 	  delegateEvents: function() {
-	    var self = this;
-	    var events = this.events;
-	    if(!events) return this;
+	    var eventName, events, key, match, method, selector, self;
+	    self = this;
+	    events = this.events;
+	    if (!events) {
+	      return this;
+	    }
 	    this.undelegateEvents();
-	    for (var key in events) {
-	      var method = events[key];
-	      if (!_.isFunction(method)) method = this[events[key]];
-	      if (!method) continue;
-
-	      var match = key.match(delegateEventSplitter);
-	      var eventName = match[1],
-	          selector = match[2];
-	          method = _.bind(method, self);
+	    for (key in events) {
+	      method = events[key];
+	      if (!_.isFunction(method)) {
+	        method = this[events[key]];
+	      }
+	      if (!method) {
+	        continue;
+	      }
+	      match = key.match(delegateEventSplitter);
+	      eventName = match[1];
+	      selector = match[2];
+	      method = _.bind(method, self);
 	      eventName += '.delegateEvents' + this.cid;
 	      if (selector === '') {
-	        this.$el.on(eventName, method);
+	        $el.on(eventName, method);
 	      } else {
 	        this.$el.on(eventName, selector, method);
 	      }
 	    }
 	    this.$el.on('click', function(e) {
-	      e.stopPropagation();
+	      return e.stopPropagation();
 	    });
 	    return this;
 	  },
@@ -227,95 +240,102 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return this;
 	  },
 	  _setContent: function() {
-	    var self = this;
-	    var html = this.template;
-	    if(_.isFunction(this.template)) {
+	    var html, self;
+	    self = this;
+	    html = this.template;
+	    if (_.isFunction(html)) {
 	      html = this.template(this);
-	      if(html.then && _.isFunction(html.then)) {
+	      if (html.then && _.isFunction(html.then)) {
 	        html = html.then(function(data) {
-	         self.$el.html(self.templateAfter(data));
-	         self.isRender = true;
-	         self.renderAfter();
+	          self.$el.html(self.templateAfter(data));
+	          self.isRender = true;
+	          return self.renderAfter();
 	        });
 	        return;
 	      }
 	    }
 	    this.$el.html(html);
 	    this.isRender = true;
-	    this.renderAfter();
+	    return this.renderAfter();
 	  },
-	  renderAfter: function() {
-
-	  },
-	  _renderBefore: function() {
-
-	  },
+	  renderAfter: function() {},
+	  _renderBefore: function() {},
 	  hide: function() {
-	    this.$el && this.$el.hide();
+	    var ref;
+	    return (ref = this.$el) != null ? ref.hide() : void 0;
 	  },
 	  show: function() {
-	    this.$el && this.$el.show();
+	    var ref;
+	    return (ref = this.$el) != null ? ref.show() : void 0;
 	  },
 	  destory: function(delegateEvent) {
-	    if(delegateEvent) {
+	    var ref, ref1;
+	    if (delegateEvent) {
 	      this.undelegateEvents();
 	    }
 	    this.model = this.oldModel;
-	    if(this.$el) {
-	      this.$el.html('');
+	    if ((ref = this.$el) != null) {
+	      ref.html();
 	    }
-	    if(this.$target) {
-	      this.$target.remove();
-	    }
+	    return (ref1 = this.$target) != null ? ref1.remove() : void 0;
 	  },
 	  parent: null,
 	  children: {},
 	  addChild: function(name, component) {
 	    component.parent = this;
-	    this.children[name] = component;
+	    return this.children[name] = component;
 	  },
 	  $: function(selector) {
 	    return this.$el.find(selector);
 	  },
 	  getData: function(container) {
-	    container = container || this.$el;
-	  	var inputs = container.find("input[name],select[name]"),
-	  	data = {};
-	  	inputs.each(function() {
-	  		var $this = $(this);
-	  		var name = $this.attr("name"),
-	  		val = '';
-	  		var type = $this.prop("type");
-	  		if (type == "checkbox" || type == "radio") {
-	  			val = $this.prop("checked");
-	  			if (!val) return;
-	  			if ($this.data('value')) {
-	  				val = $this.data('value');
-	  			}
-	  		} else {
-	  			val = $this.val().trim();
-	  		}
-	  		if (/\[\]/.test(name)) {
-	  			if (data[name]) {
-	  				data[name].push(val);
-	  			} else {
-	  				data[name] = [val];
-	  			}
-	  		} else {
-	  			data[name] = val;
-	  		}
-	  	});
-	  	return data;
+	    var data, inputs;
+	    if (!container) {
+	      container = this.$el;
+	    }
+	    inputs = container.find("input[name],select[name]");
+	    data = {};
+	    inputs.each(function() {
+	      var $this, name, type, val;
+	      $this = $(this);
+	      name = $this.attr('name');
+	      val = '';
+	      type = $this.prop('type');
+	      if (type === 'checkbox' || type === 'radio') {
+	        val = $this.prop('checked');
+	        if (!val) {
+	          return;
+	        }
+	        if ($this.data('value')) {
+	          val = $this.data('value');
+	        }
+	      } else {
+	        val = $this.val().trim();
+	      }
+	      if (/\[\]/.test(name)) {
+	        if (data[name]) {
+	          return data[name].push(val);
+	        } else {
+	          return data[name] = [val];
+	        }
+	      } else {
+	        return data[name] = val;
+	      }
+	    });
+	    return data;
 	  },
 	  createEl: function() {
-	    var self = this;
-	    var tagName = this.tagName || 'div';
-	    var el = document.createElement(tagName);
+	    var el, ref, tagName;
+	    tagName = (ref = this.tagName) != null ? ref : 'div';
+	    el = document.createElement(tagName);
 	    this.$el = $(el);
-	    if(this.classNames) {
-	      this.classNames.forEach(function(n) {
-	        self.$el && self.$el.addClass(n);
-	      })
+	    if (this.classNames) {
+	      return this.classNames.forEach((function(_this) {
+	        return function(n) {
+	          var ref1;
+	          return (ref1 = _this.$el) != null ? ref1.addClass(n) : void 0;
+	        };
+	      })(this));
 	    }
 	  }
 	});
@@ -327,48 +347,53 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(3);
-	__webpack_require__(4);
-	var Component = __webpack_require__(1);
+	var Component, DatePicker;
 
-	var DatePicker = Component.extend({
+	__webpack_require__(3);
+
+	__webpack_require__(4);
+
+	Component = __webpack_require__(1);
+
+	DatePicker = Component.extend({
 	  renderAfter: function() {
-	    var $target = this.$target,
-	        $minDateTarget,
-	        $maxDateTarget;
-	    var opt = {
-	        changeYear: $target.attr('change-year') || false,
-	        changeMonth: $target.attr('change-month') || false,
-	        defaultDate: $target.attr('default-date'),
-	        hideIfNoPrevNext: true,
-	        yearRange: '1900:2050'
-	    }
+	    var $maxDateTarget, $minDateTarget, $target, maxDate, minDate, opt;
+	    $target = this.$target;
+	    $minDateTarget;
+	    $maxDateTarget;
+	    opt = {
+	      changeYear: $target.attr('change-year') || false,
+	      changeMonth: $target.attr('change-month') || false,
+	      defaultDate: $target.attr('default-date'),
+	      hideIfNoPrevNext: true,
+	      yearRange: '1900:2050'
+	    };
 	    $target.datepicker(opt);
-	    var minDate = $target.attr("min-date");
-	    if(minDate) {
-	      if(/^#/.test(minDate)) {
+	    minDate = $target.attr("min-date");
+	    if (minDate) {
+	      if (/^#/.test(minDate)) {
 	        $minDateTarget = $(minDate);
 	      }
 	    }
-	    var maxDate = $target.attr("max-date");
-	    if($maxDateTarget) {
+	    maxDate = $target.attr("max-date");
+	    if ($maxDateTarget) {
 	      maxDate = '+99999';
 	    } else {
-	      if(/^#/.test(maxDate)) {
+	      if (/^#/.test(maxDate)) {
 	        $maxDateTarget = $(maxDate);
 	      }
 	    }
-	    if($minDateTarget) {
+	    if ($minDateTarget) {
 	      $minDateTarget.datepicker("option", {
 	        onSelect: function() {
-	          $target.datepicker('option', 'minDate', $(this).val());
+	          return $target.datepicker('option', 'minDate', $(this).val());
 	        }
-	      })
+	      });
 	    }
-	    if(minDate) {
+	    if (minDate) {
 	      $target.datepicker('option', 'minDate', minDate);
 	    }
-	    $target.datepicker('option', 'maxDate', maxDate);
+	    return $target.datepicker('option', 'maxDate', maxDate);
 	  }
 	});
 
@@ -1889,31 +1914,37 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var DatePickerAutoParse = __webpack_require__(31);
-	var _ = kyo._;
-	function AutoParse(el) {
-	  if(_.isString(el)) {
+	var AutoParse, DatePickerAutoParse, _;
+
+	DatePickerAutoParse = __webpack_require__(31);
+
+	_ = kyo._;
+
+	AutoParse = function(el) {
+	  if (_.isString(el)) {
 	    this.$el = $(el);
 	  } else {
 	    this.$el = el;
 	  }
-	}
+	  return this;
+	};
 
 	AutoParse.prototype.$ = function(selector) {
-	    return this.$el.find(selector);
-	}
+	  return this.$el.find(selector);
+	};
 
 	AutoParse.prototype.autoParse = function() {
-	    var inputs = this.$("[data-type]");
-	    inputs.each(function(index, ele) {
-	      var type = $(this).data('type');
-	      switch (type) {
-	        case 'date':
-	          DatePickerAutoParse($(this)).render();
-	          break;
-	      }
-	    });
-	}
+	  var inputs;
+	  inputs = this.$("[data-type]");
+	  return inputs.each(function(index, ele) {
+	    var type;
+	    type = $(this).data('type');
+	    switch (type) {
+	      case 'date':
+	        return DatePickerAutoParse($(this)).render();
+	    }
+	  });
+	};
 
 	module.exports = AutoParse;
 
@@ -1922,15 +1953,17 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var DatePicker = __webpack_require__(2);
+	var AutoParse, DatePicker;
 
-	function AutoParse(target) {
+	DatePicker = __webpack_require__(2);
+
+	AutoParse = function(target) {
 	  return DatePicker.create({
 	    $target: target
 	  });
-	}
+	};
 
-	module.exports =  AutoParse;
+	module.exports = AutoParse;
 
 
 /***/ }

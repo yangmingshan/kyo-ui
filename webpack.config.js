@@ -5,7 +5,7 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 module.exports = {
   cache: true,
   entry: {
-    index: './ui/index.js'
+    index: './ui/index.coffee'
   },
   output:{
     path: path.join(__dirname, 'dist'),

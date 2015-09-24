@@ -1,5 +1,5 @@
 require('./auto_complete.css')
-Component = require('../../component')
+Component = require('../../component.coffee')
 
 AutoComplete = Component.extend({
   renderAfter: ->

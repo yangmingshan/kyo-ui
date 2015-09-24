@@ -1,5 +1,5 @@
 Dialog = require './dialog.coffee'
-Component = require '../../component'
+Component = require '../../component.coffee'
 
 MaskDialog = Dialog.extend({
   show: ->

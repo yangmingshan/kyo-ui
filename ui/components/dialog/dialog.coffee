@@ -1,5 +1,5 @@
 require './dialog.css'
-Component = require '../../component'
+Component = require '../../component.coffee'
 template = require './dialog.hbs'
 _ = kyo._
 

@@ -104,12 +104,14 @@ var dialog2 = kui.Dialog.create({
 
 var component1 = kui.Component.create({
   $el: '<div></div>',
-  template: 'component1'
+  template: 'component1',
+  title: '1'
 });
 
 var component2 = kui.Component.create({
   $el: '<div></div>',
-  template: 'component2'
+  template: 'component2',
+  title: 2
 });
 $("#open-dialog2").on('click', function(){
   dialog2.show();
@@ -117,6 +119,9 @@ $("#open-dialog2").on('click', function(){
 dialog2.render();
 dialog2.addChild('c1', component1);
 dialog2.addChild('c2', component2);
+dialog2.on('open', function() {
+  this.switchTo('c1');
+})
 
 $("#open-confirm").on('click', function(){
   kui.confirm('确定？', '提示', function() {
