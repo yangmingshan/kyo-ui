@@ -50,13 +50,14 @@ Dialog = Component.extend({
   addChild: (name, component) ->
     Component.prototype.addChild.call(@, name, component);
     component.$parentEl = @$el.find('.kui-dialog-content');
-    component.render();
+    component.render()
   switchTo: (name) ->
-    _.each(@children, (v, k) ->
+    _.each(@children, (v, k) =>
       if k == name
-        v.show();
+        v.show()
+        @setTitle v.title if v.title
       else
-        v.hide();
+        v.hide()
     )
   setTitle: (title) ->
     @$el.find(".kui-dialog-title").html(title)

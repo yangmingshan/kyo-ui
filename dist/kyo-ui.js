@@ -60,12 +60,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	var SwitchTab = __webpack_require__(7);
 	var Mask = __webpack_require__(18);
 	var Dialog = __webpack_require__(20);
-	var Confirm = __webpack_require__(28);
-	var Alert = __webpack_require__(30);
-	var Loading = __webpack_require__(31);
-	var Paging = __webpack_require__(32);
+	var Confirm = __webpack_require__(23);
+	var Alert = __webpack_require__(25);
+	var Loading = __webpack_require__(26);
+	var Paging = __webpack_require__(27);
 
-	var AutoParse = __webpack_require__(35);
+	var AutoParse = __webpack_require__(30);
 
 	//以下控件整个程序应该只有一个
 
@@ -1390,7 +1390,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	Component = __webpack_require__(1);
 
-	template = __webpack_require__(27);
+	template = __webpack_require__(22);
 
 	_ = kyo._;
 
@@ -1454,13 +1454,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return component.render();
 	  },
 	  switchTo: function(name) {
-	    return _.each(this.children, function(v, k) {
-	      if (k === name) {
-	        return v.show();
-	      } else {
-	        return v.hide();
-	      }
-	    });
+	    return _.each(this.children, (function(_this) {
+	      return function(v, k) {
+	        if (k === name) {
+	          v.show();
+	          if (v.title) {
+	            return _this.setTitle(v.title);
+	          }
+	        } else {
+	          return v.hide();
+	        }
+	      };
+	    })(this));
 	  },
 	  setTitle: function(title) {
 	    return this.$el.find(".kui-dialog-title").html(title);
@@ -1496,12 +1501,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 22 */,
-/* 23 */,
-/* 24 */,
-/* 25 */,
-/* 26 */,
-/* 27 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Handlebars = __webpack_require__(10);
@@ -1542,12 +1542,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	},"useData":true});
 
 /***/ },
-/* 28 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component, Confirm, MaskDialog;
 
-	MaskDialog = __webpack_require__(29);
+	MaskDialog = __webpack_require__(24);
 
 	Component = __webpack_require__(1);
 
@@ -1590,7 +1590,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 29 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component, Dialog, MaskDialog;
@@ -1622,12 +1622,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 30 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Alert, MaskDialog;
 
-	MaskDialog = __webpack_require__(29);
+	MaskDialog = __webpack_require__(24);
 
 	Alert = MaskDialog.extend({
 	  classNames: ['kui-dialog', 'kui-alert'],
@@ -1651,12 +1651,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 31 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Loading, MaskDialog;
 
-	MaskDialog = __webpack_require__(29);
+	MaskDialog = __webpack_require__(24);
 
 	Loading = MaskDialog.extend({
 	  name: 'loading',
@@ -1687,16 +1687,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 32 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component, Paging, _, buildModel, buildSplitModel, template;
 
-	__webpack_require__(33);
+	__webpack_require__(28);
 
 	Component = __webpack_require__(1);
 
-	template = __webpack_require__(34);
+	template = __webpack_require__(29);
 
 	_ = kyo._;
 
@@ -1824,13 +1824,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 33 */
+/* 28 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 34 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Handlebars = __webpack_require__(10);
@@ -1886,10 +1886,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	},"useData":true,"useDepths":true});
 
 /***/ },
-/* 35 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var DatePickerAutoParse = __webpack_require__(36);
+	var DatePickerAutoParse = __webpack_require__(31);
 	var _ = kyo._;
 	function AutoParse(el) {
 	  if(_.isString(el)) {
@@ -1919,7 +1919,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 36 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var DatePicker = __webpack_require__(2);
