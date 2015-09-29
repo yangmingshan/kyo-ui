@@ -29,7 +29,7 @@ Paging = Component.extend({
     pageSize = @pageSize
     totalCount = @totalCount
     middleCount = @middleCount
-    return unless totalCount
+    return [] unless totalCount
     #有多少页
     pageCount = @pageCount = Math.ceil(totalCount / pageSize)
     pageIndex = @pageIndex
