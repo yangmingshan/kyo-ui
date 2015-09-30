@@ -2,9 +2,9 @@ DatePickerAutoParse = require('./components/date_picker/auto_parse.coffee')
 _ = kyo._
 AutoParse = (el) ->
   if _.isString(el)
-    @$el = $(el);
+    @$el = $(el)
   else
-    @$el = el;
+    @$el = el
   @
 
 AutoParse.prototype.$ = (selector) ->
@@ -16,6 +16,6 @@ AutoParse.prototype.autoParse = ->
       type = $(@).data('type')
       switch type
         when 'date' then DatePickerAutoParse($(@)).render()
-    );
+    )
 
-module.exports = AutoParse;
+module.exports = AutoParse

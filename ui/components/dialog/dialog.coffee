@@ -48,8 +48,8 @@ Dialog = Component.extend({
     'click .kui-dialog-confirm': 'confirm'
   }
   addChild: (name, component) ->
-    Component.prototype.addChild.call(@, name, component);
-    component.$parentEl = @$el.find('.kui-dialog-content');
+    Component.prototype.addChild.call(@, name, component)
+    component.$parentEl = @$el.find('.kui-dialog-content')
     component.render()
   switchTo: (name) ->
     _.each(@children, (v, k) =>

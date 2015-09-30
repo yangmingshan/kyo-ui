@@ -29,7 +29,7 @@ SwitchTab = Component.extend({
       @.$el.offset({
         left: left + tleft,
         top: top + ttop
-      });
+      })
     @$el.find('.switch_tab_head_item:first').trigger('click')
 })
 

@@ -5,4 +5,4 @@ AutoParse = (target) ->
     $target: target
     })
 
-module.exports =  AutoParse;
+module.exports =  AutoParse

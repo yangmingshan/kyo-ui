@@ -14,24 +14,24 @@ AutoParse = require('./auto_parse.coffee')
 ##以下控件整个程序应该只有一个
 
 ##mask 实例
-mask = Mask.create();
-mask.render(false);
+mask = Mask.create()
+mask.render(false)
 
 loadingMask = Mask.create({
   classNames:['kui-mask', 'kui-loading-mask']
-});
-loadingMask.render(false);
+})
+loadingMask.render(false)
 
 #confirm 实例
-_confirm = Confirm.create();
-_confirm.render(false);
+_confirm = Confirm.create()
+_confirm.render(false)
 
 #alert 实例
-_alert = Alert.create();
-_alert.render(false);
+_alert = Alert.create()
+_alert.render(false)
 
-loading = Loading.create();
-loading.render(false);
+loading = Loading.create()
+loading.render(false)
 
 module.exports = {
   Component: Component,

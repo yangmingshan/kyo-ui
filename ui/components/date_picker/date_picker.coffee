@@ -33,6 +33,6 @@ DatePicker = Component.extend({
     if minDate
       $target.datepicker('option', 'minDate', minDate)
     $target.datepicker('option', 'maxDate', maxDate)
-});
+})
 
 module.exports = DatePicker

@@ -8,12 +8,12 @@ Component = Base.extend({
   templete: null
   ##初始化##
   initialize: ->
-    @cid = _.uniqueId('component');
-    @isRender = false;
+    @cid = _.uniqueId('component')
+    @isRender = false
     if @$target and _.isString(@$target)
-      @$target = $("#" + @$target);
-    @createEl();
-    @delegateEvents();
+      @$target = $("#" + @$target)
+    @createEl()
+    @delegateEvents()
   render: (parentEl, show) ->
     @renderAfter() if @notNeedRender
     if arguments.length is 1 and typeof arguments[0] is 'boolean'
@@ -35,7 +35,7 @@ Component = Base.extend({
     @oldModel = @model
     @_model()
   _model: ->
-    self = this;
+    self = this
     if @model
       @model = @model() if _.isFunction(@model)
       ##是一个promise
@@ -57,9 +57,9 @@ Component = Base.extend({
     self = this
     events = this.events
     return @ unless events
-    @undelegateEvents();
+    @undelegateEvents()
     for key of events
-      method = events[key];
+      method = events[key]
       method = @[events[key]] unless _.isFunction(method)
       continue unless method
       match = key.match(delegateEventSplitter)
@@ -104,9 +104,9 @@ Component = Base.extend({
     this.$el?.show()
   destory: (delegateEvent) ->
     @undelegateEvents() if delegateEvent
-    @model = @oldModel;
+    @model = @oldModel
     @$el?.html()
-    @$target?.remove();
+    @$target?.remove()
   parent: null
   children: {}
   addChild: (name, component) ->
