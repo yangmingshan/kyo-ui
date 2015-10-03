@@ -12,10 +12,14 @@ Component = Base.extend({
     @isRender = false
     if @$target and _.isString(@$target)
       @$target = $("#" + @$target)
-    @createEl()
+    if @notNeedRender
+      @$el = $(@$el)
+    else
+      @createEl()
     @delegateEvents()
+    @render() if @notNeedRender
   render: (parentEl, show) ->
-    @renderAfter() if @notNeedRender
+    return @renderAfter() if @notNeedRender
     if arguments.length is 1 and typeof arguments[0] is 'boolean'
       show = parentEl
       parentEl = undefined
