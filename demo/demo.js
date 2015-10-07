@@ -47,7 +47,7 @@ var switchTabData = [
       {  name: '邵阳市', code: 'hg' },
    ]
   }
-]
+];
 
 var switchTab = kui.SwitchTab.create({
   model: switchTabData,
@@ -59,7 +59,7 @@ switchTab.render();
 $('#belongCitySwitch').on('click', function(e) {
   switchTab.show();
   e.stopPropagation();
-})
+});
 
 var switchTab2 = kui.SwitchTab.create({
   model: switchTabData,
@@ -75,11 +75,11 @@ $('#belongCitySwitch2').on('click', function(e) {
 $('body').on('click', function() {
   switchTab.hide();
   switchTab2.hide();
-})
+});
 
 $("#ui-mask").on('click', function() {
   kui.mask.show();
-})
+});
 
 var dialog = kui.Dialog.create({
   content: 'dialog content'
@@ -94,13 +94,11 @@ dialog.on('confirm', function() {
 dialog.render();
 $("#open-dialog").on('click', function(){
   dialog.show();
-})
+});
 
 var dialog2 = kui.Dialog.create({
 
 });
-
-
 
 var component1 = kui.Component.create({
   $el: '<div></div>',
@@ -115,25 +113,25 @@ var component2 = kui.Component.create({
 });
 $("#open-dialog2").on('click', function(){
   dialog2.show();
-})
+});
 dialog2.render();
 dialog2.addChild('c1', component1);
 dialog2.addChild('c2', component2);
 dialog2.on('open', function() {
   this.switchTo('c1');
-})
+});
 
 $("#open-confirm").on('click', function(){
   kui.confirm('确定？', '提示', function() {
-    alert('确定');
-  })
-})
+    window.alert('确定');
+  });
+});
 $("#open-alert").on('click', function(){
   kui.alert('alert');
-})
+});
 $("#open-loading").on('click', function(){
   kui.loading();
-})
+});
 
 
 //paper
@@ -141,11 +139,11 @@ $("#open-loading").on('click', function(){
 var paging = kui.Paging.create({
   totalCount: 200
 });
-paging.on('paging', function(pageIndex) {
+paging.on('paging', function() {
   window.setTimeout(function() {
     paging.setTotalCount(301);
   }, 3000);
   //this.totalCount = 301;
-})
+});
 paging.render('#paging');
 paging.show();

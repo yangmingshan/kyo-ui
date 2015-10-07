@@ -2,6 +2,8 @@ require('./auto_complete.css')
 Component = require('../../component.coffee')
 
 AutoComplete = Component.extend({
+  close: ->
+    @$target.autocomplete('close')
   renderAfter: ->
     delay = @delay
     model = @model
