@@ -99,7 +99,7 @@ Component = Base.extend({
     @isRender = true
     @renderAfter()
   renderAfter: ->
-
+    @load() if @load
   _renderBefore: ->
 
   hide: ->
