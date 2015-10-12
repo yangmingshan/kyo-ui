@@ -76,7 +76,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	Paging = __webpack_require__(27);
 
-	AutoParse = __webpack_require__(30);
+	AutoParse = __webpack_require__(33);
 
 	mask = Mask.create();
 
@@ -1735,7 +1735,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	Component = __webpack_require__(1);
 
-	template = __webpack_require__(29);
+	template = __webpack_require__(32);
 
 	_ = kyo._;
 
@@ -1764,6 +1764,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    pageCount = this.pageCount = Math.ceil(totalCount / pageSize);
 	    pageIndex = this.pageIndex;
 	    nearPageCount = Math.floor(middleCount / 2);
+	    if (pageCount > 1) {
+	      this.goto = true;
+	    } else {
+	      this.goto = false;
+	    }
 	    if (pageIndex > 1) {
 	      this.prevPager = true;
 	    } else {
@@ -1808,7 +1813,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  events: {
 	    'click .kui-paging-prev': 'prev',
 	    'click .kui-paging-item': 'paging',
-	    'click .kui-paging-next': 'next'
+	    'click .kui-paging-next': 'next',
+	    'click .kui-pageing-goto': 'goto'
 	  },
 	  prev: function(e) {
 	    var index;
@@ -1819,6 +1825,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var index;
 	    index = this.pageIndex;
 	    return this._paging(index + 1);
+	  },
+	  goto: function(e) {
+	    var goto, totalSize;
+	    goto = Number(this.$(".kui-paging-page-index").val());
+	    totalSize = this.pageCount;
+	    if (_.isNumber(goto) && goto <= totalSize) {
+	      return this._paging(goto);
+	    }
 	  },
 	  paging: function(e) {
 	    var index;
@@ -1868,7 +1882,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 29 */
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Handlebars = __webpack_require__(10);
@@ -1924,12 +1941,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	},"useData":true,"useDepths":true});
 
 /***/ },
-/* 30 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AutoParse, DatePickerAutoParse, _;
 
-	DatePickerAutoParse = __webpack_require__(31);
+	DatePickerAutoParse = __webpack_require__(34);
 
 	_ = kyo._;
 
@@ -1963,7 +1980,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 31 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AutoParse, DatePicker;

@@ -21,3 +21,8 @@
   color: #4c75c4;
   font-weight: bolder;
 }
+.kui-paging-page-index {
+  padding: 5px;
+  width: 50px;
+  margin: 0 5px;
+}

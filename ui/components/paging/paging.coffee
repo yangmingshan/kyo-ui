@@ -33,6 +33,7 @@ Paging = Component.extend({
     pageCount = @pageCount = Math.ceil(totalCount / pageSize)
     pageIndex = @pageIndex
     nearPageCount = Math.floor((middleCount / 2))
+    if pageCount > 1 then @goto = true else @goto = false
     #如果当前页码大于1 显示 上一页
     if pageIndex > 1 then @prevPager = true else @prevPager = false
     if pageIndex < pageCount then @nextPager = true else @nextPager = false
@@ -70,7 +71,8 @@ Paging = Component.extend({
   events: {
    'click .kui-paging-prev': 'prev',
    'click .kui-paging-item': 'paging',
-   'click .kui-paging-next': 'next'
+   'click .kui-paging-next': 'next',
+   'click .kui-pageing-goto': 'goto'
   }
   prev: (e)->
     index = @pageIndex
@@ -78,6 +80,11 @@ Paging = Component.extend({
   next: (e)->
     index = @pageIndex
     @_paging(index + 1)
+  goto: (e) ->
+    goto = Number(@$(".kui-paging-page-index").val())
+    totalSize = @pageCount
+    if _.isNumber(goto) and goto <= totalSize
+      @_paging(goto)
   paging: (e) ->
     index = Number($(e.currentTarget).text())
     @_paging(index)
