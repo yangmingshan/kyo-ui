@@ -14,7 +14,6 @@ Paging = Component.extend({
   name: 'paging'
   tagName: 'ul'
   classNames: ['kui-paging']
-  $el: "<ul class='kui-paging'></ul>"
   template: template
   splitText: '...'
   pageIndex: 1

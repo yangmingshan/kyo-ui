@@ -17,6 +17,8 @@ Component = Base.extend({
     else
       @createEl()
     @delegateEvents()
+    ##保存model为oldModel
+    @oldModel = @model
     @render() if @notNeedRender
   render: (parentEl, show) ->
     return @renderAfter() if @notNeedRender
@@ -35,8 +37,6 @@ Component = Base.extend({
       @hide()
     @$parentEl.append(@$el)
     @$el.css(@css) if @css
-    ##保存model为oldModel
-    @oldModel = @model
     @_model()
   _model: ->
     self = this
