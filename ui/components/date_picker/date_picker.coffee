@@ -14,7 +14,6 @@ DatePicker = Component.extend({
         hideIfNoPrevNext: true,
         yearRange: '1900:2050'
     }
-    $target.datepicker(opt)
     minDate = $target.attr("min-date")
     if minDate
       if /^#/.test(minDate)
@@ -31,8 +30,11 @@ DatePicker = Component.extend({
           $target.datepicker('option', 'minDate', $(this).val())
       })
     if minDate
-      $target.datepicker('option', 'minDate', minDate)
-    $target.datepicker('option', 'maxDate', maxDate)
+      opt.minDate = minDate
+    if maxDate
+      opt.maxDate = maxDate
+    $target.datepicker(opt)
+    @
 })
 
 module.exports = DatePicker

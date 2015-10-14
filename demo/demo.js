@@ -127,7 +127,9 @@ $("#open-confirm").on('click', function(){
   });
 });
 $("#open-alert").on('click', function(){
-  kui.alert('alert');
+  kui.alert('alert', function() {
+    alert('alert');
+  });
 });
 $("#open-loading").on('click', function(){
   kui.loading();
