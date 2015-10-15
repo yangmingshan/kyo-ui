@@ -82,7 +82,19 @@ $("#ui-mask").on('click', function() {
 });
 
 var dialog = kui.Dialog.create({
-  content: 'dialog content'
+  content: 'dialog content',
+  beforeShow: function() {
+    console.log('beforeShow');
+  },
+  afterShow: function() {
+    console.log('afterShow');
+  },
+  beforeHide: function() {
+    console.log('beforeHide');
+  },
+  afterHide: function() {
+    console.log('afterHide');
+  }
 });
 dialog.on('confirm', function() {
   kui.loading();
@@ -122,7 +134,7 @@ dialog2.on('open', function() {
 });
 
 $("#open-confirm").on('click', function(){
-  kui.confirm('确定？', '提示', function() {
+  kui.confirm('确定？', function() {
     window.alert('确定');
   });
 });

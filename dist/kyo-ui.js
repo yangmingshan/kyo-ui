@@ -273,11 +273,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _renderBefore: function() {},
 	  hide: function() {
 	    var ref;
-	    return (ref = this.$el) != null ? ref.hide() : void 0;
+	    if (typeof this.beforeHide === "function") {
+	      this.beforeHide();
+	    }
+	    if ((ref = this.$el) != null) {
+	      ref.hide();
+	    }
+	    return typeof this.afterHide === "function" ? this.afterHide() : void 0;
 	  },
 	  show: function() {
 	    var ref;
-	    return (ref = this.$el) != null ? ref.show() : void 0;
+	    if (typeof this.beforeShow === "function") {
+	      this.beforeShow();
+	    }
+	    if ((ref = this.$el) != null) {
+	      ref.show();
+	    }
+	    return typeof this.afterShow === "function" ? this.afterShow() : void 0;
 	  },
 	  destory: function(delegateEvent) {
 	    var ref, ref1;
@@ -1596,11 +1608,13 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Component, Confirm, MaskDialog;
+	var Component, Confirm, MaskDialog, _;
 
 	MaskDialog = __webpack_require__(33);
 
 	Component = __webpack_require__(1);
+
+	_ = kyo._;
 
 	Confirm = MaskDialog.extend({
 	  classNames: ['kui-dialog', 'kui-confirm'],
@@ -1616,6 +1630,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	  message: function(msg, title, callback) {
 	    this.$el.find('.kui-dialog-content').html(msg);
+	    if (_.isFunction(title)) {
+	      callback = title;
+	      title = void 0;
+	    }
 	    if (title) {
 	      this.$el.find('.kui-dialog-title').html(title);
 	    }
@@ -1776,7 +1794,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Paging = Component.extend({
 	  name: 'paging',
 	  tagName: 'ul',
-	  classNames: ['kui-paging'],
+	  classNames: ['kui-paging', 'cf'],
 	  template: template,
 	  splitText: '...',
 	  pageIndex: 1,

@@ -1,5 +1,6 @@
 MaskDialog = require './mask_dialog.coffee'
 Component = require '../../component.coffee'
+_ = kyo._
 
 Confirm = MaskDialog.extend({
   classNames: ['kui-dialog', 'kui-confirm']
@@ -14,6 +15,9 @@ Confirm = MaskDialog.extend({
     @callbacks = []
   message: (msg, title, callback)->
     @$el.find('.kui-dialog-content').html(msg)
+    if(_.isFunction(title))
+      callback = title
+      title = undefined
     @$el.find('.kui-dialog-title').html(title) if title
     @callbacks.push(callback) if callback and kyo._.isFunction(callback)
     @show()

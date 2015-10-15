@@ -209,7 +209,7 @@ border-color: #d8edfd;
 }
 
 .kui-paging li {
-  float: left;
+  display: inline-block;
   margin-right: 10px;
 }
 
