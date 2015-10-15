@@ -13,7 +13,7 @@ _ = kyo._
 Paging = Component.extend({
   name: 'paging'
   tagName: 'ul'
-  classNames: ['kui-paging']
+  classNames: ['kui-paging', 'cf']
   template: template
   splitText: '...'
   pageIndex: 1
