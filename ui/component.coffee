@@ -103,9 +103,13 @@ Component = Base.extend({
   _renderBefore: ->
 
   hide: ->
+    @beforeHide?()
     @$el?.hide()
+    @afterHide?()
   show: ->
-    this.$el?.show()
+    @beforeShow?()
+    @$el?.show()
+    @afterShow?()
   destory: (delegateEvent) ->
     @undelegateEvents() if delegateEvent
     @model = @oldModel
