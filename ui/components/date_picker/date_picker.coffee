@@ -10,6 +10,7 @@ DatePicker = Component.extend({
     opt = {
         changeYear: $target.attr('change-year') || false,
         changeMonth: $target.attr('change-month') || false,
+        numberOfMonths: Number($target.attr('number-month')) || 1,
         defaultDate: $target.attr('default-date'),
         hideIfNoPrevNext: true,
         yearRange: '1900:2050'
