@@ -1,4 +1,5 @@
 DatePickerAutoParse = require('./components/date_picker/auto_parse.coffee')
+DropMenuAutoParse = require('./components/drop_menu/auto_parse.coffee')
 _ = kyo._
 AutoParse = (el) ->
   if _.isString(el)
@@ -16,6 +17,7 @@ AutoParse.prototype.autoParse = ->
       type = $(@).data('type')
       switch type
         when 'date' then DatePickerAutoParse($(@)).render()
+        when 'drop-menu' then DropMenuAutoParse($(@)).render()
     )
 
 module.exports = AutoParse

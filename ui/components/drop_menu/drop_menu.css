@@ -1,0 +1,48 @@
+.kui-drop-menu {
+  float: left;
+  position: relative;
+  padding: 0px 0px 10px 0;
+}
+.kui-drop-menu ul, .kui-drop-menu ul li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.kui-drop-menu a:hover, .kui-drop-menu ul li:hover {
+  color: #666;
+}
+.kui-drop-menu a, .kui-drop-menu ul li {
+  color: #bbb;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.kui-drop-menu ul {
+  position: absolute;
+  padding: 10px 15px 0px 5px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  display: none;
+  top: 30px;
+}
+
+.kui-drop-menu ul li {
+  margin-bottom: 10px;
+  min-width: 100px;
+}
+
+.kui-drop-menu .caret {
+  display: inline-block;
+  width: 0;
+  height: 3px;
+  overflow: hidden;
+  _position: relative;
+  _top: -4px;
+  vertical-align: top;
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+  border-top: 3px solid #000;
+  content: "";
+  margin-top: 8px;
+  margin-left: 2px;
+}

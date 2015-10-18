@@ -8,6 +8,7 @@ Confirm = require('./components/dialog/confirm.coffee')
 Alert = require('./components/dialog/alert.coffee')
 Loading = require('./components/dialog/loading.coffee')
 Paging = require('./components/paging/paging.coffee')
+DropMenu = require('./components/drop_menu/drop_menu.coffee')
 
 AutoParse = require('./auto_parse.coffee')
 

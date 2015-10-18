@@ -54,7 +54,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Alert, AutoComplete, AutoParse, Component, Confirm, DatePicker, Dialog, Loading, Mask, Paging, SwitchTab, _alert, _confirm, loading, loadingMask, mask;
+	var Alert, AutoComplete, AutoParse, Component, Confirm, DatePicker, Dialog, DropMenu, Loading, Mask, Paging, SwitchTab, _alert, _confirm, loading, loadingMask, mask;
 
 	Component = __webpack_require__(1);
 
@@ -76,7 +76,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	Paging = __webpack_require__(27);
 
-	AutoParse = __webpack_require__(30);
+	DropMenu = __webpack_require__(30);
+
+	AutoParse = __webpack_require__(32);
 
 	mask = Mask.create();
 
@@ -1985,9 +1987,80 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var AutoParse, DatePickerAutoParse, _;
+	var Component, DropMenu, _;
 
-	DatePickerAutoParse = __webpack_require__(31);
+	__webpack_require__(31);
+
+	Component = __webpack_require__(1);
+
+	_ = kyo._;
+
+	DropMenu = Component.extend({
+	  renderAfter: function() {
+	    var $all;
+	    this.$el = this.$target;
+	    $all = this.$("a");
+	    $all.attr('prevText', $all.text());
+	    this.$el.addClass('kui-drop-menu');
+	    this.$el.append("<b class='caret'></b>");
+	    this.$el.on('mouseover', (function(_this) {
+	      return function() {
+	        return _this.$("ul").show();
+	      };
+	    })(this));
+	    this.$el.on('mouseout', (function(_this) {
+	      return function() {
+	        return _this.$("ul").hide();
+	      };
+	    })(this));
+	    return this.$("li").on('click', (function(_this) {
+	      return function(e) {
+	        var $current;
+	        _this.$("li").removeAttr('selected');
+	        $current = $(e.currentTarget);
+	        $all.html($current.html());
+	        return $current.attr('selected', true);
+	      };
+	    })(this));
+	  },
+	  getSelected: function() {
+	    return this.$el.getDropMenuSelected();
+	  }
+	});
+
+	$.fn.extend({
+	  getDropMenuSelected: function() {
+	    var $selected, value;
+	    $selected = $(this).find("[selected='selected']");
+	    value = '';
+	    if ($selected.length > 0) {
+	      value = $selected.attr('data-value');
+	      if (value == null) {
+	        value = $selected.text();
+	      }
+	    }
+	    return value;
+	  }
+	});
+
+	module.exports = DropMenu;
+
+
+/***/ },
+/* 31 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 32 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AutoParse, DatePickerAutoParse, DropMenuAutoParse, _;
+
+	DatePickerAutoParse = __webpack_require__(33);
+
+	DropMenuAutoParse = __webpack_require__(34);
 
 	_ = kyo._;
 
@@ -2013,6 +2086,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    switch (type) {
 	      case 'date':
 	        return DatePickerAutoParse($(this)).render();
+	      case 'drop-menu':
+	        return DropMenuAutoParse($(this)).render();
 	    }
 	  });
 	};
@@ -2021,7 +2096,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 31 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AutoParse, DatePicker;
@@ -2030,6 +2105,23 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	AutoParse = function(target) {
 	  return DatePicker.create({
+	    $target: target
+	  });
+	};
+
+	module.exports = AutoParse;
+
+
+/***/ },
+/* 34 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AutoParse, DropMenu;
+
+	DropMenu = __webpack_require__(30);
+
+	AutoParse = function(target) {
+	  return DropMenu.create({
 	    $target: target
 	  });
 	};
