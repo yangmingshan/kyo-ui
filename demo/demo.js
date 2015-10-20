@@ -52,30 +52,17 @@ var switchTabData = [
 var switchTab = kui.SwitchTab.create({
   model: switchTabData,
   position: {top: 30, left: 0},
-  $target: 'belongCitySwitch',
+  $target: $('#belongCitySwitch'),
   css: {width: '520px', hieght: '250px', overflow: 'auto'}
 });
 switchTab.render();
-$('#belongCitySwitch').on('click', function(e) {
-  switchTab.show();
-  e.stopPropagation();
-});
 
 var switchTab2 = kui.SwitchTab.create({
   model: switchTabData,
   position: {top: 30, left: 0},
-  $target: 'belongCitySwitch2'
+  $target: $('#belongCitySwitch2')
 });
 switchTab2.render();
-
-$('#belongCitySwitch2').on('click', function(e) {
-  switchTab2.show();
-  e.stopPropagation();
-});
-$('body').on('click', function() {
-  switchTab.hide();
-  switchTab2.hide();
-});
 
 $("#ui-mask").on('click', function() {
   kui.mask.show();

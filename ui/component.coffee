@@ -1,5 +1,6 @@
 Base = kyo.Base
 _ = kyo._
+AutoParse = require './auto_parse'
 
 delegateEventSplitter = /^(\S+)\s*(.*)$/
 
@@ -99,6 +100,7 @@ Component = Base.extend({
     @isRender = true
     @renderAfter()
   renderAfter: ->
+    new AutoParse(@$el).autoParse()
     @load() if @load
   _renderBefore: ->
 

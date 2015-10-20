@@ -30,6 +30,13 @@ SwitchTab = Component.extend({
         left: left + tleft,
         top: top + ttop
       })
+    @$target.on('click', (e) =>
+      @show()
+      e.stopPropagation()
+    )
+    $("body").on('click', =>
+      @hide()
+    )
     @$el.find('.switch_tab_head_item:first').trigger('click')
 })
 
