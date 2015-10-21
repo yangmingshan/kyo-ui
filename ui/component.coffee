@@ -159,6 +159,14 @@ Component = Base.extend({
       @classNames.forEach( (n) =>
         @.$el?.addClass(n)
       )
+  action: (name) ->
+    if @[name] and _.isFunction(@[name])
+      @name()
+    else
+      parent = @parent
+      until parent and parant[name] and _.isFunction(parant[name])
+        parent = @parent
+      parent[name]() if parent and parent[name] and _.isFunction(parent[name])
 })
 
 ##

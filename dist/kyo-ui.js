@@ -369,6 +369,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 	      })(this));
 	    }
+	  },
+	  action: function(name) {
+	    var parent;
+	    if (this[name] && _.isFunction(this[name])) {
+	      return this.name();
+	    } else {
+	      parent = this.parent;
+	      while (!(parent && parant[name] && _.isFunction(parant[name]))) {
+	        parent = this.parent;
+	      }
+	      if (parent && parent[name] && _.isFunction(parent[name])) {
+	        return parent[name]();
+	      }
+	    }
 	  }
 	});
 
