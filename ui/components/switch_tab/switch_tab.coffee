@@ -7,7 +7,7 @@ SwitchTab = Component.extend({
   template: template,
   events: {
     'click .switch_tab_head_item': 'switchTab',
-    'click .switch_tab_content_select': 'select'
+    'click .switch_tab_content_select': '_select'
   },
   switchTab: (e) ->
     $target = $(e.currentTarget)
@@ -16,10 +16,12 @@ SwitchTab = Component.extend({
     index = $target.data('index')
     @$el.find('.switch_tab_content_item').hide()
     @$el.find('.switch_tab_content_item').filter('[data-index='+index+']').show()
-  select: (e) ->
+    e.stopPropagation()
+  _select: (e) ->
     $target = $(e.currentTarget)
     @$target.val($target.attr('title'))
     @hide()
+    @trigger('select', $target.attr('title'));
   renderAfter: (e) ->
     if @position and @$target
       left = @position.left or 0

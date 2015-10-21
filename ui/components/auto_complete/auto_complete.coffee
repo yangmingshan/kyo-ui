@@ -24,7 +24,8 @@ AutoComplete = Component.extend({
         response(responseData)
       search: @search
       open: @open
-      select: @select
+      select: (e, v)=>
+        @trigger('select', v.item.label)
     })
 })
 

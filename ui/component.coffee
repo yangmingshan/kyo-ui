@@ -78,10 +78,6 @@ Component = Base.extend({
         $el.on(eventName, method)
       else
         @$el.on(eventName, selector, method)
-
-    this.$el.on('click', (e) ->
-      e.stopPropagation()
-    )
     return this
   undelegateEvents: ->
     @$el.off('.delegateEvents' + @cid)
