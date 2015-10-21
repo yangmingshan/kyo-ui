@@ -1,23 +1,35 @@
 _ = kyo._
-AutoParse = (el) ->
-  if _.isString(el)
-    @$el = $(el)
-  else
-    @$el = el
-  @
+autoParse = (component) ->
+  $el = component.$el
+  $inputs = $el.find("[data-type]")
+  $inputs.each((index, ele) ->
+    $parent = getParentComponent($(ele))
+    _parse($(ele), component) if $parent.attr('kui-id') is $el.attr('kui-id')
+  )
 
-AutoParse.prototype.$ = (selector) ->
-    return this.$el.find(selector)
 
-AutoParse.prototype.autoParse = ->
-    DatePickerAutoParse = require('./components/date_picker/auto_parse.coffee')
-    DropMenuAutoParse = require('./components/drop_menu/auto_parse.coffee')
-    inputs = @$("[data-type]")
-    inputs.each( (index, ele) ->
-      type = $(@).data('type')
-      switch type
-        when 'date' then DatePickerAutoParse($(@)).render()
-        when 'drop-menu' then DropMenuAutoParse($(@)).render()
-    )
+getParentComponent = ($e) ->
+  $parent = $e.parent()
+  until $parent and $parent.attr('kui-id')
+    $parent = $parent.parent()
+  $parent
 
-module.exports = AutoParse
+_parse = ($e, parent) ->
+   DatePickerAutoParse = require('./components/date_picker/auto_parse.coffee')
+   DropMenuAutoParse = require('./components/drop_menu/auto_parse.coffee')
+   type = $e.data('type')
+   switch type
+     when 'date' then DatePickerAutoParse($e).render().parent = parent
+     when 'drop-menu' then DropMenuAutoParse($e).render().parent = parent
+# AutoParse.prototype.autoParse = ->
+#     DatePickerAutoParse = require('./components/date_picker/auto_parse.coffee')
+#     DropMenuAutoParse = require('./components/drop_menu/auto_parse.coffee')
+#     inputs = @$("[data-type]")
+#     inputs.each( (index, ele) ->
+#       type = $(@).data('type')
+#       switch type
+#         when 'date' then DatePickerAutoParse($(@)).render()
+#         when 'drop-menu' then DropMenuAutoParse($(@)).render()
+#     )
+
+module.exports = autoParse

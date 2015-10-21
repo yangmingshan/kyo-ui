@@ -122,13 +122,13 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var AutoParse, Base, Component, _, delegateEventSplitter;
+	var Base, Component, _, autoParse, delegateEventSplitter;
 
 	Base = kyo.Base;
 
 	_ = kyo._;
 
-	AutoParse = __webpack_require__(2);
+	autoParse = __webpack_require__(2);
 
 	delegateEventSplitter = /^(\S+)\s*(.*)$/;
 
@@ -142,10 +142,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.$target = $("#" + this.$target);
 	    }
 	    if (this.notNeedRender) {
-	      this.$el = $(this.$el);
+	      if (_.isString(this.$el)) {
+	        this.$el = $(this.$el);
+	      }
 	    } else {
 	      this.createEl();
 	    }
+	    this.$el.attr('kui-component', '').attr('kui-id', this.cid);
 	    this.delegateEvents();
 	    this.oldModel = this.model;
 	    if (this.notNeedRender) {
@@ -180,7 +183,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (this.css) {
 	      this.$el.css(this.css);
 	    }
-	    return this._model();
+	    this._model();
+	    return this;
 	  },
 	  _model: function() {
 	    var self;
@@ -270,7 +274,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return this.renderAfter();
 	  },
 	  renderAfter: function() {
-	    new AutoParse(this.$el).autoParse();
+	    autoParse(this);
 	    if (this.load) {
 	      return this.load();
 	    }
@@ -375,41 +379,46 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var AutoParse, _;
+	var _, _parse, autoParse, getParentComponent;
 
 	_ = kyo._;
 
-	AutoParse = function(el) {
-	  if (_.isString(el)) {
-	    this.$el = $(el);
-	  } else {
-	    this.$el = el;
-	  }
-	  return this;
-	};
-
-	AutoParse.prototype.$ = function(selector) {
-	  return this.$el.find(selector);
-	};
-
-	AutoParse.prototype.autoParse = function() {
-	  var DatePickerAutoParse, DropMenuAutoParse, inputs;
-	  DatePickerAutoParse = __webpack_require__(3);
-	  DropMenuAutoParse = __webpack_require__(7);
-	  inputs = this.$("[data-type]");
-	  return inputs.each(function(index, ele) {
-	    var type;
-	    type = $(this).data('type');
-	    switch (type) {
-	      case 'date':
-	        return DatePickerAutoParse($(this)).render();
-	      case 'drop-menu':
-	        return DropMenuAutoParse($(this)).render();
+	autoParse = function(component) {
+	  var $el, $inputs;
+	  $el = component.$el;
+	  $inputs = $el.find("[data-type]");
+	  return $inputs.each(function(index, ele) {
+	    var $parent;
+	    $parent = getParentComponent($(ele));
+	    if ($parent.attr('kui-id') === $el.attr('kui-id')) {
+	      return _parse($(ele), component);
 	    }
 	  });
 	};
 
-	module.exports = AutoParse;
+	getParentComponent = function($e) {
+	  var $parent;
+	  $parent = $e.parent();
+	  while (!($parent && $parent.attr('kui-id'))) {
+	    $parent = $parent.parent();
+	  }
+	  return $parent;
+	};
+
+	_parse = function($e, parent) {
+	  var DatePickerAutoParse, DropMenuAutoParse, type;
+	  DatePickerAutoParse = __webpack_require__(3);
+	  DropMenuAutoParse = __webpack_require__(7);
+	  type = $e.data('type');
+	  switch (type) {
+	    case 'date':
+	      return DatePickerAutoParse($e).render().parent = parent;
+	    case 'drop-menu':
+	      return DropMenuAutoParse($e).render().parent = parent;
+	  }
+	};
+
+	module.exports = autoParse;
 
 
 /***/ },

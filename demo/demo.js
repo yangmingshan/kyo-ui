@@ -1,4 +1,9 @@
-new kui.AutoParse('#page').autoParse();
+var PageComponent = kui.Component.extend({
+  $el: '#kui-demo',
+  notNeedRender: true
+});
+var page = PageComponent.create();
+//new kui.AutoParse('#page').autoParse();
 
 var cityAotoCompleteData = [
   {  name: '成都市', code: 'cd' },

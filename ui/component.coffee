@@ -1,6 +1,6 @@
 Base = kyo.Base
 _ = kyo._
-AutoParse = require './auto_parse'
+autoParse = require './auto_parse'
 
 delegateEventSplitter = /^(\S+)\s*(.*)$/
 
@@ -14,9 +14,10 @@ Component = Base.extend({
     if @$target and _.isString(@$target)
       @$target = $("#" + @$target)
     if @notNeedRender
-      @$el = $(@$el)
+      @$el = $(@$el) if _.isString(@$el)
     else
       @createEl()
+    @$el.attr('kui-component', '').attr('kui-id', @cid)
     @delegateEvents()
     ##保存model为oldModel
     @oldModel = @model
@@ -39,6 +40,7 @@ Component = Base.extend({
     @$parentEl.append(@$el)
     @$el.css(@css) if @css
     @_model()
+    @
   _model: ->
     self = this
     if @model
@@ -100,7 +102,7 @@ Component = Base.extend({
     @isRender = true
     @renderAfter()
   renderAfter: ->
-    new AutoParse(@$el).autoParse()
+    autoParse(@)
     @load() if @load
   _renderBefore: ->
 
@@ -158,4 +160,11 @@ Component = Base.extend({
         @.$el?.addClass(n)
       )
 })
+
+##
+# 递归解析 设置了data-type 的组件
+#
+#autoParse = (component) ->
+
+
 module.exports = Component
