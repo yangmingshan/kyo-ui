@@ -60,23 +60,23 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	DatePicker = __webpack_require__(4);
 
-	AutoComplete = __webpack_require__(14);
+	AutoComplete = __webpack_require__(19);
 
-	SwitchTab = __webpack_require__(17);
+	SwitchTab = __webpack_require__(21);
 
-	Mask = __webpack_require__(29);
+	Mask = __webpack_require__(24);
 
-	Dialog = __webpack_require__(32);
+	Dialog = __webpack_require__(26);
 
-	Confirm = __webpack_require__(38);
+	Confirm = __webpack_require__(29);
 
-	Alert = __webpack_require__(40);
+	Alert = __webpack_require__(31);
 
-	Loading = __webpack_require__(41);
+	Loading = __webpack_require__(32);
 
-	Paging = __webpack_require__(42);
+	Paging = __webpack_require__(33);
 
-	DropMenu = __webpack_require__(11);
+	DropMenu = __webpack_require__(8);
 
 	AutoParse = __webpack_require__(2);
 
@@ -207,8 +207,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  },
 	  _renderBefore: function(data) {
-	    if (this.modelBefore && _.isFunction(this.modelBefore)) {
-	      return this.modelBefore(data);
+	    if (this.renderBefore && _.isFunction(this.renderBefore)) {
+	      return this.renderBefore(data);
 	    }
 	  },
 	  _modelAfter: function(data) {
@@ -367,17 +367,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	      })(this));
 	    }
 	  },
-	  action: function(name) {
+	  action: function(name, params) {
 	    var parent;
 	    if (this[name] && _.isFunction(this[name])) {
-	      return this.name();
+	      return this[name](params);
 	    } else {
 	      parent = this.parent;
-	      while (!(parent && parant[name] && _.isFunction(parant[name]))) {
+	      while (!(parent && parent[name] && _.isFunction(parent[name]))) {
 	        parent = this.parent;
 	      }
 	      if (parent && parent[name] && _.isFunction(parent[name])) {
-	        return parent[name]();
+	        return parent[name](params);
 	      }
 	    }
 	  }
@@ -417,15 +417,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	_parse = function($e, parent) {
-	  var DatePickerAutoParse, DropMenuAutoParse, type;
+	  var DatePickerAutoParse, DropMenuAutoParse, datePicker, dropMenu, type;
 	  DatePickerAutoParse = __webpack_require__(3);
-	  DropMenuAutoParse = __webpack_require__(10);
+	  DropMenuAutoParse = __webpack_require__(7);
 	  type = $e.data('type');
 	  switch (type) {
 	    case 'date':
-	      return DatePickerAutoParse($e).render().parent = parent;
+	      datePicker = DatePickerAutoParse($e);
+	      datePicker.parent = parent;
+	      return datePicker.render();
 	    case 'drop-menu':
-	      return DropMenuAutoParse($e).render().parent = parent;
+	      dropMenu = DropMenuAutoParse($e, parent);
+	      return dropMenu.render($e, true);
 	  }
 	};
 
@@ -457,7 +460,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	__webpack_require__(5);
 
-	__webpack_require__(9);
+	__webpack_require__(6);
 
 	Component = __webpack_require__(1);
 
@@ -517,10 +520,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */
+/* 6 */
 /***/ function(module, exports) {
 
 	/* Chinese initialisation for the jQuery UI date picker plugin. */
@@ -547,35 +547,47 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 10 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AutoParse, DropMenu;
 
-	DropMenu = __webpack_require__(11);
+	DropMenu = __webpack_require__(8);
 
-	AutoParse = function(target) {
-	  return DropMenu.create({
+	AutoParse = function(target, parent) {
+	  var currentModel, dropMenu, model;
+	  dropMenu = DropMenu.create({
 	    $target: target
 	  });
+	  model = target.attr('data-model');
+	  if (parent[model]) {
+	    currentModel = parent[model];
+	  }
+	  if (currentModel) {
+	    dropMenu.model = currentModel;
+	  }
+	  return dropMenu;
 	};
 
 	module.exports = AutoParse;
 
 
 /***/ },
-/* 11 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Component, DropMenu, _;
+	var Component, DropMenu, _, template;
 
-	__webpack_require__(12);
+	__webpack_require__(9);
 
 	Component = __webpack_require__(1);
+
+	template = __webpack_require__(10);
 
 	_ = kyo._;
 
 	DropMenu = Component.extend({
+	  template: template,
 	  renderAfter: function() {
 	    var $all;
 	    this.$el = this.$target;
@@ -595,11 +607,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    })(this));
 	    return this.$("li").on('click', (function(_this) {
 	      return function(e) {
-	        var $current;
+	        var $current, selectName;
 	        _this.$("li").removeAttr('selected');
 	        $current = $(e.currentTarget);
 	        $all.html($current.html());
-	        return $current.attr('selected', true);
+	        $current.attr('selected', true);
+	        selectName = _this.$el.attr('on-select');
+	        if (selectName) {
+	          return _this.action(selectName, _this.getSelected());
+	        }
 	      };
 	    })(this));
 	  },
@@ -627,200 +643,44 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 12 */
+/* 9 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 13 */,
-/* 14 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var AutoComplete, Component;
-
-	__webpack_require__(15);
-
-	Component = __webpack_require__(1);
-
-	AutoComplete = Component.extend({
-	  close: function() {
-	    return this.$target.autocomplete('close');
-	  },
-	  renderAfter: function() {
-	    var delay, model;
-	    delay = this.delay;
-	    model = this.model;
-	    return this.$target.autocomplete({
-	      html: true,
-	      autoFocus: true,
-	      delay: delay || 200,
-	      source: this.source || function(request, response) {
-	        var filter, filterData, i, inputData, len, matcher, responseData;
-	        inputData = request.term;
-	        matcher = new RegExp($.ui.autocomplete.escapeRegex(inputData), 'i');
-	        filterData = jQuery.grep(model, function(data) {
-	          return matcher.test(data.name);
-	        });
-	        responseData = [];
-	        for (i = 0, len = filterData.length; i < len; i++) {
-	          filter = filterData[i];
-	          responseData.push({
-	            value: filter.name,
-	            label: filter.name
-	          });
-	        }
-	        if (responseData.length === 0) {
-	          responseData = ['无数据， 请更换关键字搜索！'];
-	        }
-	        return response(responseData);
-	      },
-	      search: this.search,
-	      open: this.open,
-	      select: (function(_this) {
-	        return function(e, v) {
-	          return _this.trigger('select', v.item.label);
-	        };
-	      })(this)
-	    });
-	  }
-	});
-
-	module.exports = AutoComplete;
-
-
-/***/ },
-/* 15 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 16 */,
-/* 17 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Component, SwitchTab, template;
-
-	__webpack_require__(18);
-
-	Component = __webpack_require__(1);
-
-	template = __webpack_require__(20);
-
-	SwitchTab = Component.extend({
-	  classNames: ['switch_tab'],
-	  template: template,
-	  events: {
-	    'click .switch_tab_head_item': 'switchTab',
-	    'click .switch_tab_content_select': '_select'
-	  },
-	  switchTab: function(e) {
-	    var $target, index;
-	    $target = $(e.currentTarget);
-	    this.$el.find('.active').removeClass('active');
-	    $target.addClass('active');
-	    index = $target.data('index');
-	    this.$el.find('.switch_tab_content_item').hide();
-	    this.$el.find('.switch_tab_content_item').filter('[data-index=' + index + ']').show();
-	    return e.stopPropagation();
-	  },
-	  _select: function(e) {
-	    var $target;
-	    $target = $(e.currentTarget);
-	    this.$target.val($target.attr('title'));
-	    this.hide();
-	    return this.trigger('select', $target.attr('title'));
-	  },
-	  renderAfter: function(e) {
-	    var left, tleft, top, ttop;
-	    if (this.position && this.$target) {
-	      left = this.position.left || 0;
-	      top = this.position.top || 0;
-	      tleft = this.$target.offset().left || 0;
-	      ttop = this.$target.offset().top || 0;
-	      this.$el.offset({
-	        left: left + tleft,
-	        top: top + ttop
-	      });
-	    }
-	    this.$target.on('click', (function(_this) {
-	      return function(e) {
-	        _this.show();
-	        return e.stopPropagation();
-	      };
-	    })(this));
-	    $("body").on('click', (function(_this) {
-	      return function() {
-	        return _this.hide();
-	      };
-	    })(this));
-	    return this.$el.find('.switch_tab_head_item:first').trigger('click');
-	  }
-	});
-
-	module.exports = SwitchTab;
-
-
-/***/ },
-/* 18 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 19 */,
-/* 20 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Handlebars = __webpack_require__(21);
+	var Handlebars = __webpack_require__(11);
 	module.exports = (Handlebars["default"] || Handlebars).template({"1":function(depth0,helpers,partials,data) {
 	    var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
 
-	  return "    <li class=\"switch_tab_head_item\" data-index=\""
-	    + alias3(((helper = (helper = helpers.index || (data && data.index)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"index","hash":{},"data":data}) : helper)))
-	    + "\"><a>"
-	    + alias3(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"name","hash":{},"data":data}) : helper)))
-	    + "</a></li>\n";
-	},"3":function(depth0,helpers,partials,data) {
-	    var stack1, helper;
-
-	  return "    <ul class=\"switch_tab_content_item clearfix\" data-index=\""
-	    + this.escapeExpression(((helper = (helper = helpers.index || (data && data.index)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"index","hash":{},"data":data}) : helper)))
-	    + "\">\n"
-	    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.values : depth0),{"name":"each","hash":{},"fn":this.program(4, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
-	    + "    </ul>\n";
-	},"4":function(depth0,helpers,partials,data) {
-	    var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
-
-	  return "        <li>\n          <a class=\"switch_tab_content_select\" title=\""
-	    + alias3(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"name","hash":{},"data":data}) : helper)))
-	    + "\" data-code=\""
-	    + alias3(((helper = (helper = helpers.code || (depth0 != null ? depth0.code : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"code","hash":{},"data":data}) : helper)))
+	  return "  <li data-value=\""
+	    + alias3(((helper = (helper = helpers.value || (depth0 != null ? depth0.value : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"value","hash":{},"data":data}) : helper)))
 	    + "\">"
 	    + alias3(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"name","hash":{},"data":data}) : helper)))
-	    + "</a>\n        </li>\n";
+	    + "</li>\n";
 	},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-	    var stack1;
+	    var stack1, helper;
 
-	  return "<ul class=\"switch_tab_head clearfix\">\n"
-	    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.model : depth0),{"name":"each","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
-	    + "</ul>\n<div class=\"switch_tab_content\">\n"
-	    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.model : depth0),{"name":"each","hash":{},"fn":this.program(3, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
-	    + "</div>\n";
+	  return "<a>"
+	    + this.escapeExpression(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"title","hash":{},"data":data}) : helper)))
+	    + "</a>\n"
+	    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.list : depth0),{"name":"each","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "");
 	},"useData":true});
 
 /***/ },
-/* 21 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Create a simple path alias to allow browserify to resolve
 	// the runtime on a supported path.
-	module.exports = __webpack_require__(22)['default'];
+	module.exports = __webpack_require__(12)['default'];
 
 
 /***/ },
-/* 22 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -829,30 +689,30 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.__esModule = true;
 
-	var _import = __webpack_require__(23);
+	var _import = __webpack_require__(13);
 
 	var base = _interopRequireWildcard(_import);
 
 	// Each of these augment the Handlebars object. No need to setup here.
 	// (This is done to easily share code between commonjs and browse envs)
 
-	var _SafeString = __webpack_require__(26);
+	var _SafeString = __webpack_require__(16);
 
 	var _SafeString2 = _interopRequireWildcard(_SafeString);
 
-	var _Exception = __webpack_require__(25);
+	var _Exception = __webpack_require__(15);
 
 	var _Exception2 = _interopRequireWildcard(_Exception);
 
-	var _import2 = __webpack_require__(24);
+	var _import2 = __webpack_require__(14);
 
 	var Utils = _interopRequireWildcard(_import2);
 
-	var _import3 = __webpack_require__(27);
+	var _import3 = __webpack_require__(17);
 
 	var runtime = _interopRequireWildcard(_import3);
 
-	var _noConflict = __webpack_require__(28);
+	var _noConflict = __webpack_require__(18);
 
 	var _noConflict2 = _interopRequireWildcard(_noConflict);
 
@@ -885,7 +745,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 23 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -896,11 +756,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.HandlebarsEnvironment = HandlebarsEnvironment;
 	exports.createFrame = createFrame;
 
-	var _import = __webpack_require__(24);
+	var _import = __webpack_require__(14);
 
 	var Utils = _interopRequireWildcard(_import);
 
-	var _Exception = __webpack_require__(25);
+	var _Exception = __webpack_require__(15);
 
 	var _Exception2 = _interopRequireWildcard(_Exception);
 
@@ -1163,7 +1023,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* [args, ]options */
 
 /***/ },
-/* 24 */
+/* 14 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1282,7 +1142,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 25 */
+/* 15 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1325,7 +1185,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 26 */
+/* 16 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1344,7 +1204,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 27 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1362,15 +1222,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.invokePartial = invokePartial;
 	exports.noop = noop;
 
-	var _import = __webpack_require__(24);
+	var _import = __webpack_require__(14);
 
 	var Utils = _interopRequireWildcard(_import);
 
-	var _Exception = __webpack_require__(25);
+	var _Exception = __webpack_require__(15);
 
 	var _Exception2 = _interopRequireWildcard(_Exception);
 
-	var _COMPILER_REVISION$REVISION_CHANGES$createFrame = __webpack_require__(23);
+	var _COMPILER_REVISION$REVISION_CHANGES$createFrame = __webpack_require__(13);
 
 	function checkRevision(compilerInfo) {
 	  var compilerRevision = compilerInfo && compilerInfo[0] || 1,
@@ -1581,7 +1441,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 28 */
+/* 18 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
@@ -1605,12 +1465,187 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 29 */
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AutoComplete, Component;
+
+	__webpack_require__(20);
+
+	Component = __webpack_require__(1);
+
+	AutoComplete = Component.extend({
+	  close: function() {
+	    return this.$target.autocomplete('close');
+	  },
+	  renderAfter: function() {
+	    var delay, model;
+	    delay = this.delay;
+	    model = this.model;
+	    return this.$target.autocomplete({
+	      html: true,
+	      autoFocus: true,
+	      delay: delay || 200,
+	      source: this.source || function(request, response) {
+	        var filter, filterData, i, inputData, len, matcher, responseData;
+	        inputData = request.term;
+	        matcher = new RegExp($.ui.autocomplete.escapeRegex(inputData), 'i');
+	        filterData = jQuery.grep(model, function(data) {
+	          return matcher.test(data.name);
+	        });
+	        responseData = [];
+	        for (i = 0, len = filterData.length; i < len; i++) {
+	          filter = filterData[i];
+	          responseData.push({
+	            value: filter.name,
+	            label: filter.name
+	          });
+	        }
+	        if (responseData.length === 0) {
+	          responseData = ['无数据， 请更换关键字搜索！'];
+	        }
+	        return response(responseData);
+	      },
+	      search: this.search,
+	      open: this.open,
+	      select: (function(_this) {
+	        return function(e, v) {
+	          return _this.trigger('select', v.item.label);
+	        };
+	      })(this)
+	    });
+	  }
+	});
+
+	module.exports = AutoComplete;
+
+
+/***/ },
+/* 20 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Component, SwitchTab, template;
+
+	__webpack_require__(22);
+
+	Component = __webpack_require__(1);
+
+	template = __webpack_require__(23);
+
+	SwitchTab = Component.extend({
+	  classNames: ['switch_tab'],
+	  template: template,
+	  events: {
+	    'click .switch_tab_head_item': 'switchTab',
+	    'click .switch_tab_content_select': '_select'
+	  },
+	  switchTab: function(e) {
+	    var $target, index;
+	    $target = $(e.currentTarget);
+	    this.$el.find('.active').removeClass('active');
+	    $target.addClass('active');
+	    index = $target.data('index');
+	    this.$el.find('.switch_tab_content_item').hide();
+	    this.$el.find('.switch_tab_content_item').filter('[data-index=' + index + ']').show();
+	    return e.stopPropagation();
+	  },
+	  _select: function(e) {
+	    var $target;
+	    $target = $(e.currentTarget);
+	    this.$target.val($target.attr('title'));
+	    this.hide();
+	    return this.trigger('select', $target.attr('title'));
+	  },
+	  renderAfter: function(e) {
+	    var left, tleft, top, ttop;
+	    if (this.position && this.$target) {
+	      left = this.position.left || 0;
+	      top = this.position.top || 0;
+	      tleft = this.$target.offset().left || 0;
+	      ttop = this.$target.offset().top || 0;
+	      this.$el.offset({
+	        left: left + tleft,
+	        top: top + ttop
+	      });
+	    }
+	    this.$target.on('click', (function(_this) {
+	      return function(e) {
+	        _this.show();
+	        return e.stopPropagation();
+	      };
+	    })(this));
+	    $("body").on('click', (function(_this) {
+	      return function() {
+	        return _this.hide();
+	      };
+	    })(this));
+	    return this.$el.find('.switch_tab_head_item:first').trigger('click');
+	  }
+	});
+
+	module.exports = SwitchTab;
+
+
+/***/ },
+/* 22 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Handlebars = __webpack_require__(11);
+	module.exports = (Handlebars["default"] || Handlebars).template({"1":function(depth0,helpers,partials,data) {
+	    var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
+
+	  return "    <li class=\"switch_tab_head_item\" data-index=\""
+	    + alias3(((helper = (helper = helpers.index || (data && data.index)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"index","hash":{},"data":data}) : helper)))
+	    + "\"><a>"
+	    + alias3(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"name","hash":{},"data":data}) : helper)))
+	    + "</a></li>\n";
+	},"3":function(depth0,helpers,partials,data) {
+	    var stack1, helper;
+
+	  return "    <ul class=\"switch_tab_content_item clearfix\" data-index=\""
+	    + this.escapeExpression(((helper = (helper = helpers.index || (data && data.index)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"index","hash":{},"data":data}) : helper)))
+	    + "\">\n"
+	    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.values : depth0),{"name":"each","hash":{},"fn":this.program(4, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+	    + "    </ul>\n";
+	},"4":function(depth0,helpers,partials,data) {
+	    var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
+
+	  return "        <li>\n          <a class=\"switch_tab_content_select\" title=\""
+	    + alias3(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"name","hash":{},"data":data}) : helper)))
+	    + "\" data-code=\""
+	    + alias3(((helper = (helper = helpers.code || (depth0 != null ? depth0.code : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"code","hash":{},"data":data}) : helper)))
+	    + "\">"
+	    + alias3(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"name","hash":{},"data":data}) : helper)))
+	    + "</a>\n        </li>\n";
+	},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+	    var stack1;
+
+	  return "<ul class=\"switch_tab_head cf\">\n"
+	    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.model : depth0),{"name":"each","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+	    + "</ul>\n<div class=\"switch_tab_content\">\n"
+	    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.model : depth0),{"name":"each","hash":{},"fn":this.program(3, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+	    + "</div>\n";
+	},"useData":true});
+
+/***/ },
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component, Mask;
 
-	__webpack_require__(30);
+	__webpack_require__(25);
 
 	Component = __webpack_require__(1);
 
@@ -1622,23 +1657,22 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 30 */
+/* 25 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 31 */,
-/* 32 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component, Dialog, _, template;
 
-	__webpack_require__(33);
+	__webpack_require__(27);
 
 	Component = __webpack_require__(1);
 
-	template = __webpack_require__(37);
+	template = __webpack_require__(28);
 
 	_ = kyo._;
 
@@ -1743,19 +1777,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 33 */
+/* 27 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 34 */,
-/* 35 */,
-/* 36 */,
-/* 37 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Handlebars = __webpack_require__(21);
+	var Handlebars = __webpack_require__(11);
 	module.exports = (Handlebars["default"] || Handlebars).template({"1":function(depth0,helpers,partials,data) {
 	    return "  <a class=\"kui-dialog-close\"></a>\n";
 	},"3":function(depth0,helpers,partials,data) {
@@ -1793,12 +1824,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	},"useData":true});
 
 /***/ },
-/* 38 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component, Confirm, MaskDialog, _;
 
-	MaskDialog = __webpack_require__(39);
+	MaskDialog = __webpack_require__(30);
 
 	Component = __webpack_require__(1);
 
@@ -1847,12 +1878,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 39 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component, Dialog, MaskDialog;
 
-	Dialog = __webpack_require__(32);
+	Dialog = __webpack_require__(26);
 
 	Component = __webpack_require__(1);
 
@@ -1879,12 +1910,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 40 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Alert, Component, MaskDialog, _;
 
-	MaskDialog = __webpack_require__(39);
+	MaskDialog = __webpack_require__(30);
 
 	Component = __webpack_require__(1);
 
@@ -1930,12 +1961,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 41 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Loading, MaskDialog;
 
-	MaskDialog = __webpack_require__(39);
+	MaskDialog = __webpack_require__(30);
 
 	Loading = MaskDialog.extend({
 	  name: 'loading',
@@ -1966,16 +1997,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 42 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component, Paging, _, buildModel, buildSplitModel, template;
 
-	__webpack_require__(43);
+	__webpack_require__(34);
 
 	Component = __webpack_require__(1);
 
-	template = __webpack_require__(45);
+	template = __webpack_require__(35);
 
 	_ = kyo._;
 
@@ -2116,17 +2147,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 43 */
+/* 34 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 44 */,
-/* 45 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Handlebars = __webpack_require__(21);
+	var Handlebars = __webpack_require__(11);
 	module.exports = (Handlebars["default"] || Handlebars).template({"1":function(depth0,helpers,partials,data,blockParams,depths) {
 	    var stack1;
 

@@ -55,7 +55,7 @@ Component = Base.extend({
     else
       @_modelAfter()
   _renderBefore: (data) ->
-    @modelBefore(data) if @modelBefore && _.isFunction(@modelBefore)
+    @renderBefore(data) if @renderBefore && _.isFunction(@renderBefore)
   _modelAfter: (data) ->
     data = @modelAfter(data) if @modelAfter and _.isFunction(@modelAfter)
     @model = data
@@ -155,14 +155,14 @@ Component = Base.extend({
       @classNames.forEach( (n) =>
         @.$el?.addClass(n)
       )
-  action: (name) ->
+  action: (name, params) ->
     if @[name] and _.isFunction(@[name])
-      @name()
+      @[name](params)
     else
       parent = @parent
-      until parent and parant[name] and _.isFunction(parant[name])
+      until parent and parent[name] and _.isFunction(parent[name])
         parent = @parent
-      parent[name]() if parent and parent[name] and _.isFunction(parent[name])
+      parent[name](params) if parent and parent[name] and _.isFunction(parent[name])
 })
 
 ##

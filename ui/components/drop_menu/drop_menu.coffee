@@ -1,5 +1,6 @@
 require './drop_menu.css'
 Component = require '../../component'
+template = require('./drop_menu.hbs')
 _ = kyo._
 
 ##
@@ -14,6 +15,7 @@ _ = kyo._
 
 
 DropMenu = Component.extend({
+  template: template,
   renderAfter: ->
     @$el = @$target
     $all = @$("a")
@@ -31,6 +33,8 @@ DropMenu = Component.extend({
      $current = $(e.currentTarget)
      $all.html($current.html())
      $current.attr('selected', true)
+     selectName = @$el.attr('on-select')
+     @action(selectName, @getSelected()) if selectName
     )
 
   getSelected: ->

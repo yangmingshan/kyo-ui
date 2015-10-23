@@ -1,6 +1,17 @@
 var PageComponent = kui.Component.extend({
   $el: '#kui-demo',
-  notNeedRender: true
+  notNeedRender: true,
+  select: function(selected) {
+    console.log(selected);
+  },
+  dropData: {
+    title: '部门',
+    list: [
+      { name: '研发', value: 'yf' },
+      { name: '销售', value: 'xs' },
+      { name: '管理' }
+    ]
+  }
 });
 var page = PageComponent.create();
 //new kui.AutoParse('#page').autoParse();
