@@ -17,7 +17,6 @@ _ = kyo._
 DropMenu = Component.extend({
   template: template,
   renderAfter: ->
-    @$el = @$target
     $all = @$("a")
     $all.attr('prevText', $all.text())
     @$el.addClass('kui-drop-menu')
@@ -28,12 +27,12 @@ DropMenu = Component.extend({
     @$el.on('mouseout', =>
       @$("ul").hide()
     )
+    selectName = @$el.parent().attr('on-select')
     @$("li").on('click', (e) =>
      @$("li").removeAttr('selected')
      $current = $(e.currentTarget)
      $all.html($current.html())
      $current.attr('selected', true)
-     selectName = @$el.attr('on-select')
      @action(selectName, @getSelected()) if selectName
     )
 
@@ -49,7 +48,7 @@ $.fn.extend({
     value = ''
     if $selected.length > 0
       value = $selected.attr('data-value')
-      value ?= $selected.text()
+      value = $selected.text() unless value
     value
 })
 

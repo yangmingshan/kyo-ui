@@ -1,4 +1,6 @@
-<a>{{title}}</a>
-{{#each list}}
+<a>{{model.title}}</a>
+<ul>
+{{#each model.list}}
   <li data-value="{{value}}">{{name}}</li>
 {{/each}}
+</ul>

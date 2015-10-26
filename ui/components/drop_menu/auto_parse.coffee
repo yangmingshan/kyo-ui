@@ -2,7 +2,8 @@ DropMenu = require './drop_menu'
 
 AutoParse = (target, parent) ->
   dropMenu = DropMenu.create({
-    $target: target
+    $target: target,
+    $el: target
   })
   model = target.attr('data-model')
   currentModel = parent[model] if parent[model]

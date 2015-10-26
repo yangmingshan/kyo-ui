@@ -138,15 +138,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	  initialize: function() {
 	    this.cid = _.uniqueId('component');
 	    this.isRender = false;
-	    if (this.$target && _.isString(this.$target)) {
-	      this.$target = $("#" + this.$target);
-	    }
 	    if (this.notNeedRender) {
 	      if (_.isString(this.$el)) {
 	        this.$el = $(this.$el);
 	      }
 	    } else {
 	      this.createEl();
+	    }
+	    if (this.$target && _.isString(this.$target)) {
+	      this.$target = $("#" + this.$target);
 	    }
 	    this.$el.attr('kui-component', '').attr('kui-id', this.cid);
 	    this.delegateEvents();
@@ -373,8 +373,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return this[name](params);
 	    } else {
 	      parent = this.parent;
-	      while (!(parent && parent[name] && _.isFunction(parent[name]))) {
-	        parent = this.parent;
+	      while (parent === !null && (parent[name] && _.isFunction(parent[name]))) {
+	        parent = parent.parent;
 	      }
 	      if (parent && parent[name] && _.isFunction(parent[name])) {
 	        return parent[name](params);
@@ -428,6 +428,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return datePicker.render();
 	    case 'drop-menu':
 	      dropMenu = DropMenuAutoParse($e, parent);
+	      dropMenu.parent = parent;
 	      return dropMenu.render($e, true);
 	  }
 	};
@@ -557,7 +558,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	AutoParse = function(target, parent) {
 	  var currentModel, dropMenu, model;
 	  dropMenu = DropMenu.create({
-	    $target: target
+	    $target: target,
+	    $el: target
 	  });
 	  model = target.attr('data-model');
 	  if (parent[model]) {
@@ -589,8 +591,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	DropMenu = Component.extend({
 	  template: template,
 	  renderAfter: function() {
-	    var $all;
-	    this.$el = this.$target;
+	    var $all, selectName;
 	    $all = this.$("a");
 	    $all.attr('prevText', $all.text());
 	    this.$el.addClass('kui-drop-menu');
@@ -605,14 +606,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return _this.$("ul").hide();
 	      };
 	    })(this));
+	    selectName = this.$el.parent().attr('on-select');
 	    return this.$("li").on('click', (function(_this) {
 	      return function(e) {
-	        var $current, selectName;
+	        var $current;
 	        _this.$("li").removeAttr('selected');
 	        $current = $(e.currentTarget);
 	        $all.html($current.html());
 	        $current.attr('selected', true);
-	        selectName = _this.$el.attr('on-select');
 	        if (selectName) {
 	          return _this.action(selectName, _this.getSelected());
 	        }
@@ -631,7 +632,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value = '';
 	    if ($selected.length > 0) {
 	      value = $selected.attr('data-value');
-	      if (value == null) {
+	      if (!value) {
 	        value = $selected.text();
 	      }
 	    }
@@ -662,12 +663,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    + alias3(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"name","hash":{},"data":data}) : helper)))
 	    + "</li>\n";
 	},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-	    var stack1, helper;
+	    var stack1;
 
 	  return "<a>"
-	    + this.escapeExpression(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"title","hash":{},"data":data}) : helper)))
-	    + "</a>\n"
-	    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.list : depth0),{"name":"each","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "");
+	    + this.escapeExpression(this.lambda(((stack1 = (depth0 != null ? depth0.model : depth0)) != null ? stack1.title : stack1), depth0))
+	    + "</a>\n<ul>\n"
+	    + ((stack1 = helpers.each.call(depth0,((stack1 = (depth0 != null ? depth0.model : depth0)) != null ? stack1.list : stack1),{"name":"each","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+	    + "</ul>\n";
 	},"useData":true});
 
 /***/ },
@@ -1679,7 +1681,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	Dialog = Component.extend({
 	  name: 'dialog',
 	  classNames: ['kui-dialog'],
-	  $el: "<div class='kui-dialog'></div>",
 	  template: template,
 	  hasClose: true,
 	  footer: true,

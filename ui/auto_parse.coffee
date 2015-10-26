@@ -25,6 +25,7 @@ _parse = ($e, parent) ->
         datePicker.render()
      when 'drop-menu'
         dropMenu = DropMenuAutoParse($e, parent)
+        dropMenu.parent = parent
         dropMenu.render($e, true)
 # AutoParse.prototype.autoParse = ->
 #     DatePickerAutoParse = require('./components/date_picker/auto_parse.coffee')

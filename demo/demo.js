@@ -13,7 +13,7 @@ var PageComponent = kui.Component.extend({
     ]
   }
 });
-var page = PageComponent.create();
+PageComponent.create();
 //new kui.AutoParse('#page').autoParse();
 
 var cityAotoCompleteData = [

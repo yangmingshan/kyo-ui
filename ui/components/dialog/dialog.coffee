@@ -6,7 +6,6 @@ _ = kyo._
 Dialog = Component.extend({
   name: 'dialog'
   classNames: ['kui-dialog']
-  $el: "<div class='kui-dialog'></div>"
   template: template
   hasClose: true
   footer: true

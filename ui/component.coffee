@@ -11,12 +11,12 @@ Component = Base.extend({
   initialize: ->
     @cid = _.uniqueId('component')
     @isRender = false
-    if @$target and _.isString(@$target)
-      @$target = $("#" + @$target)
     if @notNeedRender
       @$el = $(@$el) if _.isString(@$el)
     else
       @createEl()
+    if @$target and _.isString(@$target)
+      @$target = $("#" + @$target)
     @$el.attr('kui-component', '').attr('kui-id', @cid)
     @delegateEvents()
     ##保存model为oldModel
@@ -160,8 +160,8 @@ Component = Base.extend({
       @[name](params)
     else
       parent = @parent
-      until parent and parent[name] and _.isFunction(parent[name])
-        parent = @parent
+      while parent is not null and ( parent[name] and _.isFunction(parent[name]) )
+        parent = parent.parent
       parent[name](params) if parent and parent[name] and _.isFunction(parent[name])
 })
 
