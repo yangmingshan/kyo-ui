@@ -48,7 +48,7 @@ $.fn.extend({
     value = ''
     if $selected.length > 0
       value = $selected.attr('data-value')
-      value = $selected.text() unless value
+      value = $selected.text() if value is undefined
     value
 })
 
