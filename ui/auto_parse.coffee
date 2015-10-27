@@ -17,6 +17,7 @@ getParentComponent = ($e) ->
 _parse = ($e, parent) ->
    DatePickerAutoParse = require('./components/date_picker/auto_parse.coffee')
    DropMenuAutoParse = require('./components/drop_menu/auto_parse.coffee')
+   TipAutoParse = require('./components/tip/auto_parse')
    type = $e.data('type')
    switch type
      when 'date'
@@ -27,15 +28,8 @@ _parse = ($e, parent) ->
         dropMenu = DropMenuAutoParse($e, parent)
         dropMenu.parent = parent
         dropMenu.render($e, true)
-# AutoParse.prototype.autoParse = ->
-#     DatePickerAutoParse = require('./components/date_picker/auto_parse.coffee')
-#     DropMenuAutoParse = require('./components/drop_menu/auto_parse.coffee')
-#     inputs = @$("[data-type]")
-#     inputs.each( (index, ele) ->
-#       type = $(@).data('type')
-#       switch type
-#         when 'date' then DatePickerAutoParse($(@)).render()
-#         when 'drop-menu' then DropMenuAutoParse($(@)).render()
-#     )
-
+     when 'tip'
+      tip = TipAutoParse($e, parent)
+      tip.parent = parent
+      tip.render($e)
 module.exports = autoParse

@@ -1,0 +1,15 @@
+.kui-tip {
+  position: relative;
+  display: inline-block;
+}
+.kui-tip-content {
+  position: absolute;
+  background-color: rgb(254, 243, 198);
+  padding: 10px;
+  width: 200px;
+  margin-left: 10px;
+  box-shadow: none;
+  text-align: left;
+  font-size: 12px;
+  top: -10px;
+}
