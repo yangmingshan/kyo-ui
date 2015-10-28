@@ -17,7 +17,7 @@ TipComponent = Component.extend({
     @$target.on('mouseout', =>
       timeOut = window.setTimeout( =>
         @$el.hide()
-      , 1000)
+      , 500)
     )
 })
 
