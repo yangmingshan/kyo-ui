@@ -105,6 +105,7 @@ border-color: #d8edfd;
   text-align: left;
   font-size: 12px;
   top: -10px;
+  color: #444;
 }
 .ui-autocomplete {
     max-height: 258px;

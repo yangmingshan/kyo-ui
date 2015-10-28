@@ -1540,7 +1540,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return function() {
 	        return timeOut = window.setTimeout(function() {
 	          return _this.$el.hide();
-	        }, 1000);
+	        }, 500);
 	      };
 	    })(this));
 	  }
@@ -1555,8 +1555,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var Handlebars = __webpack_require__(15);
 	module.exports = (Handlebars["default"] || Handlebars).template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-	    return "<div class=\"kui-tip-content\">\n  "
-	    + this.escapeExpression(this.lambda((depth0 != null ? depth0.tip : depth0), depth0))
+	    var stack1;
+
+	  return "<div class=\"kui-tip-content\">\n  "
+	    + ((stack1 = this.lambda((depth0 != null ? depth0.tip : depth0), depth0)) != null ? stack1 : "")
 	    + "\n</div>\n";
 	},"useData":true});
 
