@@ -92,6 +92,8 @@ Component = Base.extend({
          self.$el.html(self.templateAfter(data))
          self.isRender = true
          self.renderAfter()
+        ).fail( =>
+          self.isRender = true
         )
         return
     @$el.html(html)
