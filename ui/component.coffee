@@ -49,6 +49,8 @@ Component = Base.extend({
       if @model.then
         @model.then((data) =>
           @_modelAfter(data)
+        ).fail(=>
+          @isRender = true
         )
       else
         @_modelAfter(@model)
@@ -114,7 +116,7 @@ Component = Base.extend({
     @afterShow?()
   destory: (delegateEvent) ->
     @undelegateEvents() if delegateEvent
-    @model = @oldModel
+    @model = @oldModel if @oldModel
     @$el?.html()
     @$target?.remove()
   parent: null

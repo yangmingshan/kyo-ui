@@ -200,6 +200,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	          return function(data) {
 	            return _this._modelAfter(data);
 	          };
+	        })(this)).fail((function(_this) {
+	          return function() {
+	            return _this.isRender = true;
+	          };
 	        })(this));
 	      } else {
 	        return this._modelAfter(this.model);
@@ -308,7 +312,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (delegateEvent) {
 	      this.undelegateEvents();
 	    }
-	    this.model = this.oldModel;
+	    if (this.oldModel) {
+	      this.model = this.oldModel;
+	    }
 	    if ((ref = this.$el) != null) {
 	      ref.html();
 	    }
