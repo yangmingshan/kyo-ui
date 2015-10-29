@@ -49,10 +49,11 @@ Dialog = Component.extend({
   addChild: (name, component) ->
     Component.prototype.addChild.call(@, name, component)
     component.$parentEl = @$el.find('.kui-dialog-content')
-    component.render()
-  switchTo: (name) ->
+    #component.render()
+  switchTo: (name, callback) ->
     _.each(@children, (v, k) =>
       if k == name
+        callback() if callback and _.isFunction(callback)
         v.show()
         @setTitle v.title if v.title
       else

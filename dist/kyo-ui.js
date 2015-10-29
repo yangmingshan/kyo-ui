@@ -159,7 +159,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	  render: function(parentEl, show) {
 	    if (this.notNeedRender) {
-	      return this.renderAfter();
+	      return this._renderAfter();
 	    }
 	    if (arguments.length === 1 && typeof arguments[0] === 'boolean') {
 	      show = parentEl;
@@ -267,7 +267,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        html = html.then(function(data) {
 	          self.$el.html(self.templateAfter(data));
 	          self.isRender = true;
-	          return self.renderAfter();
+	          return self._renderAfter();
 	        }).fail((function(_this) {
 	          return function() {
 	            return self.isRender = true;
@@ -278,10 +278,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    this.$el.html(html);
 	    this.isRender = true;
-	    return this.renderAfter();
+	    return this._renderAfter();
 	  },
-	  renderAfter: function() {
+	  _renderAfter: function() {
 	    autoParse(this);
+	    if (this.renderAfter) {
+	      this.renderAfter;
+	    }
 	    if (this.load) {
 	      return this.load();
 	    }
@@ -611,19 +614,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	DropMenu = Component.extend({
 	  template: template,
 	  renderAfter: function() {
-	    var $all, selectName;
+	    var $all, selectName, timeOut;
 	    $all = this.$("a");
 	    $all.attr('prevText', $all.text());
 	    this.$el.addClass('kui-drop-menu');
 	    this.$el.append("<b class='caret'></b>");
+	    timeOut = null;
 	    this.$el.on('mouseover', (function(_this) {
 	      return function() {
+	        if (timeOut) {
+	          window.clearTimeout(timeOut);
+	        }
 	        return _this.$("ul").show();
 	      };
 	    })(this));
 	    this.$el.on('mouseout', (function(_this) {
 	      return function() {
-	        return _this.$("ul").hide();
+	        return timeOut = window.setTimeout(function() {
+	          return _this.$("ul").hide();
+	        }, 300);
 	      };
 	    })(this));
 	    selectName = this.$el.parent().attr('on-select');
@@ -1838,13 +1847,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	  addChild: function(name, component) {
 	    Component.prototype.addChild.call(this, name, component);
-	    component.$parentEl = this.$el.find('.kui-dialog-content');
-	    return component.render();
+	    return component.$parentEl = this.$el.find('.kui-dialog-content');
 	  },
-	  switchTo: function(name) {
+	  switchTo: function(name, callback) {
 	    return _.each(this.children, (function(_this) {
 	      return function(v, k) {
 	        if (k === name) {
+	          if (callback && _.isFunction(callback)) {
+	            callback();
+	          }
 	          v.show();
 	          if (v.title) {
 	            return _this.setTitle(v.title);

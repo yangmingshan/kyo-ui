@@ -23,7 +23,7 @@ Component = Base.extend({
     @oldModel = @model
     @render() if @notNeedRender
   render: (parentEl, show) ->
-    return @renderAfter() if @notNeedRender
+    return @_renderAfter() if @notNeedRender
     if arguments.length is 1 and typeof arguments[0] is 'boolean'
       show = parentEl
       parentEl = undefined
@@ -93,16 +93,17 @@ Component = Base.extend({
         html = html.then( (data) ->
          self.$el.html(self.templateAfter(data))
          self.isRender = true
-         self.renderAfter()
+         self._renderAfter()
         ).fail( =>
           self.isRender = true
         )
         return
     @$el.html(html)
     @isRender = true
-    @renderAfter()
-  renderAfter: ->
+    @_renderAfter()
+  _renderAfter: ->
     autoParse(@)
+    @renderAfter if @renderAfter
     @load() if @load
   _renderBefore: ->
 

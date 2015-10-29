@@ -21,11 +21,15 @@ DropMenu = Component.extend({
     $all.attr('prevText', $all.text())
     @$el.addClass('kui-drop-menu')
     @$el.append("<b class='caret'></b>")
+    timeOut = null
     @$el.on('mouseover', =>
+      window.clearTimeout(timeOut) if timeOut
       @$("ul").show()
     )
     @$el.on('mouseout', =>
-      @$("ul").hide()
+      timeOut = window.setTimeout( =>
+        @$("ul").hide()
+      , 300)
     )
     selectName = @$el.parent().attr('on-select')
     @$("li").on('click', (e) =>

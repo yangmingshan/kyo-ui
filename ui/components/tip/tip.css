@@ -13,4 +13,5 @@
   font-size: 12px;
   top: -10px;
   color: #444;
+  z-index: 99;
 }
