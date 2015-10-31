@@ -1,6 +1,6 @@
 _ = kyo._
 autoParse = (component) ->
-  $el = component.$el
+  if component.cid then $el = component.$el else $el = $(component)
   $inputs = $el.find("[data-type]")
   $inputs.each((index, ele) ->
     $parent = getParentComponent($(ele))

@@ -102,11 +102,13 @@ Component = Base.extend({
     @isRender = true
     @_renderAfter()
   _renderAfter: ->
+    @renderAfter() if @renderAfter
     autoParse(@)
-    @renderAfter if @renderAfter
     @load() if @load
   _renderBefore: ->
 
+  autoParse: (el)->
+    autoParse(el||@)
   hide: ->
     @beforeHide?()
     @$el?.hide()

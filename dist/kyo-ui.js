@@ -281,15 +281,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return this._renderAfter();
 	  },
 	  _renderAfter: function() {
-	    autoParse(this);
 	    if (this.renderAfter) {
-	      this.renderAfter;
+	      this.renderAfter();
 	    }
+	    autoParse(this);
 	    if (this.load) {
 	      return this.load();
 	    }
 	  },
 	  _renderBefore: function() {},
+	  autoParse: function(el) {
+	    return autoParse(el || this);
+	  },
 	  hide: function() {
 	    var ref;
 	    if (typeof this.beforeHide === "function") {
@@ -411,7 +414,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	autoParse = function(component) {
 	  var $el, $inputs;
-	  $el = component.$el;
+	  if (component.cid) {
+	    $el = component.$el;
+	  } else {
+	    $el = $(component);
+	  }
 	  $inputs = $el.find("[data-type]");
 	  return $inputs.each(function(index, ele) {
 	    var $parent;
