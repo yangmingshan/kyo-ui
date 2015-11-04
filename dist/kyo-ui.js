@@ -1839,13 +1839,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    contentHeight = height - titleHeight - footerHeight;
 	    return this.$el.find('.kui-dialog-content').css('height', contentHeight + 'px');
 	  },
-	  renderAfter: function() {
+	  _renderAfter: function() {
 	    var content;
 	    content = this.content;
 	    if (content) {
 	      this.$el.find('.kui-dialog-content').append(content);
 	    }
-	    return this.setContentHeight();
+	    this.setContentHeight();
+	    return Component.prototype._renderAfter.call(this);
 	  },
 	  events: {
 	    'click .kui-dialog-close': 'close',

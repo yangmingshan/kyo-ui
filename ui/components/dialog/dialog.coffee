@@ -37,10 +37,11 @@ Dialog = Component.extend({
     footerHeight = if @footer then 54 else 0
     contentHeight = height - titleHeight - footerHeight
     @$el.find('.kui-dialog-content').css('height', contentHeight + 'px')
-  renderAfter: ->
+  _renderAfter: ->
     content = @content
     @$el.find('.kui-dialog-content').append(content) if content
     @setContentHeight()
+    Component.prototype._renderAfter.call(@)
   events: {
     'click .kui-dialog-close': 'close',
     'click .kui-dialog-cancel': 'close',
