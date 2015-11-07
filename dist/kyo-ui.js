@@ -1630,7 +1630,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      open: this.open,
 	      select: (function(_this) {
 	        return function(e, v) {
-	          return _this.trigger('select', v.item.label);
+	          return _this.trigger('select', v.item);
 	        };
 	      })(this)
 	    });

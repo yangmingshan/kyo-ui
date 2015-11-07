@@ -25,7 +25,7 @@ AutoComplete = Component.extend({
       search: @search
       open: @open
       select: (e, v)=>
-        @trigger('select', v.item.label)
+        @trigger('select', v.item)
     })
 })
 
