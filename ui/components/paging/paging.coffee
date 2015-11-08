@@ -89,9 +89,11 @@ Paging = Component.extend({
     index = Number($(e.currentTarget).text())
     @_paging(index)
   _paging: (pageIndex) ->
+    return unless _.isNumber(pageIndex)
+    pageIndex = Math.floor(pageIndex)
+    return if pageIndex <= 0
     currentPageIndex = @pageIndex
     return if pageIndex is currentPageIndex
-    return unless _.isNumber(pageIndex)
     @pageIndex = Math.floor(pageIndex)
     @trigger('paging', pageIndex)
     #@render(true)
