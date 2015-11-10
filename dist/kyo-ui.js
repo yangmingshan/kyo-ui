@@ -291,7 +291,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	  _renderBefore: function() {},
 	  autoParse: function(el) {
-	    return autoParse(el || this);
+	    return autoParse(this, el);
 	  },
 	  hide: function() {
 	    var ref;
@@ -412,18 +412,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	_ = kyo._;
 
-	autoParse = function(component) {
-	  var $el, $inputs;
-	  if (component.cid) {
+	autoParse = function(component, $el) {
+	  var $inputs;
+	  if (!$el) {
 	    $el = component.$el;
-	  } else {
-	    $el = $(component);
 	  }
 	  $inputs = $el.find("[data-type]");
 	  return $inputs.each(function(index, ele) {
 	    var $parent;
 	    $parent = getParentComponent($(ele));
-	    if ($parent.attr('kui-id') === $el.attr('kui-id')) {
+	    if ($parent.attr('kui-id') === component.cid) {
 	      return _parse($(ele), component);
 	    }
 	  });

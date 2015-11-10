@@ -1,10 +1,10 @@
 _ = kyo._
-autoParse = (component) ->
-  if component.cid then $el = component.$el else $el = $(component)
+autoParse = (component, $el) ->
+  $el = component.$el unless $el
   $inputs = $el.find("[data-type]")
   $inputs.each((index, ele) ->
     $parent = getParentComponent($(ele))
-    _parse($(ele), component) if $parent.attr('kui-id') is $el.attr('kui-id')
+    _parse($(ele), component) if $parent.attr('kui-id') is component.cid
   )
 
 

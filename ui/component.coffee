@@ -108,7 +108,7 @@ Component = Base.extend({
   _renderBefore: ->
 
   autoParse: (el)->
-    autoParse(el||@)
+    autoParse(@, el)
   hide: ->
     @beforeHide?()
     @$el?.hide()
