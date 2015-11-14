@@ -2080,6 +2080,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (callback = this.callbacks.pop()) {
 	      return callback();
 	    }
+	  },
+	  close: function() {
+	    var callback;
+	    MaskDialog.prototype.close.call(this);
+	    if (callback = this.callbacks.pop()) {
+	      return callback();
+	    }
 	  }
 	});
 

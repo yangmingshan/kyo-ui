@@ -26,6 +26,10 @@ Alert = MaskDialog.extend({
     MaskDialog.prototype.confirm.call(@)
     if callback = @callbacks.pop()
       callback()
+  close: ->
+    MaskDialog.prototype.close.call(@)
+    if callback = @callbacks.pop()
+      callback()
 })
 
 module.exports = Alert
