@@ -1,4 +1,10 @@
 MaskDialog = require './mask_dialog.coffee'
+Component = require '../../component.coffee'
+LoadingMask = require '../mask/mask.coffee'
+loadingMask = LoadingMask.create({
+  classNames: ['kui-mask', 'kui-loading-mask']
+})
+loadingMask.render(false)
 
 Loading = MaskDialog.extend({
   name: 'loading',
@@ -15,9 +21,15 @@ Loading = MaskDialog.extend({
   content: "<div class='kui-dialog-loading'></div>"
   loading:(msg='数据加载中') ->
     @$el.find('.kui-dialog-loading').html(msg)
-    MaskDialog.prototype.show.call(@)
+    loadingMask.show();
+    #MaskDialog.prototype.show.call(@)
+    @setPosition()
+    Component.prototype.show.call(@)
+    @trigger('open')
   cancelLoading: ->
-    MaskDialog.prototype.close.call(@)
+    Component.prototype.hide.call(@)
+    loadingMask.hide()
+    @trigger('close')
 })
 
 module.exports = Loading

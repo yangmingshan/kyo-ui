@@ -2097,9 +2097,19 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Loading, MaskDialog;
+	var Component, Loading, LoadingMask, MaskDialog, loadingMask;
 
 	MaskDialog = __webpack_require__(45);
+
+	Component = __webpack_require__(1);
+
+	LoadingMask = __webpack_require__(35);
+
+	loadingMask = LoadingMask.create({
+	  classNames: ['kui-mask', 'kui-loading-mask']
+	});
+
+	loadingMask.render(false);
 
 	Loading = MaskDialog.extend({
 	  name: 'loading',
@@ -2119,10 +2129,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	      msg = '数据加载中';
 	    }
 	    this.$el.find('.kui-dialog-loading').html(msg);
-	    return MaskDialog.prototype.show.call(this);
+	    loadingMask.show();
+	    this.setPosition();
+	    Component.prototype.show.call(this);
+	    return this.trigger('open');
 	  },
 	  cancelLoading: function() {
-	    return MaskDialog.prototype.close.call(this);
+	    Component.prototype.hide.call(this);
+	    loadingMask.hide();
+	    return this.trigger('close');
 	  }
 	});
 
