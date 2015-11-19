@@ -30,7 +30,6 @@ Component = Base.extend({
     if @isRender
       @destory()
       @isRender = false
-    @_renderBefore()
     @$parentEl = $(parentEl) if parentEl
     @$parentEl = $('body') unless @$parentEl
     if show
@@ -39,8 +38,11 @@ Component = Base.extend({
       @hide()
     @$parentEl.append(@$el)
     @$el.css(@css) if @css
+    @_modelBefore()
     @_model()
     @
+  _modelBefore: ->
+    @modelBefore() if @modelBefore && _.isFunction(@modelBefore)
   _model: ->
     self = this
     if @model
@@ -100,13 +102,12 @@ Component = Base.extend({
         return
     @$el.html(html)
     @isRender = true
+    @_renderBefore()
     @_renderAfter()
   _renderAfter: ->
     @renderAfter() if @renderAfter
     autoParse(@)
     @load() if @load
-  _renderBefore: ->
-
   autoParse: (el)->
     autoParse(@, el)
   hide: ->

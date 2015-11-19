@@ -164,3 +164,31 @@ paging.on('paging', function() {
 });
 paging.render('#paging');
 paging.show();
+
+//event
+
+var DemoComponent = kui.Component.extend({
+  modelBefore: function() {
+    console.log('modekBefore')
+  },
+  model: function() {
+    console.log('model');
+    return {name: 'kkdashu'}
+  },
+  modelAfter: function(model) {
+    console.log('modelAfter');
+    return model;
+  },
+  template: function() {
+    return '';
+  },
+  renderBefore: function() {
+    console.log('renderBefore');
+  },
+  renderAfter: function() {
+    console.log('renderAfter');
+  }
+});
+
+var d = DemoComponent.create();
+d.render();
