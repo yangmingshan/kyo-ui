@@ -181,6 +181,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.hide();
 	    }
 	    this.$parentEl.append(this.$el);
+	    if (this.template && _.isFunction(this.template)) {
+	      this.$el.html(this.template(this));
+	    }
 	    if (this.css) {
 	      this.$el.css(this.css);
 	    }

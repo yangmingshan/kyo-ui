@@ -37,6 +37,7 @@ Component = Base.extend({
     else
       @hide()
     @$parentEl.append(@$el)
+    @$el.html(@template(@)) if @template and _.isFunction(@template)
     @$el.css(@css) if @css
     @_modelBefore()
     @_model()

@@ -187,7 +187,10 @@ var DemoComponent = kui.Component.extend({
   },
   renderAfter: function() {
     console.log('renderAfter');
-  }
+  },
+  load: function() {
+    console.log('load');
+  },
 });
 
 var d = DemoComponent.create();
