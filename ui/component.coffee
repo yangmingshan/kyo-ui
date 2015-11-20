@@ -1,3 +1,4 @@
+kyo = require 'kyo'
 Base = kyo.Base
 _ = kyo._
 autoParse = require './auto_parse'

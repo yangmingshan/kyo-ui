@@ -1,3 +1,4 @@
+kyo = require 'kyo'
 require './drop_menu.css'
 Component = require '../../component'
 template = require('./drop_menu.hbs')

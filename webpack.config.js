@@ -22,11 +22,15 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['', '.js', '.coffee']
+    extensions: ['', '.js', '.coffee'],
+    alias: {
+      kyo$: path.join(__dirname, 'kyo/kyo.js'),
+      components: path.join(__dirname, 'ui/components'),
+      component$: path.join(__dirname, 'ui/component.coffee')
+    }
   },
   externals: {
-  'jquery': 'jQuery',
-  'kyo': 'kyo'
+  'jquery': 'jQuery'
   },
   plugins: [
     new ExtractTextPlugin("kyo-ui.css")

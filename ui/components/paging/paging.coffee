@@ -1,3 +1,4 @@
+kyo = require 'kyo'
 require './paging.css'
 Component = require '../../component'
 template = require './paging.hbs'

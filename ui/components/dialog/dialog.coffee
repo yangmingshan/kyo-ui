@@ -1,3 +1,4 @@
+kyo = require 'kyo'
 require './dialog.css'
 Component = require '../../component.coffee'
 template = require './dialog.hbs'

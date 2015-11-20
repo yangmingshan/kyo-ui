@@ -1,3 +1,4 @@
+kyo = require 'kyo'
 MaskDialog = require './mask_dialog.coffee'
 Component = require '../../component.coffee'
 _ = kyo._

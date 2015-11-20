@@ -1,3 +1,4 @@
+kyo = require 'kyo'
 _ = kyo._
 autoParse = (component, $el) ->
   $el = component.$el unless $el

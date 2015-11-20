@@ -1,3 +1,4 @@
+kyo = require('kyo')
 Component = require('./component.coffee')
 DatePicker = require('./components/date_picker/date_picker.coffee')
 AutoComplete = require('./components/auto_complete/auto_complete.coffee')
