@@ -37,6 +37,10 @@ loading = Loading.create()
 loading.render(false)
 
 module.exports = {
+  Class: kyo.Class,
+  Base: kyo.Base,
+  Events: kyo.Events,
+  _: kyo._,
   Component: Component,
   SwitchTab: SwitchTab,
   AutoParse: AutoParse,
