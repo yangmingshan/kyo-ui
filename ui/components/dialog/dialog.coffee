@@ -40,6 +40,7 @@ Dialog = Component.extend({
     @$el.find('.kui-dialog-content').css('height', contentHeight + 'px')
   _renderAfter: ->
     content = @content
+    content = content.call(@) if _.isFunction(content)
     @$el.find('.kui-dialog-content').append(content) if content
     @setContentHeight()
     Component.prototype._renderAfter.call(@)

@@ -47,6 +47,7 @@ module.exports = {
   mask: mask,
   loadingMask: loadingMask,
   Dialog: Dialog,
+  Confirm: Confirm,
   confirm: kyo._.bind(_confirm.message, _confirm),
   alert: kyo._.bind(_alert.alert, _alert),
   loading: kyo._.bind(loading.loading, loading),
