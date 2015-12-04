@@ -91,6 +91,10 @@ border-color: #d8edfd;
   margin-top: 8px;
   margin-left: 2px;
 }
+
+.kui-drop-menu .selected {
+  color: #666;
+}
 .kui-tip {
   position: relative;
   display: inline-block;

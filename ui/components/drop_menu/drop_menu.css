@@ -46,3 +46,7 @@
   margin-top: 8px;
   margin-left: 2px;
 }
+
+.kui-drop-menu .selected {
+  color: #666;
+}
