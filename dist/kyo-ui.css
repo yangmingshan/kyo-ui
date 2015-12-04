@@ -92,7 +92,7 @@ border-color: #d8edfd;
   margin-left: 2px;
 }
 
-.kui-drop-menu .selected {
+.kui-drop-menu li[selected] {
   color: #666;
 }
 .kui-tip {
