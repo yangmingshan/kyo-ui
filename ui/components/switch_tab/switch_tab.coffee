@@ -26,11 +26,9 @@ SwitchTab = Component.extend({
     if @position and @$target
       left = @position.left or 0
       top = @position.top or 0
-      tleft = @$target.offset().left or 0
-      ttop = @$target.offset().top or 0
       @.$el.offset({
-        left: left + tleft,
-        top: top + ttop
+        left: left ,
+        top: top
       })
     @$target.on('click', (e) =>
       @show()

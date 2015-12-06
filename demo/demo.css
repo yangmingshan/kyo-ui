@@ -2,3 +2,6 @@
   text-align: center;
   margin-top: 20px;
 }
+#belongCitySwitch, #belongCitySwitch2 {
+  position: relative;
+}

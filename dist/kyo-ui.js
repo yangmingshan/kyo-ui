@@ -3613,15 +3613,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return this.trigger('select', $target.attr('title'));
 	  },
 	  renderAfter: function(e) {
-	    var left, tleft, top, ttop;
+	    var left, top;
 	    if (this.position && this.$target) {
 	      left = this.position.left || 0;
 	      top = this.position.top || 0;
-	      tleft = this.$target.offset().left || 0;
-	      ttop = this.$target.offset().top || 0;
 	      this.$el.offset({
-	        left: left + tleft,
-	        top: top + ttop
+	        left: left,
+	        top: top
 	      });
 	    }
 	    this.$target.on('click', (function(_this) {
