@@ -62,25 +62,25 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	DatePicker = __webpack_require__(9);
 
-	AutoComplete = __webpack_require__(33);
+	AutoComplete = __webpack_require__(28);
 
-	SwitchTab = __webpack_require__(36);
+	SwitchTab = __webpack_require__(30);
 
-	Mask = __webpack_require__(40);
+	Mask = __webpack_require__(33);
 
-	Dialog = __webpack_require__(43);
+	Dialog = __webpack_require__(35);
 
-	Confirm = __webpack_require__(49);
+	Confirm = __webpack_require__(38);
 
-	Alert = __webpack_require__(51);
+	Alert = __webpack_require__(40);
 
-	Loading = __webpack_require__(52);
+	Loading = __webpack_require__(41);
 
-	Paging = __webpack_require__(53);
+	Paging = __webpack_require__(42);
 
-	DropMenu = __webpack_require__(16);
+	DropMenu = __webpack_require__(13);
 
-	Tip = __webpack_require__(31);
+	Tip = __webpack_require__(26);
 
 	AutoParse = __webpack_require__(7);
 
@@ -2116,14 +2116,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  },
 	  _model: function() {
-	    var self;
+	    var _m, self;
 	    self = this;
-	    if (this.model) {
-	      if (_.isFunction(this.model)) {
-	        this.model = this.model();
+	    _m = this.oldModel;
+	    if (_m) {
+	      if (_.isFunction(_m)) {
+	        this.model = _m();
 	      }
-	      if (this.model.then) {
-	        return this.model.then((function(_this) {
+	      if (_m.then) {
+	        return _m.then((function(_this) {
 	          return function(data) {
 	            return _this._modelAfter(data);
 	          };
@@ -2368,8 +2369,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	_parse = function($e, parent) {
 	  var DatePickerAutoParse, DropMenuAutoParse, TipAutoParse, datePicker, dropMenu, tip, type;
 	  DatePickerAutoParse = __webpack_require__(8);
-	  DropMenuAutoParse = __webpack_require__(15);
-	  TipAutoParse = __webpack_require__(28);
+	  DropMenuAutoParse = __webpack_require__(12);
+	  TipAutoParse = __webpack_require__(24);
 	  type = $e.data('type');
 	  switch (type) {
 	    case 'date':
@@ -2415,7 +2416,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	__webpack_require__(10);
 
-	__webpack_require__(14);
+	__webpack_require__(11);
 
 	Component = __webpack_require__(6);
 
@@ -2475,10 +2476,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 11 */,
-/* 12 */,
-/* 13 */,
-/* 14 */
+/* 11 */
 /***/ function(module, exports) {
 
 	/* Chinese initialisation for the jQuery UI date picker plugin. */
@@ -2505,12 +2503,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 15 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AutoParse, DropMenu;
 
-	DropMenu = __webpack_require__(16);
+	DropMenu = __webpack_require__(13);
 
 	AutoParse = function(target, parent) {
 	  var currentModel, dropMenu, model;
@@ -2523,7 +2521,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    currentModel = parent[model];
 	  }
 	  if (currentModel) {
-	    dropMenu.model = currentModel;
+	    dropMenu.dataModel = currentModel;
 	  }
 	  return dropMenu;
 	};
@@ -2532,18 +2530,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 16 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component, DropMenu, _, kyo, template;
 
 	kyo = __webpack_require__(1);
 
-	__webpack_require__(17);
+	__webpack_require__(14);
 
 	Component = __webpack_require__(6);
 
-	template = __webpack_require__(19);
+	template = __webpack_require__(15);
 
 	_ = kyo._;
 
@@ -2609,17 +2607,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 17 */
+/* 14 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 18 */,
-/* 19 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Handlebars = __webpack_require__(20);
+	var Handlebars = __webpack_require__(16);
 	module.exports = (Handlebars["default"] || Handlebars).template({"1":function(depth0,helpers,partials,data) {
 	    var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
 
@@ -2632,23 +2629,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var stack1;
 
 	  return "<a>"
-	    + this.escapeExpression(this.lambda(((stack1 = (depth0 != null ? depth0.model : depth0)) != null ? stack1.title : stack1), depth0))
+	    + this.escapeExpression(this.lambda(((stack1 = (depth0 != null ? depth0.dataModel : depth0)) != null ? stack1.title : stack1), depth0))
 	    + "</a>\n<ul>\n"
-	    + ((stack1 = helpers.each.call(depth0,((stack1 = (depth0 != null ? depth0.model : depth0)) != null ? stack1.list : stack1),{"name":"each","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
+	    + ((stack1 = helpers.each.call(depth0,((stack1 = (depth0 != null ? depth0.dataModel : depth0)) != null ? stack1.list : stack1),{"name":"each","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
 	    + "</ul>\n";
 	},"useData":true});
 
 /***/ },
-/* 20 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Create a simple path alias to allow browserify to resolve
 	// the runtime on a supported path.
-	module.exports = __webpack_require__(21)['default'];
+	module.exports = __webpack_require__(17)['default'];
 
 
 /***/ },
-/* 21 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2657,30 +2654,30 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.__esModule = true;
 
-	var _import = __webpack_require__(22);
+	var _import = __webpack_require__(18);
 
 	var base = _interopRequireWildcard(_import);
 
 	// Each of these augment the Handlebars object. No need to setup here.
 	// (This is done to easily share code between commonjs and browse envs)
 
-	var _SafeString = __webpack_require__(25);
+	var _SafeString = __webpack_require__(21);
 
 	var _SafeString2 = _interopRequireWildcard(_SafeString);
 
-	var _Exception = __webpack_require__(24);
+	var _Exception = __webpack_require__(20);
 
 	var _Exception2 = _interopRequireWildcard(_Exception);
 
-	var _import2 = __webpack_require__(23);
+	var _import2 = __webpack_require__(19);
 
 	var Utils = _interopRequireWildcard(_import2);
 
-	var _import3 = __webpack_require__(26);
+	var _import3 = __webpack_require__(22);
 
 	var runtime = _interopRequireWildcard(_import3);
 
-	var _noConflict = __webpack_require__(27);
+	var _noConflict = __webpack_require__(23);
 
 	var _noConflict2 = _interopRequireWildcard(_noConflict);
 
@@ -2713,7 +2710,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 22 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2724,11 +2721,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.HandlebarsEnvironment = HandlebarsEnvironment;
 	exports.createFrame = createFrame;
 
-	var _import = __webpack_require__(23);
+	var _import = __webpack_require__(19);
 
 	var Utils = _interopRequireWildcard(_import);
 
-	var _Exception = __webpack_require__(24);
+	var _Exception = __webpack_require__(20);
 
 	var _Exception2 = _interopRequireWildcard(_Exception);
 
@@ -2991,7 +2988,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* [args, ]options */
 
 /***/ },
-/* 23 */
+/* 19 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -3110,7 +3107,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 24 */
+/* 20 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -3153,7 +3150,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 25 */
+/* 21 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -3172,7 +3169,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 26 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3190,15 +3187,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.invokePartial = invokePartial;
 	exports.noop = noop;
 
-	var _import = __webpack_require__(23);
+	var _import = __webpack_require__(19);
 
 	var Utils = _interopRequireWildcard(_import);
 
-	var _Exception = __webpack_require__(24);
+	var _Exception = __webpack_require__(20);
 
 	var _Exception2 = _interopRequireWildcard(_Exception);
 
-	var _COMPILER_REVISION$REVISION_CHANGES$createFrame = __webpack_require__(22);
+	var _COMPILER_REVISION$REVISION_CHANGES$createFrame = __webpack_require__(18);
 
 	function checkRevision(compilerInfo) {
 	  var compilerRevision = compilerInfo && compilerInfo[0] || 1,
@@ -3409,7 +3406,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 27 */
+/* 23 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
@@ -3433,14 +3430,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 28 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AutoParse, TipComponent;
 
-	__webpack_require__(29);
+	__webpack_require__(25);
 
-	TipComponent = __webpack_require__(31);
+	TipComponent = __webpack_require__(26);
 
 	AutoParse = function(target, parent) {
 	  var tip;
@@ -3456,21 +3453,20 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 29 */
+/* 25 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 30 */,
-/* 31 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component, TipComponent, template;
 
 	Component = __webpack_require__(6);
 
-	template = __webpack_require__(32);
+	template = __webpack_require__(27);
 
 	TipComponent = Component.extend({
 	  classNames: ['kui-tip'],
@@ -3501,10 +3497,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 32 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Handlebars = __webpack_require__(20);
+	var Handlebars = __webpack_require__(16);
 	module.exports = (Handlebars["default"] || Handlebars).template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
 	    var stack1;
 
@@ -3514,12 +3510,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	},"useData":true});
 
 /***/ },
-/* 33 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AutoComplete, Component;
 
-	__webpack_require__(34);
+	__webpack_require__(29);
 
 	Component = __webpack_require__(6);
 
@@ -3570,23 +3566,22 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 34 */
+/* 29 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 35 */,
-/* 36 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component, SwitchTab, template;
 
-	__webpack_require__(37);
+	__webpack_require__(31);
 
 	Component = __webpack_require__(6);
 
-	template = __webpack_require__(39);
+	template = __webpack_require__(32);
 
 	SwitchTab = Component.extend({
 	  classNames: ['switch_tab'],
@@ -3641,17 +3636,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 37 */
+/* 31 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 38 */,
-/* 39 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Handlebars = __webpack_require__(20);
+	var Handlebars = __webpack_require__(16);
 	module.exports = (Handlebars["default"] || Handlebars).template({"1":function(depth0,helpers,partials,data) {
 	    var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
 
@@ -3689,12 +3683,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	},"useData":true});
 
 /***/ },
-/* 40 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component, Mask;
 
-	__webpack_require__(41);
+	__webpack_require__(34);
 
 	Component = __webpack_require__(6);
 
@@ -3706,25 +3700,24 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 41 */
+/* 34 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 42 */,
-/* 43 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component, Dialog, _, kyo, template;
 
 	kyo = __webpack_require__(1);
 
-	__webpack_require__(44);
+	__webpack_require__(36);
 
 	Component = __webpack_require__(6);
 
-	template = __webpack_require__(48);
+	template = __webpack_require__(37);
 
 	_ = kyo._;
 
@@ -3834,19 +3827,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 44 */
+/* 36 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 45 */,
-/* 46 */,
-/* 47 */,
-/* 48 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Handlebars = __webpack_require__(20);
+	var Handlebars = __webpack_require__(16);
 	module.exports = (Handlebars["default"] || Handlebars).template({"1":function(depth0,helpers,partials,data) {
 	    return "  <a class=\"kui-dialog-close\"></a>\n";
 	},"3":function(depth0,helpers,partials,data) {
@@ -3884,14 +3874,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	},"useData":true});
 
 /***/ },
-/* 49 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component, Confirm, MaskDialog, _, kyo;
 
 	kyo = __webpack_require__(1);
 
-	MaskDialog = __webpack_require__(50);
+	MaskDialog = __webpack_require__(39);
 
 	Component = __webpack_require__(6);
 
@@ -3940,12 +3930,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 50 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component, Dialog, MaskDialog;
 
-	Dialog = __webpack_require__(43);
+	Dialog = __webpack_require__(35);
 
 	Component = __webpack_require__(6);
 
@@ -3972,14 +3962,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 51 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Alert, Component, MaskDialog, _, kyo;
 
 	kyo = __webpack_require__(1);
 
-	MaskDialog = __webpack_require__(50);
+	MaskDialog = __webpack_require__(39);
 
 	Component = __webpack_require__(6);
 
@@ -4032,16 +4022,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 52 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component, Loading, LoadingMask, MaskDialog, loadingMask;
 
-	MaskDialog = __webpack_require__(50);
+	MaskDialog = __webpack_require__(39);
 
 	Component = __webpack_require__(6);
 
-	LoadingMask = __webpack_require__(40);
+	LoadingMask = __webpack_require__(33);
 
 	loadingMask = LoadingMask.create({
 	  classNames: ['kui-mask', 'kui-loading-mask']
@@ -4083,18 +4073,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 53 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Component, Paging, _, buildModel, buildSplitModel, kyo, template;
 
 	kyo = __webpack_require__(1);
 
-	__webpack_require__(54);
+	__webpack_require__(43);
 
 	Component = __webpack_require__(6);
 
-	template = __webpack_require__(56);
+	template = __webpack_require__(44);
 
 	_ = kyo._;
 
@@ -4242,17 +4232,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 54 */
+/* 43 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 55 */,
-/* 56 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Handlebars = __webpack_require__(20);
+	var Handlebars = __webpack_require__(16);
 	module.exports = (Handlebars["default"] || Handlebars).template({"1":function(depth0,helpers,partials,data,blockParams,depths) {
 	    var stack1;
 

@@ -47,11 +47,12 @@ Component = Base.extend({
     @modelBefore() if @modelBefore && _.isFunction(@modelBefore)
   _model: ->
     self = this
-    if @model
-      @model = @model() if _.isFunction(@model)
+    _m = @oldModel
+    if _m
+      @model = _m() if _.isFunction(_m)
       ##是一个promise
-      if @model.then
-        @model.then((data) =>
+      if _m.then
+        _m.then((data) =>
           @_modelAfter(data)
         ).fail((ex)=>
           @_modelAfter(ex);

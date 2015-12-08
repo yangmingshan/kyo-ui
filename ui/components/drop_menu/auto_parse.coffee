@@ -7,7 +7,7 @@ AutoParse = (target, parent) ->
   })
   model = target.attr('data-model')
   currentModel = parent[model] if parent[model]
-  dropMenu.model = currentModel if currentModel
+  dropMenu.dataModel = currentModel if currentModel
   dropMenu
 
 module.exports = AutoParse
