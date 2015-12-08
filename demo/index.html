@@ -38,6 +38,14 @@
               <label>返回日期：</label><input class="form-control" data-type="date" id="to" min-date="#from" />
             </div>
           </div>
+          <div class="row form-group">
+            <div class="col-xs-4">
+              <label>出发日期：</label><input class="form-control" min-date="+0" data-type="date" id="from1" />
+            </div>
+            <div class="col-xs-4">
+              <label>返回日期：</label><input class="form-control" data-type="date" id="to1" min-date="#from1+1" />
+            </div>
+          </div>
         </form>
       </div>
       <div class="row">
@@ -88,6 +96,7 @@
     <br />
     <script src="../bower_components/jquery/dist/jquery.js"></script>
     <script src="../bower_components/jquery-ui/jquery-ui.js"></script>
+    <script src="../bower_components/moment/min/moment.min.js"></script>
     <script src='../dist/kyo-ui.js'></script>
     <script src="demo.js"></script>
   </body>

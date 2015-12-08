@@ -18,7 +18,11 @@ DatePicker = Component.extend({
     minDate = $target.attr("min-date")
     if minDate
       if /^#/.test(minDate)
-        $minDateTarget = $(minDate)
+        m = minDate.split(/\+|-/)
+        target= m[0]
+        day = m[1]
+        operator = minDate.match(/\+|-/)[0] if day
+        $minDateTarget = $(target)
     maxDate = $target.attr("max-date")
     if $maxDateTarget
       maxDate = '+99999'
@@ -28,7 +32,13 @@ DatePicker = Component.extend({
     if $minDateTarget
       $minDateTarget.datepicker("option", {
         onSelect: ->
-          $target.datepicker('option', 'minDate', $(this).val())
+          _minDate = $(this).val()
+          if operator is '+'
+            _minDate = moment(_minDate).add(1, 'day').format("YYYY-MM-DD")
+          if operator is '-'
+            _minDate = moment(_minDate).subtract(1, 'day').format("YYYY-MM-DD")
+
+          $target.datepicker('option', 'minDate', _minDate)
       })
     if minDate
       opt.minDate = minDate
