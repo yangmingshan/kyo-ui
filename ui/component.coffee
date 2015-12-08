@@ -53,8 +53,8 @@ Component = Base.extend({
       if @model.then
         @model.then((data) =>
           @_modelAfter(data)
-        ).fail(=>
-          @isRender = true
+        ).fail((ex)=>
+          @_modelAfter(ex);
         )
       else
         @_modelAfter(@model)
@@ -65,7 +65,7 @@ Component = Base.extend({
   _modelAfter: (data) ->
     data = @modelAfter(data) if @modelAfter and _.isFunction(@modelAfter)
     @model = data
-    @_setContent()
+    @_render()
   delegateEvents: ->
     self = this
     events = this.events
@@ -88,7 +88,8 @@ Component = Base.extend({
   undelegateEvents: ->
     @$el.off('.delegateEvents' + @cid)
     this
-  _setContent: ->
+  _render: ->
+    @_renderBefore()
     self = this
     html = this.template
     if _.isFunction(html)
@@ -104,7 +105,6 @@ Component = Base.extend({
         return
     @$el.html(html)
     @isRender = true
-    @_renderBefore()
     @_renderAfter()
   _renderAfter: ->
     @renderAfter() if @renderAfter
