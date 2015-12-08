@@ -2128,8 +2128,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return _this._modelAfter(data);
 	          };
 	        })(this)).fail((function(_this) {
-	          return function() {
-	            return _this.isRender = true;
+	          return function(ex) {
+	            return _this._modelAfter(ex);
 	          };
 	        })(this));
 	      } else {
@@ -2149,7 +2149,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      data = this.modelAfter(data);
 	    }
 	    this.model = data;
-	    return this._setContent();
+	    return this._render();
 	  },
 	  delegateEvents: function() {
 	    var eventName, events, key, match, method, selector, self;
@@ -2184,8 +2184,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.$el.off('.delegateEvents' + this.cid);
 	    return this;
 	  },
-	  _setContent: function() {
+	  _render: function() {
 	    var html, self;
+	    this._renderBefore();
 	    self = this;
 	    html = this.template;
 	    if (_.isFunction(html)) {
@@ -2205,7 +2206,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    this.$el.html(html);
 	    this.isRender = true;
-	    this._renderBefore();
 	    return this._renderAfter();
 	  },
 	  _renderAfter: function() {
