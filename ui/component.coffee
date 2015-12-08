@@ -22,6 +22,7 @@ Component = Base.extend({
     @delegateEvents()
     ##保存model为oldModel
     @oldModel = @model
+    @model = null
     @render() if @notNeedRender
   render: (parentEl, show) ->
     return @_renderAfter() if @notNeedRender
@@ -49,7 +50,7 @@ Component = Base.extend({
     self = this
     _m = @oldModel
     if _m
-      @model = _m() if _.isFunction(_m)
+      _m = _m() if _.isFunction(_m)
       ##是一个promise
       if _m.then
         _m.then((data) =>
@@ -65,6 +66,7 @@ Component = Base.extend({
     @renderBefore(data) if @renderBefore && _.isFunction(@renderBefore)
   _modelAfter: (data) ->
     data = @modelAfter(data) if @modelAfter and _.isFunction(@modelAfter)
+    data = @oldModel unless data
     @model = data
     @_render()
   delegateEvents: ->
