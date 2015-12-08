@@ -2072,12 +2072,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.$el.attr('kui-component', '').attr('kui-id', this.cid);
 	    this.delegateEvents();
 	    this.oldModel = this.model;
-	    this.model = null;
 	    if (this.notNeedRender) {
 	      return this.render();
 	    }
 	  },
 	  render: function(parentEl, show) {
+	    this.model = null;
 	    if (this.notNeedRender) {
 	      return this._renderAfter();
 	    }
@@ -2127,11 +2127,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (_m.then) {
 	        return _m.then((function(_this) {
 	          return function(data) {
-	            return _this._modelAfter(data);
+	            return _this._modelAfter.call(_this, data);
 	          };
 	        })(this)).fail((function(_this) {
 	          return function(ex) {
-	            return _this._modelError(ex);
+	            return _this._modelError.call(_this, ex);
 	          };
 	        })(this));
 	      } else {
@@ -2256,9 +2256,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var ref, ref1;
 	    if (delegateEvent) {
 	      this.undelegateEvents();
-	    }
-	    if (this.oldModel) {
-	      this.model = this.oldModel;
 	    }
 	    if ((ref = this.$el) != null) {
 	      ref.html();
@@ -4079,7 +4076,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  classNames: ['kui-dialog', 'kui-loading'],
 	  title: null,
 	  css: {
-	    width: '400px',
+	    width: '361',
 	    height: 'auto'
 	  },
 	  footer: null,

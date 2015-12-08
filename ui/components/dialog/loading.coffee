@@ -11,7 +11,7 @@ Loading = MaskDialog.extend({
   classNames: ['kui-dialog', 'kui-loading']
   title: null,
   css: {
-    width: '400px',
+    width: '361',
     height: 'auto'
   },
   footer: null,

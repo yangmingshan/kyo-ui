@@ -22,9 +22,9 @@ Component = Base.extend({
     @delegateEvents()
     ##保存model为oldModel
     @oldModel = @model
-    @model = null
     @render() if @notNeedRender
   render: (parentEl, show) ->
+    @model = null
     return @_renderAfter() if @notNeedRender
     if arguments.length is 1 and typeof arguments[0] is 'boolean'
       show = parentEl
@@ -54,9 +54,9 @@ Component = Base.extend({
       ##是一个promise
       if _m.then
         _m.then((data) =>
-          @_modelAfter(data)
+          @_modelAfter.call(@, data)
         ).fail((ex)=>
-          @_modelError(ex);
+          @_modelError.call(@, ex);
         )
       else
         @_modelAfter(@model)
@@ -129,7 +129,6 @@ Component = Base.extend({
     @afterShow?()
   destory: (delegateEvent) ->
     @undelegateEvents() if delegateEvent
-    @model = @oldModel if @oldModel
     @$el?.html()
     @$target?.remove()
   parent: null

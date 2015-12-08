@@ -71,3 +71,6 @@
 .kui-dialog-confirm + .kui-dialog-cancel {
   margin-left: 20px;
 }
+.kui-loading .kui-dialog-content {
+  padding: 0px;
+}
