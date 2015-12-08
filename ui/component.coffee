@@ -50,13 +50,13 @@ Component = Base.extend({
     self = this
     _m = @oldModel
     if _m
-      _m = _m() if _.isFunction(_m)
+      _m = _m.call(@) if _.isFunction(_m)
       ##是一个promise
       if _m.then
         _m.then((data) =>
           @_modelAfter(data)
         ).fail((ex)=>
-          @_modelAfter(ex);
+          @_modelError(ex);
         )
       else
         @_modelAfter(@model)
@@ -66,9 +66,13 @@ Component = Base.extend({
     @renderBefore(data) if @renderBefore && _.isFunction(@renderBefore)
   _modelAfter: (data) ->
     data = @modelAfter(data) if @modelAfter and _.isFunction(@modelAfter)
-    data = @oldModel unless data
+    unless data
+      unless _.isFunction(@oldModel)
+        data = @oldModel
     @model = data
     @_render()
+  _modelError: (ex) ->
+    @modelError(ex) if @modelError and _.isFunction(@modelError)
   delegateEvents: ->
     self = this
     events = this.events
