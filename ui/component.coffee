@@ -59,7 +59,7 @@ Component = Base.extend({
           @_modelError.call(@, ex);
         )
       else
-        @_modelAfter(@model)
+        @_modelAfter(_m)
     else
       @_modelAfter()
   _renderBefore: (data) ->
