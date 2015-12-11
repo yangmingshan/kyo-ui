@@ -20,7 +20,7 @@ Confirm = MaskDialog.extend({
     if arguments.length is 1
       options = arguments[0]
       msg = options.msg
-      title = options.msg
+      title = options.title
       callback = options.confirm
       cancel = options.cancel
       confirmText = options.confirmText

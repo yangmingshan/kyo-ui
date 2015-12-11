@@ -22,6 +22,7 @@ Component = Base.extend({
     @delegateEvents()
     ##保存model为oldModel
     @oldModel = @model
+    @init() if @init and _.isFunction(@init)
     @render() if @notNeedRender
   render: (parentEl, show) ->
     @model = null
@@ -171,6 +172,8 @@ Component = Base.extend({
       @classNames.forEach( (n) =>
         @.$el?.addClass(n)
       )
+  set: (name, val) ->
+    @oldModel = val if name is 'model'
   action: (name, params) ->
     if @[name] and _.isFunction(@[name])
       @[name](params)

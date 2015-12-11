@@ -2072,6 +2072,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.$el.attr('kui-component', '').attr('kui-id', this.cid);
 	    this.delegateEvents();
 	    this.oldModel = this.model;
+	    if (this.init && _.isFunction(this.init)) {
+	      this.init();
+	    }
 	    if (this.notNeedRender) {
 	      return this.render();
 	    }
@@ -2319,6 +2322,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	          return (ref1 = _this.$el) != null ? ref1.addClass(n) : void 0;
 	        };
 	      })(this));
+	    }
+	  },
+	  set: function(name, val) {
+	    if (name === 'model') {
+	      return this.oldModel = val;
 	    }
 	  },
 	  action: function(name, params) {
@@ -3815,7 +3823,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  switchTo: function(name, callback) {
 	    return _.each(this.children, (function(_this) {
 	      return function(v, k) {
-	        if (k === name) {
+	        if (k === name || v.cid === name.cid) {
 	          if (callback && _.isFunction(callback)) {
 	            callback();
 	          }
@@ -3939,7 +3947,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (arguments.length === 1) {
 	      options = arguments[0];
 	      msg = options.msg;
-	      title = options.msg;
+	      title = options.title;
 	      callback = options.confirm;
 	      cancel = options.cancel;
 	      confirmText = options.confirmText;

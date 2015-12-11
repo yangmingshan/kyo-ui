@@ -55,7 +55,7 @@ Dialog = Component.extend({
     #component.render()
   switchTo: (name, callback) ->
     _.each(@children, (v, k) =>
-      if k == name
+      if k == name or v.cid == name.cid
         callback() if callback and _.isFunction(callback)
         v.show()
         @setTitle v.title if v.title
