@@ -2089,7 +2089,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      parentEl = void 0;
 	    }
 	    if (this.isRender) {
-	      this.destory();
+	      this.clear();
 	      this.isRender = false;
 	    }
 	    if (parentEl) {
@@ -2254,6 +2254,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      ref.show();
 	    }
 	    return typeof this.afterShow === "function" ? this.afterShow() : void 0;
+	  },
+	  clear: function() {
+	    var ref, ref1;
+	    if ((ref = this.$el) != null) {
+	      ref.html();
+	    }
+	    return (ref1 = this.$target) != null ? ref1.remove() : void 0;
 	  },
 	  destory: function(delegateEvent) {
 	    var ref, ref1;

@@ -31,7 +31,8 @@ Component = Base.extend({
       show = parentEl
       parentEl = undefined
     if @isRender
-      @destory()
+      # @destory()
+      @clear()
       @isRender = false
     @$parentEl = $(parentEl) if parentEl
     @$parentEl = $('body') unless @$parentEl
@@ -128,6 +129,9 @@ Component = Base.extend({
     @beforeShow?()
     @$el?.show()
     @afterShow?()
+  clear: ->
+    @$el?.html()
+    @$target?.remove()
   destory: (delegateEvent) ->
     @undelegateEvents() if delegateEvent
     @$el?.html()
