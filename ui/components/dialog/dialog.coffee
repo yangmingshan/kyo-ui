@@ -30,8 +30,9 @@ Dialog = Component.extend({
     scrollTop = $body.scrollTop()
     height = parseFloat(@$el.height()) or 0
     bodyHeight = $(window).height()
-    top = ( scrollTop + ( ( bodyHeight - height ) /2 ) ) + 'px'
-    @$el.css({left: left, top: top})
+    top = ( scrollTop + ( ( bodyHeight - height ) /2 ) )
+    top = 15 if top < 15
+    @$el.css({left: left, top: top + 'px'})
   setContentHeight: ->
     height = parseFloat(@css.height)
     titleHeight = if @title then 47 else 0

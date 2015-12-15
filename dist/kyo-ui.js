@@ -3792,10 +3792,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    scrollTop = $body.scrollTop();
 	    height = parseFloat(this.$el.height()) || 0;
 	    bodyHeight = $(window).height();
-	    top = (scrollTop + ((bodyHeight - height) / 2)) + 'px';
+	    top = scrollTop + ((bodyHeight - height) / 2);
+	    if (top < 15) {
+	      top = 15;
+	    }
 	    return this.$el.css({
 	      left: left,
-	      top: top
+	      top: top + 'px'
 	    });
 	  },
 	  setContentHeight: function() {
