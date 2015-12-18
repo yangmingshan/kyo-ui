@@ -4122,6 +4122,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    width: '361',
 	    height: 'auto'
 	  },
+	  index: 0,
 	  footer: null,
 	  hasClose: false,
 	  cancelText: null,
@@ -4132,14 +4133,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	      msg = '数据加载中';
 	    }
 	    this.$el.find('.kui-dialog-loading').html(msg);
-	    loadingMask.show();
-	    this.setPosition();
-	    Component.prototype.show.call(this);
-	    return this.trigger('open');
+	    if (this.index === 0) {
+	      loadingMask.show();
+	      this.setPosition();
+	      Component.prototype.show.call(this);
+	    }
+	    this.trigger('open');
+	    return this.index += 1;
 	  },
 	  cancelLoading: function() {
-	    Component.prototype.hide.call(this);
-	    loadingMask.hide();
+	    if (this.index >= 1) {
+	      this.index -= 1;
+	    }
+	    if (this.index === 0) {
+	      Component.prototype.hide.call(this);
+	      loadingMask.hide();
+	    }
 	    return this.trigger('close');
 	  }
 	});
