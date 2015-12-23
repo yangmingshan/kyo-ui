@@ -41,7 +41,16 @@ DatePicker = Component.extend({
           $target.datepicker('option', 'minDate', _minDate)
       })
     if minDate
-      opt.minDate = minDate
+      unless $minDateTarget
+        opt.minDate = minDate
+      else
+        _minDate = $minDateTarget.val()
+        if _minDate
+          if operator is '+'
+            _minDate = moment(_minDate).add(1, 'day').format("YYYY-MM-DD")
+          if operator is '-'
+            _minDate = moment(_minDate).subtract(1, 'day').format("YYYY-MM-DD")
+          $target.val(_minDate)
     if maxDate
       opt.maxDate = maxDate
     $target.datepicker(opt)

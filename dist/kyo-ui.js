@@ -2445,7 +2445,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	DatePicker = Component.extend({
 	  renderAfter: function() {
-	    var $maxDateTarget, $minDateTarget, $target, day, m, maxDate, minDate, operator, opt, target;
+	    var $maxDateTarget, $minDateTarget, $target, _minDate, day, m, maxDate, minDate, operator, opt, target;
 	    $target = this.$target;
 	    $minDateTarget;
 	    $maxDateTarget;
@@ -2493,7 +2493,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	      });
 	    }
 	    if (minDate) {
-	      opt.minDate = minDate;
+	      if (!$minDateTarget) {
+	        opt.minDate = minDate;
+	      } else {
+	        _minDate = $minDateTarget.val();
+	        if (_minDate) {
+	          if (operator === '+') {
+	            _minDate = moment(_minDate).add(1, 'day').format("YYYY-MM-DD");
+	          }
+	          if (operator === '-') {
+	            _minDate = moment(_minDate).subtract(1, 'day').format("YYYY-MM-DD");
+	          }
+	          $target.val(_minDate);
+	        }
+	      }
 	    }
 	    if (maxDate) {
 	      opt.maxDate = maxDate;
