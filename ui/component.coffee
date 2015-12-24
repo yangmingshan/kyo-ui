@@ -117,8 +117,8 @@ Component = Base.extend({
     @_renderAfter()
   _renderAfter: ->
     @renderAfter() if @renderAfter
-    autoParse(@)
     @load() if @load
+    autoParse(@)
   autoParse: (el)->
     autoParse(@, el)
   hide: ->

@@ -2227,10 +2227,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (this.renderAfter) {
 	      this.renderAfter();
 	    }
-	    autoParse(this);
 	    if (this.load) {
-	      return this.load();
+	      this.load();
 	    }
+	    return autoParse(this);
 	  },
 	  autoParse: function(el) {
 	    return autoParse(this, el);
@@ -2504,7 +2504,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          if (operator === '-') {
 	            _minDate = moment(_minDate).subtract(1, 'day').format("YYYY-MM-DD");
 	          }
-	          $target.val(_minDate);
+	          opt.minDate = _minDate;
 	        }
 	      }
 	    }

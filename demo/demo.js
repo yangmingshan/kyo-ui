@@ -11,10 +11,17 @@ var PageComponent = kui.Component.extend({
       { name: '销售', value: 'xs' },
       { name: '管理' }
     ]
+  },
+  load: function() {
+
   }
 });
 PageComponent.create();
 //new kui.AutoParse('#page').autoParse();
+
+var TimePickerComponent = kui.Component.extend({
+  
+});
 
 var cityAotoCompleteData = [
   {  name: '成都市', code: 'cd' },
