@@ -5,8 +5,6 @@ Component = require('../../component.coffee')
 DatePicker = Component.extend({
   renderAfter: ->
     $target = this.$target
-    $minDateTarget
-    $maxDateTarget
     opt = {
         changeYear: $target.attr('change-year') || false,
         changeMonth: $target.attr('change-month') || false,
@@ -15,41 +13,49 @@ DatePicker = Component.extend({
         hideIfNoPrevNext: true,
         yearRange: '1900:2050'
     }
-    minDate = $target.attr("min-date")
-    if minDate
-      if /^#/.test(minDate)
-        m = minDate.split(/\+|-/)
-        target= m[0]
-        day = m[1]
-        operator = minDate.match(/\+|-/)[0] if day
-        $minDateTarget = $(target)
-    maxDate = $target.attr("max-date")
-    if $maxDateTarget
-      maxDate = '+99999'
-    else
-      if(/^#/.test(maxDate))
-        $maxDateTarget = $(maxDate)
+    minDate = $target.attr('min-date')
+    if minDate and /^#/.test(minDate)
+      if /\+$/.test(minDate)
+        operator = '+'
+        $minDateTarget = $(minDate.substr(0, minDate.length - 1))
+      else if /-$/.test(minDate)
+        operator = '-'
+        $minDateTarget = $(minDate.substr(0, minDate.length - 1))
+      else
+        $minDateTarget = $(minDate)
     if $minDateTarget
-      $minDateTarget.datepicker("option", {
+      $minDateTarget.datepicker('option', {
         onSelect: ->
-          _minDate = $(this).val()
-          if operator is '+'
-            _minDate = moment(_minDate).add(1, 'day').format("YYYY-MM-DD")
-          if operator is '-'
-            _minDate = moment(_minDate).subtract(1, 'day').format("YYYY-MM-DD")
-          $target.datepicker('option', 'minDate', _minDate)
+          value = $(this).val()
+          id = $(this).attr('id')
+          $targets = $('input[min-date^="#' + id + '"]')
+          $targets.each ->
+            _minDate = $(this).attr('min-date')
+            _value = value
+            if /\+$/.test(_minDate)
+              _value = moment(value).add(1, 'days').format("YYYY-MM-DD")
+            else if /-$/.test(_minDate)
+              _value = moment(value).subtract(1, 'days').format("YYYY-MM-DD")
+            $(this).datepicker('option', 'minDate', _value)
+            @
+          @
       })
     if minDate
       unless $minDateTarget
         opt.minDate = minDate
       else
-        _minDate = $minDateTarget.val()
-        if _minDate
+        value = $minDateTarget.val()
+        if value
           if operator is '+'
-            _minDate = moment(_minDate).add(1, 'day').format("YYYY-MM-DD")
-          if operator is '-'
-            _minDate = moment(_minDate).subtract(1, 'day').format("YYYY-MM-DD")
-          opt.minDate = _minDate
+            value = moment(value).add(1, 'days').format("YYYY-MM-DD")
+          else if operator is '-'
+            value = moment(value).subtract(1, 'days').format("YYYY-MM-DD")
+          opt.minDate = value
+        else
+          _minDate = $minDateTarget.attr('min-date')
+          if _minDate
+            opt.minDate = _minDate
+    maxDate = $target.attr("max-date")
     if maxDate
       opt.maxDate = maxDate
     $target.datepicker(opt)

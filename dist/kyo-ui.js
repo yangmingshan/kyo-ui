@@ -2230,7 +2230,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (this.load) {
 	      this.load();
 	    }
-	    return autoParse(this);
+	    autoParse(this);
+	    return this;
 	  },
 	  autoParse: function(el) {
 	    return autoParse(this, el);
