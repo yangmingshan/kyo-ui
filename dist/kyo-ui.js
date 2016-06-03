@@ -2230,8 +2230,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (this.load) {
 	      this.load();
 	    }
-	    autoParse(this);
-	    return this;
+	    return autoParse(this);
 	  },
 	  autoParse: function(el) {
 	    return autoParse(this, el);
@@ -2446,10 +2445,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	DatePicker = Component.extend({
 	  renderAfter: function() {
-	    var $maxDateTarget, $minDateTarget, $target, _minDate, day, m, maxDate, minDate, operator, opt, target;
+	    var $minDateTarget, $target, _minDate, maxDate, minDate, operator, opt, value;
 	    $target = this.$target;
-	    $minDateTarget;
-	    $maxDateTarget;
 	    opt = {
 	      changeYear: $target.attr('change-year') || false,
 	      changeMonth: $target.attr('change-month') || false,
@@ -2458,38 +2455,38 @@ return /******/ (function(modules) { // webpackBootstrap
 	      hideIfNoPrevNext: true,
 	      yearRange: '1900:2050'
 	    };
-	    minDate = $target.attr("min-date");
-	    if (minDate) {
-	      if (/^#/.test(minDate)) {
-	        m = minDate.split(/\+|-/);
-	        target = m[0];
-	        day = m[1];
-	        if (day) {
-	          operator = minDate.match(/\+|-/)[0];
-	        }
-	        $minDateTarget = $(target);
-	      }
-	    }
-	    maxDate = $target.attr("max-date");
-	    if ($maxDateTarget) {
-	      maxDate = '+99999';
-	    } else {
-	      if (/^#/.test(maxDate)) {
-	        $maxDateTarget = $(maxDate);
+	    minDate = $target.attr('min-date');
+	    if (minDate && /^#/.test(minDate)) {
+	      if (/\+$/.test(minDate)) {
+	        operator = '+';
+	        $minDateTarget = $(minDate.substr(0, minDate.length - 1));
+	      } else if (/-$/.test(minDate)) {
+	        operator = '-';
+	        $minDateTarget = $(minDate.substr(0, minDate.length - 1));
+	      } else {
+	        $minDateTarget = $(minDate);
 	      }
 	    }
 	    if ($minDateTarget) {
-	      $minDateTarget.datepicker("option", {
+	      $minDateTarget.datepicker('option', {
 	        onSelect: function() {
-	          var _minDate;
-	          _minDate = $(this).val();
-	          if (operator === '+') {
-	            _minDate = moment(_minDate).add(1, 'day').format("YYYY-MM-DD");
-	          }
-	          if (operator === '-') {
-	            _minDate = moment(_minDate).subtract(1, 'day').format("YYYY-MM-DD");
-	          }
-	          return $target.datepicker('option', 'minDate', _minDate);
+	          var $targets, id, value;
+	          value = $(this).val();
+	          id = $(this).attr('id');
+	          $targets = $('input[min-date^="#' + id + '"]');
+	          $targets.each(function() {
+	            var _minDate, _value;
+	            _minDate = $(this).attr('min-date');
+	            _value = value;
+	            if (/\+$/.test(_minDate)) {
+	              _value = moment(value).add(1, 'days').format("YYYY-MM-DD");
+	            } else if (/-$/.test(_minDate)) {
+	              _value = moment(value).subtract(1, 'days').format("YYYY-MM-DD");
+	            }
+	            $(this).datepicker('option', 'minDate', _value);
+	            return this;
+	          });
+	          return this;
 	        }
 	      });
 	    }
@@ -2497,18 +2494,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (!$minDateTarget) {
 	        opt.minDate = minDate;
 	      } else {
-	        _minDate = $minDateTarget.val();
-	        if (_minDate) {
+	        value = $minDateTarget.val();
+	        if (value) {
 	          if (operator === '+') {
-	            _minDate = moment(_minDate).add(1, 'day').format("YYYY-MM-DD");
+	            value = moment(value).add(1, 'days').format("YYYY-MM-DD");
+	          } else if (operator === '-') {
+	            value = moment(value).subtract(1, 'days').format("YYYY-MM-DD");
 	          }
-	          if (operator === '-') {
-	            _minDate = moment(_minDate).subtract(1, 'day').format("YYYY-MM-DD");
+	          opt.minDate = value;
+	        } else {
+	          _minDate = $minDateTarget.attr('min-date');
+	          if (_minDate) {
+	            opt.minDate = _minDate;
 	          }
-	          opt.minDate = _minDate;
 	        }
 	      }
 	    }
+	    maxDate = $target.attr("max-date");
 	    if (maxDate) {
 	      opt.maxDate = maxDate;
 	    }
@@ -2679,15 +2681,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    + alias3(((helper = (helper = helpers.value || (depth0 != null ? depth0.value : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"value","hash":{},"data":data}) : helper)))
 	    + "\">"
 	    + alias3(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"name","hash":{},"data":data}) : helper)))
-	    + "</li>\n";
+	    + "</li>\r\n";
 	},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
 	    var stack1;
 
 	  return "<a>"
 	    + this.escapeExpression(this.lambda(((stack1 = (depth0 != null ? depth0.dataModel : depth0)) != null ? stack1.title : stack1), depth0))
-	    + "</a>\n<ul>\n"
+	    + "</a>\r\n<ul>\r\n"
 	    + ((stack1 = helpers.each.call(depth0,((stack1 = (depth0 != null ? depth0.dataModel : depth0)) != null ? stack1.list : stack1),{"name":"each","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
-	    + "</ul>\n";
+	    + "</ul>\r\n";
 	},"useData":true});
 
 /***/ },
@@ -3560,9 +3562,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = (Handlebars["default"] || Handlebars).template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
 	    var stack1;
 
-	  return "<div class=\"kui-tip-content\">\n  "
+	  return "<div class=\"kui-tip-content\">\r\n  "
 	    + ((stack1 = this.lambda((depth0 != null ? depth0.tip : depth0), depth0)) != null ? stack1 : "")
-	    + "\n</div>\n";
+	    + "\r\n</div>\r\n";
 	},"useData":true});
 
 /***/ },
@@ -3711,33 +3713,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	    + alias3(((helper = (helper = helpers.index || (data && data.index)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"index","hash":{},"data":data}) : helper)))
 	    + "\"><a>"
 	    + alias3(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"name","hash":{},"data":data}) : helper)))
-	    + "</a></li>\n";
+	    + "</a></li>\r\n";
 	},"3":function(depth0,helpers,partials,data) {
 	    var stack1, helper;
 
 	  return "    <ul class=\"switch_tab_content_item clearfix\" data-index=\""
 	    + this.escapeExpression(((helper = (helper = helpers.index || (data && data.index)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"index","hash":{},"data":data}) : helper)))
-	    + "\">\n"
+	    + "\">\r\n"
 	    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.values : depth0),{"name":"each","hash":{},"fn":this.program(4, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
-	    + "    </ul>\n";
+	    + "    </ul>\r\n";
 	},"4":function(depth0,helpers,partials,data) {
 	    var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
 
-	  return "        <li>\n          <a class=\"switch_tab_content_select\" title=\""
+	  return "        <li>\r\n          <a class=\"switch_tab_content_select\" title=\""
 	    + alias3(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"name","hash":{},"data":data}) : helper)))
 	    + "\" data-code=\""
 	    + alias3(((helper = (helper = helpers.code || (depth0 != null ? depth0.code : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"code","hash":{},"data":data}) : helper)))
 	    + "\">"
 	    + alias3(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"name","hash":{},"data":data}) : helper)))
-	    + "</a>\n        </li>\n";
+	    + "</a>\r\n        </li>\r\n";
 	},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
 	    var stack1;
 
-	  return "<ul class=\"switch_tab_head cf\">\n"
+	  return "<ul class=\"switch_tab_head cf\">\r\n"
 	    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.model : depth0),{"name":"each","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
-	    + "</ul>\n<div class=\"switch_tab_content\">\n"
+	    + "</ul>\r\n<div class=\"switch_tab_content\">\r\n"
 	    + ((stack1 = helpers.each.call(depth0,(depth0 != null ? depth0.model : depth0),{"name":"each","hash":{},"fn":this.program(3, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
-	    + "</div>\n";
+	    + "</div>\r\n";
 	},"useData":true});
 
 /***/ },
@@ -3751,7 +3753,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	Component = __webpack_require__(6);
 
 	Mask = Component.extend({
-	  classNames: ['kui-mask']
+	  classNames: ['kui-mask'],
+	  index: 0,
+	  show: function() {
+	    if (this.index === 0) {
+	      Component.prototype.show.call(this);
+	    }
+	    this.index++;
+	    return this;
+	  },
+	  hide: function() {
+	    if (this.index >= 1) {
+	      this.index--;
+	    }
+	    if (this.index === 0) {
+	      Component.prototype.hide.call(this);
+	    }
+	    return this;
+	  }
 	});
 
 	module.exports = Mask;
@@ -3818,10 +3837,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  setContentHeight: function() {
 	    var contentHeight, footerHeight, height, titleHeight;
 	    height = parseFloat(this.css.height);
-	    titleHeight = this.title ? 47 : 0;
-	    footerHeight = this.footer ? 54 : 0;
-	    contentHeight = height - titleHeight - footerHeight;
-	    return this.$el.find('.kui-dialog-content').css('height', contentHeight + 'px');
+	    if (!isNaN(height)) {
+	      titleHeight = this.title ? 47 : 0;
+	      footerHeight = this.footer ? 54 : 0;
+	      contentHeight = height - titleHeight - footerHeight;
+	      return this.$el.find('.kui-dialog-content').css('height', contentHeight + 'px');
+	    }
 	  },
 	  _renderAfter: function() {
 	    var content;
@@ -3903,38 +3924,38 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var Handlebars = __webpack_require__(20);
 	module.exports = (Handlebars["default"] || Handlebars).template({"1":function(depth0,helpers,partials,data) {
-	    return "  <a class=\"kui-dialog-close\"></a>\n";
+	    return "  <a class=\"kui-dialog-close\"></a>\r\n";
 	},"3":function(depth0,helpers,partials,data) {
 	    var helper;
 
-	  return "  <div class=\"kui-dialog-title\">\n    "
+	  return "  <div class=\"kui-dialog-title\">\r\n    "
 	    + this.escapeExpression(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"title","hash":{},"data":data}) : helper)))
-	    + "\n  </div>\n";
+	    + "\r\n  </div>\r\n";
 	},"5":function(depth0,helpers,partials,data) {
 	    var stack1;
 
-	  return "  <div class=\"kui-dialog-footer\">\n"
+	  return "  <div class=\"kui-dialog-footer\">\r\n"
 	    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.confirmText : depth0),{"name":"if","hash":{},"fn":this.program(6, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
 	    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.cancelText : depth0),{"name":"if","hash":{},"fn":this.program(8, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
-	    + "  </div>\n";
+	    + "  </div>\r\n";
 	},"6":function(depth0,helpers,partials,data) {
 	    var helper;
 
 	  return "      <button class=\"kui-dialog-confirm btn btn-blue btn-large\">"
 	    + this.escapeExpression(((helper = (helper = helpers.confirmText || (depth0 != null ? depth0.confirmText : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"confirmText","hash":{},"data":data}) : helper)))
-	    + "</button>\n";
+	    + "</button>\r\n";
 	},"8":function(depth0,helpers,partials,data) {
 	    var helper;
 
 	  return "      <button class=\"kui-dialog-cancel btn btn-default btn-large\">"
 	    + this.escapeExpression(((helper = (helper = helpers.cancelText || (depth0 != null ? depth0.cancelText : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"cancelText","hash":{},"data":data}) : helper)))
-	    + "</button>\n";
+	    + "</button>\r\n";
 	},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
 	    var stack1;
 
 	  return ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.hasClose : depth0),{"name":"if","hash":{},"fn":this.program(1, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
 	    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.title : depth0),{"name":"if","hash":{},"fn":this.program(3, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "")
-	    + "<div class=\"kui-dialog-content\">\n\n</div>\n\n"
+	    + "<div class=\"kui-dialog-content\">\r\n\r\n</div>\r\n\r\n"
 	    + ((stack1 = helpers['if'].call(depth0,(depth0 != null ? depth0.footer : depth0),{"name":"if","hash":{},"fn":this.program(5, data, 0),"inverse":this.noop,"data":data})) != null ? stack1 : "");
 	},"useData":true});
 
@@ -4353,7 +4374,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  return "    <li class=\"kui-paging-prev\">"
 	    + this.escapeExpression(((helper = (helper = helpers.prevPagerText || (depth0 != null ? depth0.prevPagerText : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"prevPagerText","hash":{},"data":data}) : helper)))
-	    + "</li>\n";
+	    + "</li>\r\n";
 	},"4":function(depth0,helpers,partials,data,blockParams,depths) {
 	    var stack1;
 
@@ -4361,7 +4382,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	},"5":function(depth0,helpers,partials,data,blockParams,depths) {
 	    return "      <li class=\"kui-paging-split\">"
 	    + this.escapeExpression(this.lambda((depths[2] != null ? depths[2].splitText : depths[2]), depth0))
-	    + "</li>\n";
+	    + "</li>\r\n";
 	},"7":function(depth0,helpers,partials,data) {
 	    var stack1;
 
@@ -4371,21 +4392,21 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  return "        <li class=\"kui-paging-active kui-paging-item\">"
 	    + this.escapeExpression(((helper = (helper = helpers.value || (depth0 != null ? depth0.value : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"value","hash":{},"data":data}) : helper)))
-	    + "</li>\n";
+	    + "</li>\r\n";
 	},"10":function(depth0,helpers,partials,data) {
 	    var helper;
 
 	  return "        <li class=\"kui-paging-item\">"
 	    + this.escapeExpression(((helper = (helper = helpers.value || (depth0 != null ? depth0.value : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"value","hash":{},"data":data}) : helper)))
-	    + "</li>\n";
+	    + "</li>\r\n";
 	},"12":function(depth0,helpers,partials,data) {
 	    var helper;
 
 	  return "    <li class=\"kui-paging-next\">"
 	    + this.escapeExpression(((helper = (helper = helpers.nextPagerText || (depth0 != null ? depth0.nextPagerText : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"nextPagerText","hash":{},"data":data}) : helper)))
-	    + "</li>\n";
+	    + "</li>\r\n";
 	},"14":function(depth0,helpers,partials,data) {
-	    return "    <li>\n      跳转到<input type=\"text\" class=\"kui-paging-page-index\" />\n      页 <button class=\"kui-pageing-goto\">确认</button>\n    </li>\n";
+	    return "    <li>\r\n      跳转到<input type=\"text\" class=\"kui-paging-page-index\" />\r\n      页 <button class=\"kui-pageing-goto\">确认</button>\r\n    </li>\r\n";
 	},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data,blockParams,depths) {
 	    var stack1;
 

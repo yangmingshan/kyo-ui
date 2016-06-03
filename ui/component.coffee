@@ -119,7 +119,6 @@ Component = Base.extend({
     @renderAfter() if @renderAfter
     @load() if @load
     autoParse(@)
-    @
   autoParse: (el)->
     autoParse(@, el)
   hide: ->

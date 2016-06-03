@@ -35,10 +35,11 @@ Dialog = Component.extend({
     @$el.css({left: left, top: top + 'px'})
   setContentHeight: ->
     height = parseFloat(@css.height)
-    titleHeight = if @title then 47 else 0
-    footerHeight = if @footer then 54 else 0
-    contentHeight = height - titleHeight - footerHeight
-    @$el.find('.kui-dialog-content').css('height', contentHeight + 'px')
+    if !isNaN(height)
+      titleHeight = if @title then 47 else 0
+      footerHeight = if @footer then 54 else 0
+      contentHeight = height - titleHeight - footerHeight
+      @$el.find('.kui-dialog-content').css('height', contentHeight + 'px')
   _renderAfter: ->
     content = @content
     content = content.call(@) if _.isFunction(content)
