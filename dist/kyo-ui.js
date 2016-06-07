@@ -3809,6 +3809,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  cancelText: '取消',
 	  title: '提示',
 	  content: '',
+	  alreadyShow: false,
 	  css: {
 	    width: '500px',
 	    height: '600px'
@@ -3890,19 +3891,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	  show: function() {
 	    this.trigger('open');
-	    kui.mask.show();
 	    this.setPosition();
-	    return Component.prototype.show.call(this);
+	    Component.prototype.show.call(this);
+	    if (!this.alreadyShow) {
+	      kui.mask.show();
+	    }
+	    return this.alreadyShow = true;
 	  },
 	  close: function() {
 	    this.trigger('close');
 	    Component.prototype.hide.call(this);
-	    return kui.mask.hide();
+	    kui.mask.hide();
+	    return this.alreadyShow = false;
 	  },
 	  confirm: function() {
 	    this.trigger('confirm');
 	    kui.mask.hide();
-	    return this.hide();
+	    this.hide();
+	    return this.alreadyShow = false;
 	  }
 	});
 
@@ -4051,20 +4057,25 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	MaskDialog = Dialog.extend({
 	  show: function() {
-	    kui.loadingMask.show();
 	    this.setPosition();
 	    Component.prototype.show.call(this);
-	    return this.trigger('open');
+	    this.trigger('open');
+	    if (!this.alreadyShow) {
+	      kui.loadingMask.show();
+	    }
+	    return this.alreadyShow = true;
 	  },
 	  close: function() {
 	    Component.prototype.hide.call(this);
 	    kui.loadingMask.hide();
-	    return this.trigger('close');
+	    this.trigger('close');
+	    return this.alreadyShow = false;
 	  },
 	  confirm: function() {
 	    Component.prototype.hide.call(this);
 	    kui.loadingMask.hide();
-	    return this.trigger('confirm');
+	    this.trigger('confirm');
+	    return this.alreadyShow = false;
 	  }
 	});
 
@@ -4135,21 +4146,13 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Component, Loading, LoadingMask, MaskDialog, loadingMask;
+	var Component, Dialog, Loading;
 
-	MaskDialog = __webpack_require__(50);
+	Dialog = __webpack_require__(43);
 
 	Component = __webpack_require__(6);
 
-	LoadingMask = __webpack_require__(40);
-
-	loadingMask = LoadingMask.create({
-	  classNames: ['kui-mask', 'kui-loading-mask']
-	});
-
-	loadingMask.render(false);
-
-	Loading = MaskDialog.extend({
+	Loading = Dialog.extend({
 	  name: 'loading',
 	  classNames: ['kui-dialog', 'kui-loading'],
 	  title: null,
@@ -4169,7 +4172,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    this.$el.find('.kui-dialog-loading').html(msg);
 	    if (this.index === 0) {
-	      loadingMask.show();
+	      kui.loadingMask.show();
 	      this.setPosition();
 	      Component.prototype.show.call(this);
 	    }
@@ -4182,7 +4185,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    if (this.index === 0) {
 	      Component.prototype.hide.call(this);
-	      loadingMask.hide();
+	      kui.loadingMask.hide();
 	    }
 	    return this.trigger('close');
 	  }

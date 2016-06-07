@@ -14,6 +14,7 @@ Dialog = Component.extend({
   cancelText: '取消'
   title: '提示'
   content: ''
+  alreadyShow: false
   css: {
     width: '500px',
     height: '600px'
@@ -70,17 +71,21 @@ Dialog = Component.extend({
     @show()
   show: ->
     @trigger('open')
-    kui.mask.show()
     @setPosition()
     Component.prototype.show.call(@)
+    # 避免mask重复计数
+    kui.mask.show() unless @alreadyShow
+    @alreadyShow = true
   close: ->
     @trigger('close')
     Component.prototype.hide.call(@)
     kui.mask.hide()
+    @alreadyShow = false
   confirm: ->
     @trigger('confirm')
     kui.mask.hide()
     @hide()
+    @alreadyShow = false
 })
 
 module.exports = Dialog
